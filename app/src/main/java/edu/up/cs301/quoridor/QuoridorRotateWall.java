@@ -17,4 +17,12 @@ public class QuoridorRotateWall extends GameAction {
     public QuoridorRotateWall(GamePlayer player) {
         super(player);
     }
+
+    /**
+     * @return
+     * 		whether this action is a rotate wall
+     */
+    public boolean isRotateWall() {
+        return true;
+    }
 }

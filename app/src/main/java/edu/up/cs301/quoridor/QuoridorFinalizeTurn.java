@@ -18,4 +18,12 @@ public class QuoridorFinalizeTurn extends GameAction {
     public QuoridorFinalizeTurn(GamePlayer player) {
         super(player);
     }
+
+    /**
+     * @return
+     * 		whether this action is a finalize turn
+     */
+    public boolean isFinalize() {
+        return true;
+    }
 }

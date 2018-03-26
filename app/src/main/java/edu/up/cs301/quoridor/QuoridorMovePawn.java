@@ -17,4 +17,12 @@ public class QuoridorMovePawn extends GameAction {
     public QuoridorMovePawn(GamePlayer player) {
         super(player);
     }
+
+    /**
+     * @return
+     * 		whether this action is a pawn move
+     */
+    public boolean isMove() {
+        return true;
+    }
 }

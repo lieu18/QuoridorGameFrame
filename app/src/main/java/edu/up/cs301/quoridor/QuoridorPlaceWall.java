@@ -15,6 +15,15 @@ public class QuoridorPlaceWall extends GameAction {
      * @param player the player who created the action
      */
     public QuoridorPlaceWall(GamePlayer player) {
+
         super(player);
+    }
+
+    /**
+     * @return
+     * 		whether this action is a place wall
+     */
+    public boolean isPlaceWall() {
+        return true;
     }
 }
