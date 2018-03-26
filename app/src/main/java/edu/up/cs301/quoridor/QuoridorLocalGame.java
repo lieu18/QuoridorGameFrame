@@ -9,6 +9,8 @@ import edu.up.cs301.game.actionMsg.GameAction;
  */
 
 public class QuoridorLocalGame extends LocalGame {
+
+
     protected void sendUpdatedStateTo(GamePlayer p) {
 
     }

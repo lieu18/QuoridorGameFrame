@@ -23,7 +23,7 @@ import edu.up.cs301.game.util.FlashSurfaceView;
  *
  *
  */
-public class TTTSurfaceView extends FlashSurfaceView {
+public class FTTTSurfaceView extends FlashSurfaceView {
 
     // some constants, which are percentages with respect to the minimum
     // of the height and the width. All drawing will be done in the "middle
