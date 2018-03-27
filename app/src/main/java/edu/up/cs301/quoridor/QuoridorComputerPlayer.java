@@ -20,4 +20,6 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
     protected void receiveInfo(GameInfo info) {
 
     }
+
+    public int getPlayerNum() {return this.playerNum;}
 }

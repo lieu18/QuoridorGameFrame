@@ -13,6 +13,8 @@ import android.util.Log;
  * @author Dylan Shuler
  */
 
+
+
 public class QuoridorGameState extends GameState {
 
     //nux told me to
@@ -24,35 +26,23 @@ public class QuoridorGameState extends GameState {
     private boolean[][] horzWalls, tempHWalls;
     private boolean[][] vertWalls, tempVWalls;
 
-    private int p1RemainingWalls, tempRemWalls, p2RemainingWalls;
+    private int p1RemainingWalls, p2RemainingWalls, tempRemWalls;
 
-
-    public enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT;
-    }
 
     public QuoridorGameState() {
         turn = 0;
         p1Pos = new int[]{4, 0};
         p2Pos = new int[]{4, 8};
-        tempPos = new int[]{0, 0};
-        tempPos[0] = p1Pos[0];
-        tempPos[1] = p1Pos[1];
         horzWalls = new boolean[8][8];
         vertWalls = new boolean[8][8];
-        tempVWalls = new boolean[8][8];
-        tempHWalls = new boolean[8][8];
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                tempVWalls[i][j] = tempHWalls[i][j] = horzWalls[i][j] = vertWalls[i][j] = false;
+                horzWalls[i][j] = vertWalls[i][j] = false;
             }
         }
 
-        tempRemWalls = p1RemainingWalls = p2RemainingWalls = 10;
+        p1RemainingWalls = p2RemainingWalls = 10;
 
 
     }
@@ -63,27 +53,53 @@ public class QuoridorGameState extends GameState {
 
         this.p1Pos = new int[]{g.p1Pos[0], g.p1Pos[1]};
         this.p2Pos = new int[]{g.p2Pos[0], g.p2Pos[1]};
-
-        this.tempPos = new int[]{0, 0};
-        this.tempPos[0] = (this.turn == 0) ? p1Pos[0] : p2Pos[0];
-        this.tempPos[1] = (this.turn == 1) ? p1Pos[1] : p2Pos[1];
-
         this.horzWalls = new boolean[8][8];
         this.vertWalls = new boolean[8][8];
-        this.tempVWalls = new boolean[8][8];
-        this.tempHWalls = new boolean[8][8];
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                this.tempHWalls[i][j] = this.horzWalls[i][j] = g.horzWalls[i][j];
-                this.tempVWalls[i][j] = this.vertWalls[i][j] = g.vertWalls[i][j];
-            }
-        }
-
         this.p1RemainingWalls = g.p1RemainingWalls;
         this.p2RemainingWalls = g.p2RemainingWalls;
 
-        this.tempRemWalls = (this.turn == 1) ? p1RemainingWalls : p2RemainingWalls;
+    }
+
+    public int getTurn()
+    {
+        return turn;
+    }
+
+    /**
+     * Get the location of a player on the board
+     * @param player which player's position you want
+     * @return x y coordinates of player
+     */
+    public int[] getPlayerPos(int player)
+    {
+        return player == 0 ? p1Pos : p2Pos;
+    }
+
+    public void setPlayerPos(int x, int y, int player)
+    {
+        if(player == 0)
+        {
+            p1Pos[0] = x;
+            p1Pos[1] = y;
+        }
+        else if(player == 1)
+        {
+            p2Pos[0] = x;
+            p2Pos[1] = y;
+        }
+    }
+
+    //TODO can we delete this safely?
+    /**
+     * Check if there is a wall placed at a given x y coordinate
+     * @param x x position to check
+     * @param y y position to check
+     * @param dir 0 for horizontal, 1 for vertical
+     * @return true if there is a wall
+     */
+    public boolean checkForWall(int x, int y, int dir)
+    {
+        return dir == 0 ? horzWalls[x][y] : vertWalls[x][y];
     }
 
     // prints all instance variables

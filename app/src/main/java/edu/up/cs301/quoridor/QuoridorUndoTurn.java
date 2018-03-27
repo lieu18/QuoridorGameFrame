@@ -17,4 +17,12 @@ public class QuoridorUndoTurn extends GameAction {
     public QuoridorUndoTurn(GamePlayer player) {
         super(player);
     }
+
+    /**
+     * @return
+     * 		whether this action is an Undo turn
+     */
+    public boolean isUndo() {
+        return true;
+    }
 }
