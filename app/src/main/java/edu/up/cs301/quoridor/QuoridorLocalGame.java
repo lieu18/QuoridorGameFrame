@@ -104,6 +104,10 @@ public class QuoridorLocalGame extends LocalGame {
             state.finalizeTurn();
             return true;
         }
+        else if (action instanceof QuoridorNewGame) {
+            state.newGame();
+            return true;
+        }
 
 
         return false;

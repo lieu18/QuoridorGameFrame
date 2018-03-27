@@ -30,20 +30,7 @@ public class QuoridorGameState extends GameState {
 
 
     public QuoridorGameState() {
-        turn = 0;
-        p1Pos = new int[]{4, 0};
-        p2Pos = new int[]{4, 8};
-        horzWalls = new boolean[8][8];
-        vertWalls = new boolean[8][8];
-
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                horzWalls[i][j] = vertWalls[i][j] = false;
-            }
-        }
-
-        p1RemainingWalls = p2RemainingWalls = 10;
-
+        init();
 
     }
 
@@ -58,6 +45,22 @@ public class QuoridorGameState extends GameState {
         this.p1RemainingWalls = g.p1RemainingWalls;
         this.p2RemainingWalls = g.p2RemainingWalls;
 
+    }
+
+    private void init(){
+        this.turn = 0;
+        this.p1Pos = new int[]{4, 0};
+        this.p2Pos = new int[]{4, 8};
+        this.horzWalls = new boolean[8][8];
+        this.vertWalls = new boolean[8][8];
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                this.horzWalls[i][j] = this.vertWalls[i][j] = false;
+            }
+        }
+
+        this.p1RemainingWalls = this.p2RemainingWalls = 10;
     }
 
     public int getTurn()
@@ -943,6 +946,11 @@ public class QuoridorGameState extends GameState {
             } else
                 return false;
         }
+    }
+
+    public boolean newGame(){
+        init();
+        return true;
     }
 
 }
