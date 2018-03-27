@@ -77,7 +77,35 @@ public class QuoridorLocalGame extends LocalGame {
      * 		true if the move was legal; false otherwise
      */
     protected boolean makeMove(GameAction action) {
-        QuoridorMovePawn QuoridorPawn = (QuoridorMovePawn) action;
+        //QuoridorMovePawn QuoridorPawn = (QuoridorMovePawn) action;
+
+        if (action instanceof QuoridorMovePawn) {
+            QuoridorMovePawn qAction = (QuoridorMovePawn) action;
+            state.movePawn(qAction.getPlayerNum(),
+                    qAction.getDir(),
+                    qAction.isJump());
+            return true;
+        }
+        else if (action instanceof QuoridorPlaceWall) {
+            QuoridorPlaceWall qAction = (QuoridorPlaceWall) action;
+            state.placeWall(qAction.getPlayerNum(),qAction.getX(),qAction.getY());
+            return true;
+        }
+        else if (action instanceof QuoridorRotateWall) {
+            QuoridorRotateWall qAction = (QuoridorRotateWall) action;
+            state.rotateWall(qAction.getPlayerNum(),qAction.getX(),qAction.getY());
+            return true;
+        }
+        else if (action instanceof QuoridorUndoTurn) {
+            state.undo();
+            return true;
+        }
+        else if (action instanceof QuoridorFinalizeTurn) {
+            state.finalizeTurn();
+            return true;
+        }
+
+
         return false;
     }
 }

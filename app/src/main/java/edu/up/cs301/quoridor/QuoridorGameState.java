@@ -13,26 +13,21 @@ import android.util.Log;
  * @author Dylan Shuler
  */
 
+
+
 public class QuoridorGameState extends GameState {
 
     //nux told me to
     private static final long serialVersionUID = 6969420L;
 
     private int turn; // 0 -> player 1, 1 -> player 2
-    private int[] p1Pos, p2Pos;
+    private int[] p1Pos, p2Pos, tempPos;
 
-    private boolean[][] horzWalls;
-    private boolean[][] vertWalls;
+    private boolean[][] horzWalls, tempHWalls;
+    private boolean[][] vertWalls, tempVWalls;
 
-    private int p1RemainingWalls, p2RemainingWalls;
+    private int p1RemainingWalls, p2RemainingWalls, tempRemWalls;
 
-
-    public enum Direction {
-        UP,
-        DOWN,
-        LEFT,
-        RIGHT;
-    }
 
     public QuoridorGameState() {
         turn = 0;
@@ -94,6 +89,7 @@ public class QuoridorGameState extends GameState {
         }
     }
 
+    //TODO can we delete this safely?
     /**
      * Check if there is a wall placed at a given x y coordinate
      * @param x x position to check
@@ -104,27 +100,6 @@ public class QuoridorGameState extends GameState {
     public boolean checkForWall(int x, int y, int dir)
     {
         return dir == 0 ? horzWalls[x][y] : vertWalls[x][y];
-    }
-
-    /**
-     * Place a wall on the board in either the horizontal or vertical wall array
-     * @param x x position to place at
-     * @param y y position to place at
-     * @param dir 0 for horz, 1 for vert
-     */
-    public void placeWall(int x, int y, int dir)
-    {
-        //moving all checking to the localgame
-        if(dir == 0)
-        {
-            horzWalls[x][y] = true;
-            p1RemainingWalls =- 1;
-        }
-        else if(dir == 1)
-        {
-            vertWalls[x][y] = true;
-            p2RemainingWalls -= 1;
-        }
     }
 
     // prints all instance variables

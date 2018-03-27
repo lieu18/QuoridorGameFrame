@@ -31,4 +31,6 @@ public class QuoridorHumanPlayer extends GameHumanPlayer {
     public void receiveInfo(GameInfo info) {
 
     }
+
+    public int getPlayerNum() {return this.playerNum;}
 }
