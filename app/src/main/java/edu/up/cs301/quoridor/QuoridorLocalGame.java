@@ -12,7 +12,7 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class QuoridorLocalGame extends LocalGame {
     // the game's state
-    QuoridorGameState state;
+    private QuoridorGameState state;
 
     /**
      * Constructor for the QuoridorLocalGame.
