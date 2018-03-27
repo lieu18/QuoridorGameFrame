@@ -2,11 +2,31 @@
 <items version="2" >
 
     <item
-        jar="/Users/vegdahl/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/18.0.0/support-v4-18.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
+        is-multidex="true"
+        jar="C:\AndroidSDK\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
         sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="/Users/vegdahl/Desktop/UP/AndroidStudioProjects/TttGame/app/build/intermediates/pre-dexed/debug/support-v4-18.0.0-a24a4ab08869e4018a603a754717893a38b5b807.jar" />
+        <dex dex="P:\Spring2018\CS301\QuoridorGameFrame-master\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-v4-18.0.0_bf6372499ab7d9c7586f81e3c8610d4c63b58b3f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="P:\Spring2018\CS301\QuoridorGameFrame-master\QuoridorGameFrame\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="P:\Spring2018\CS301\QuoridorGameFrame-master\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_cdd01ae6b1cea1ce3dc9981917b1f6534bf75cad\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="P:\Spring2018\CS301\QuoridorGameFrame-master\QuoridorGameFrame\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="03ade0cdc45b4ba892a5b045962b75172bd5795c">
+        <dex dex="P:\Spring2018\CS301\QuoridorGameFrame-master\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_b08672c1b5f9062612568802cd2f68194ce45ffe\classes.dex" />
     </item>
 
 </items>

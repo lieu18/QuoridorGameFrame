@@ -12,14 +12,16 @@ import edu.up.cs301.game.actionMsg.GameAction;
 
 public class QuoridorLocalGame extends LocalGame {
     // the game's state
-    private QuoridorGameState state;
+    protected QuoridorGameState state;
 
     /**
      * Constructor for the QuoridorLocalGame.
      */
     public QuoridorLocalGame() {
+        super();
         Log.i("QuoridorLocalGame", "creating game");
         // create the state for the beginning of the game
+
         state = new QuoridorGameState();
     }
 
