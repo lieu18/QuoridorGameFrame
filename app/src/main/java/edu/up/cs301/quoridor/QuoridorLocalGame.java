@@ -57,7 +57,7 @@ public class QuoridorLocalGame extends LocalGame {
             return false;
         else
             // player can move if it's their turn
-            return state.getTurn() == playerIdx;
+            return playerIdx == state.getTurn();
     }
 
     /**

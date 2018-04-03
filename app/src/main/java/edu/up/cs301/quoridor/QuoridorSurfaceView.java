@@ -7,8 +7,6 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.SurfaceView;
 
-import edu.up.cs301.game.R;
-
 /**
  * Created by shuler18 on 2/5/2018.
  */
@@ -19,7 +17,7 @@ public class QuoridorSurfaceView extends SurfaceView {
     private Paint brownPaint, redPaint, bluePaint, wallPaint; //create paint colors
     private SurfaceView sv;
 
-    private int svHeight, svWidth, criticalSize, margin, squareSize, boardSize, startingX,
+    private int canvasHeight, canvasWidth, criticalSize, margin, squareSize, boardSize, startingX,
             startingY, wallWid, wallLen;
 
     protected QuoridorGameState state;
@@ -60,8 +58,12 @@ public class QuoridorSurfaceView extends SurfaceView {
 
         //TODO add playable gui
         //sv = (SurfaceView)findViewById(R.id.board);
-
-        updateGlobalMeas(); //call method
+        //try {
+        //    Thread.sleep(3000);
+        //} catch (InterruptedException e) {
+        //    e.printStackTrace();
+        //}
+        //updateGlobalMeas(); //call method
     }
 
     /*
@@ -76,7 +78,7 @@ public class QuoridorSurfaceView extends SurfaceView {
 
         float x0=0,y0=0,r0=0,x1=0,y1=0,r1=0;
 
-        updateGlobalMeas(); //call method
+        updateGlobalMeas(canvas); //call method
 
         curX = startingX;
         curY = startingY;
@@ -150,17 +152,17 @@ public class QuoridorSurfaceView extends SurfaceView {
      * method goes through global variables and sets them
      * called during initialization of board and when vars need updating
      */
-    void updateGlobalMeas()
+    void updateGlobalMeas(Canvas canvas)
     {
-        svHeight = sv.getHeight();
-        svWidth = sv.getWidth();
-        criticalSize = (svHeight > svWidth) ? svWidth : svHeight;
+        canvasHeight = canvas.getHeight();
+        canvasWidth = canvas.getWidth();
+        criticalSize = (canvasHeight > canvasWidth) ? canvasWidth : canvasHeight;
         margin = criticalSize / 9 - 10;
         squareSize = margin * 2 / 3;
 
         boardSize = margin * 9 - (margin - squareSize);
-        startingX = (svWidth - boardSize)/2;
-        startingY = (svHeight - boardSize)/2;
+        startingX = (canvasWidth - boardSize)/2;
+        startingY = (canvasHeight - boardSize)/2;
         wallLen = margin + squareSize;
         wallWid = ( margin - squareSize ) / 2;
     }
