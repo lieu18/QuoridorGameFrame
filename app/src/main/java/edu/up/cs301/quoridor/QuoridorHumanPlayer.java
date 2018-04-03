@@ -56,7 +56,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
             // if we do not have a TTTState, ignore
             return;
         else {
-            //surfaceView.setState((TTTState)info);
+            surfaceView.setState((QuoridorGameState)info);
             surfaceView.invalidate();
             Log.i("human player", "receiving");
         }
@@ -80,6 +80,14 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         surfaceView = (QuoridorSurfaceView) myActivity.findViewById(R.id.quoridorBoard);
         Log.i("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
+    }
+
+    /**
+     * perform any initialization that needs to be done after the player
+     * knows what their game-position and opponents' names are.
+     */
+    protected void initAfterReady() {
+        myActivity.setTitle("Quoridor: "+allPlayerNames[0]+" vs. "+ allPlayerNames[1]);
     }
 
 

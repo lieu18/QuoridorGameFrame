@@ -22,6 +22,8 @@ public class QuoridorSurfaceView extends SurfaceView {
     private int svHeight, svWidth, criticalSize, margin, squareSize, boardSize, startingX,
             startingY, wallWid, wallLen;
 
+    protected QuoridorGameState state;
+
 
     public QuoridorSurfaceView(Context context) {
         super(context);
@@ -36,6 +38,10 @@ public class QuoridorSurfaceView extends SurfaceView {
     public QuoridorSurfaceView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
+    }
+
+    public void setState(QuoridorGameState state) {
+        this.state = state;
     }
 
     public void init()
