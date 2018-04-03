@@ -13,13 +13,12 @@ import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs301.game.infoMsg.NotYourTurnInfo;
 import edu.up.cs301.tictactoe.TTTState;
-import edu.up.cs301.tictactoe.TTTSurfaceView;
 
 /**
  * Created by lieu18 on 3/25/2018.
  */
 
-public class QuoridorHumanPlayer extends GameHumanPlayer {
+public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
     /**
      * constructor
      *
@@ -53,7 +52,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer {
             // if the move was out of turn or otherwise illegal, flash the screen
             //surfaceView.flash(Color.RED, 50);
         }
-        else if (!(info instanceof TTTState))
+        else if (!(info instanceof QuoridorGameState))
             // if we do not have a TTTState, ignore
             return;
         else {
@@ -80,10 +79,36 @@ public class QuoridorHumanPlayer extends GameHumanPlayer {
         // set the surfaceView instance variable
         surfaceView = (QuoridorSurfaceView) myActivity.findViewById(R.id.quoridorBoard);
         Log.i("set listener","OnTouch");
-        surfaceView.setOnTouchListener(new View.OnTouchListener() {
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return true;
-            }
-        });
+        surfaceView.setOnTouchListener(this);
+    }
+
+
+    public boolean onTouch(View v, MotionEvent event) {
+        // ignore if not an "up" event
+        if (event.getAction() != MotionEvent.ACTION_UP) return true;
+        // get the x and y coordinates of the touch-location;
+        // convert them to square coordinates (where both
+        // values are in the range 0..2)
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+        //Point p = surfaceView.mapPixelToSquare(x, y);
+
+        // if the location did not map to a legal square, flash
+        // the screen; otherwise, create and send an action to
+        // the game
+        /*
+        if (p == null) {
+            surfaceView.flash(Color.RED, 50);
+        } else {
+            TTTMoveAction action = new TTTMoveAction(this, p.y, p.x);
+            Log.i("onTouch", "Human player sending TTTMA ...");
+            game.sendAction(action);
+            surfaceView.invalidate();
+        }
+        */
+
+        // register that we have handled the event
+        return true;
+
     }
 }
