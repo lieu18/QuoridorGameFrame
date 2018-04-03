@@ -68,6 +68,14 @@ public class QuoridorGameState extends GameState {
         return turn;
     }
 
+    public boolean[][] getVertWalls() {
+        return vertWalls;
+    }
+
+    public boolean[][] getHorzWalls() {
+        return horzWalls;
+    }
+
     /**
      * Get the location of a player on the board
      * @param player which player's position you want

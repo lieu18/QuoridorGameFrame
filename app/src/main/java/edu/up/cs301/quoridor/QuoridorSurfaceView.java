@@ -80,6 +80,9 @@ public class QuoridorSurfaceView extends SurfaceView {
 
         updateGlobalMeas(canvas); //call method
 
+        if (state == null)
+            return;
+
         curX = startingX;
         curY = startingY;
 
@@ -89,11 +92,19 @@ public class QuoridorSurfaceView extends SurfaceView {
 
             for(int j = 0; j < 9; j++)
             {
-                canvas.drawRect(curX, curY, curX+squareSize, curY+squareSize, brownPaint);
-                curX += margin;
+                //TODO isSelected shows where a click event happens
+                boolean isSelected = false;
+                canvas.drawRect(
+                        curX,
+                        curY,
+                        curX+squareSize,
+                        curY+squareSize,
+                        isSelected /* TODO [j][i]*/ ? brownPaint : brownPaint);
+
 
                 //draw player1
-                if(j == 4 && i == 1)
+                if(j  == state.getPlayerPos(0)[0] &&
+                        i == state.getPlayerPos(0)[1])
                 {
                     x0 = curX+(squareSize*.5f);
                     y0 = curY+(squareSize*.5f);
@@ -101,7 +112,8 @@ public class QuoridorSurfaceView extends SurfaceView {
                 }
 
                 //draw player2
-                if(j == 6 && i == 6)
+                if(j  == state.getPlayerPos(1)[0] &&
+                        i == state.getPlayerPos(1)[1])
                 {
                     x1 = curX+(squareSize*.5f);
                     y1 = curY+(squareSize*.5f);
@@ -109,28 +121,29 @@ public class QuoridorSurfaceView extends SurfaceView {
                 }
 
                 //draw horizontal wall
-                if(i == 2 && j == 3)
-                {
-                    canvas.drawRect(
-                            curX,
-                            curY-(wallWid+(margin-squareSize))/2,
-                            curX+squareSize+margin,
-                            curY-((margin-squareSize)-(wallWid+(margin-squareSize))/2),
-                            wallPaint);
+                if (!(i > 7 || j > 7)) {
+                    if (state.getHorzWalls()[j][i]) {
+                        canvas.drawRect(
+                                curX,
+                                curY - (wallWid + (margin - squareSize)) / 2,
+                                curX + squareSize + margin,
+                                curY - ((margin - squareSize) - (wallWid + (margin - squareSize)) / 2),
+                                wallPaint);
+                    }
+
+                    //draw vertical wall
+                    if (state.getVertWalls()[j][i] && (i < 8 || j < 8)) {
+                        canvas.drawRect(
+                                curX - (wallWid + (margin - squareSize)) / 2,
+                                curY,
+                                curX - ((margin - squareSize) - (wallWid + (margin - squareSize)) / 2),
+                                curY + squareSize + margin,
+                                wallPaint);
+                    }
                 }
 
-                //draw vertical wall
-                if(i == 1 && j == 5)
-                {
-                    canvas.drawRect(
-                            curX -(wallWid+(margin-squareSize))/2,
-                            curY,
-                            curX-((margin-squareSize)-(wallWid+(margin-squareSize))/2),
-                            curY+squareSize+margin,
-                            wallPaint);
-                }
 
-
+                curX += margin;
             }
             curX = startingX;
             curY += margin;
