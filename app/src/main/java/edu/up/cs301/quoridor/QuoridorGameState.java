@@ -267,18 +267,22 @@ public class QuoridorGameState extends GameState {
                 }
             }//if for player adjacency
             //check if there are walls in front
-            else if (horzWalls[curX - 1][curY - 1] || horzWalls[curX][curY - 1]) {
-                return false;
-            } else {
-                tempPos[0] = curX;
-                tempPos[1] = currentPlayer[1] - 1; //move player up one space
-                return true;
+            else if (curX != 0) {
+                if (horzWalls[curX - 1][curY - 1]){
+                    return false;
+                }
             }
+            else if (horzWalls[curX][curY - 1]) {
+                return false;
+            }
+            tempPos[0] = curX;
+            tempPos[1] = currentPlayer[1] - 1; //move player up one space
+            return true;
+
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
 
-        return false;
     }
 
     /**
@@ -330,18 +334,23 @@ public class QuoridorGameState extends GameState {
                 }
             }//if for player adjacency
             //check if there are walls in front
-            else if (horzWalls[curX - 1][curY] || horzWalls[curX][curY]) {
-                return false;
-            } else {
-                tempPos[0] = currentPlayer[0];
-                tempPos[1] = currentPlayer[1] + 1; //move player up one space
-                return true;
+            else if (curX != 0) {
+                if (horzWalls[curX - 1][curY]) {
+                    return false;
+                }
             }
+            else if (horzWalls[curX][curY]) {
+                return false;
+            }
+
+            tempPos[0] = currentPlayer[0];
+            tempPos[1] = currentPlayer[1] + 1; //move player up one space
+            return true;
+
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
-
-        return false;
+        
     }
 
     /**
@@ -465,18 +474,30 @@ public class QuoridorGameState extends GameState {
                 }
             }//if for player adjacency
             //check if there are walls on right side
-            else if (vertWalls[curX][curY - 1] || horzWalls[curX][curY]) {
-                return false;
-            } else {
-                tempPos[0] = currentPlayer[0] + 1; //move player left one space
-                tempPos[1] = currentPlayer[1];
-                return true;
+            else if (curY != 0) {
+                if (vertWalls[curX][curY - 1]){
+                    return false;
+                }
+                if (vertWalls[curX][curY]) {
+                    return false;
+                }
             }
+            else if (curY == 0) {
+                if (vertWalls[curX][curY]) {
+                    return false;
+                }
+            }
+
+
+
+            tempPos[0] = currentPlayer[0] + 1; //move player left one space
+            tempPos[1] = currentPlayer[1];
+            return true;
+
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
 
-        return false;
     }
 
     /**
