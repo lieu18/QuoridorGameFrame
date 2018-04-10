@@ -93,7 +93,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
     public boolean onTouch(View v, MotionEvent event) {
         // ignore if not an "up" event
-        //if (event.getAction() != MotionEvent.ACTION_UP) return true;
+        if (event.getAction() != MotionEvent.ACTION_UP) return true;
         // get the x and y coordinates of the touch-location;
         // convert them to square coordinates (where both
         // values are in the range 0..2)
@@ -167,10 +167,11 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
                 if(x > curX + squareSize && x < curX + margin && y > curY + squareSize
                         && y < curY + margin) {
+                    if (surfaceView.state.getTempHWalls()[l][k] || surfaceView.state.getTempVWalls()[l][k]) {
+                        game.sendAction(new QuoridorRotateWall(this, l, k));
+                    }
                     // draw wall
-                        //surfaceView.state.placeWall(this.getPlayerNum(), l, k);
                         game.sendAction(new QuoridorPlaceWall(this, l, k));
-                   //     surfaceView.state.finalizeTurn();
                     // reference into temp wall array
                 }
                 curX += surfaceView.margin;
