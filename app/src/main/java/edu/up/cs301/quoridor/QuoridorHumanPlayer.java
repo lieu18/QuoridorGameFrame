@@ -5,10 +5,12 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
+import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs301.game.infoMsg.NotYourTurnInfo;
@@ -18,7 +20,7 @@ import edu.up.cs301.tictactoe.TTTState;
  * Created by lieu18 on 3/25/2018.
  */
 
-public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
+public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
     /**
      * constructor
      *
@@ -82,6 +84,13 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         surfaceView = (QuoridorSurfaceView) myActivity.findViewById(R.id.quoridorBoard);
         Log.i("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
+
+        Button newGame = (Button) activity.findViewById(R.id.newGameButton);
+        Button finalize = (Button) activity.findViewById(R.id.finalizeTurnButton);
+        Button undo = (Button) activity.findViewById(R.id.undoButton);
+
+        newGame.setOnClickListener(this);
+
     }
 
     /**
@@ -92,6 +101,30 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         myActivity.setTitle("Quoridor: "+allPlayerNames[0]+" vs. "+ allPlayerNames[1]);
     }
 
+
+    public void onClick(View v) {
+        // if we are not yet connected to a game, ignore
+        if (game == null) return;
+
+        if (!(v instanceof Button)) return;
+
+        // Construct the action and send it to the game
+        switch(v.getId()){
+            case R.id.undoButton:
+                game.sendAction(new QuoridorUndoTurn(this));
+                break;
+            case R.id.newGameButton:
+                game.sendAction(new QuoridorNewGame(this));
+                break;
+            case R.id.finalizeTurnButton:
+                game.sendAction(new QuoridorFinalizeTurn(this));
+                break;
+            default:
+                return;
+        }
+
+
+    }
 
     public boolean onTouch(View v, MotionEvent event) {
         // ignore if not an "up" event
