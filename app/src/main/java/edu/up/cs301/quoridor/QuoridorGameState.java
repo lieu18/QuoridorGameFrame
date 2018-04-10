@@ -45,6 +45,8 @@ public class QuoridorGameState extends GameState {
         this.p1RemainingWalls = g.p1RemainingWalls;
         this.p2RemainingWalls = g.p2RemainingWalls;
 
+        this.tempPos = new int[]{g.getPlayerPos(this.turn)[0],g.getPlayerPos(this.turn)[1]};
+
     }
 
     private void init(){
@@ -60,6 +62,7 @@ public class QuoridorGameState extends GameState {
             }
         }
 
+        this.tempPos = new int[]{this.p1Pos[0],this.p1Pos[1]};
         this.p1RemainingWalls = this.p2RemainingWalls = 10;
     }
 
@@ -84,6 +87,10 @@ public class QuoridorGameState extends GameState {
     public int[] getPlayerPos(int player)
     {
         return player == 0 ? p1Pos : p2Pos;
+    }
+    public int[] getTempPlayerPos()
+    {
+        return tempPos;
     }
 
     public void setPlayerPos(int x, int y, int player)

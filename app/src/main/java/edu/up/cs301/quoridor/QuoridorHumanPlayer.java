@@ -151,6 +151,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 y > curY + playerPos[turn][1] * margin &&
                 y < curY + playerPos[turn][1] * margin + squareSize) {
             game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+
             int x0 = 3 + 6;
             x0 = x0 + 2;
         }
@@ -184,23 +185,18 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
         //check if every square is clickable
         for(int i = 0; i < 9; i++) {
-
             for (int j = 0; j < 9; j++) {
-
                 //test to see if clicks happen TODO take out later
                 if (x > curX && x < curX + squareSize &&
                         y > curY && y < curY + squareSize) {
                     surfaceView.movePawn(i,j);
                 }
-
-
-
-
                 curX += surfaceView.margin;
             }
             curX = surfaceView.startingX;
             curY += surfaceView.margin;
         }
+
         surfaceView.invalidate();
 
         return true;
