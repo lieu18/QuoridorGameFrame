@@ -122,7 +122,7 @@ public class QuoridorSurfaceView extends SurfaceView {
 
                 //draw horizontal wall
                 if (!(i > 7 || j > 7)) {
-                    if (state.getHorzWalls()[j][i]) {
+                    if (state.getTempHWalls()[j][i]) {
                         canvas.drawRect(
                                 curX,
                                 curY + squareSize + (wallWid + (margin - squareSize)) / 2,
@@ -132,11 +132,11 @@ public class QuoridorSurfaceView extends SurfaceView {
                     }
 
                     //draw vertical wall
-                    if (state.getVertWalls()[j][i] && (i < 8 || j < 8)) {
+                    if (state.getTempVWalls()[j][i] && (i < 8 || j < 8)) {
                         canvas.drawRect(
-                                curX - (wallWid + (margin - squareSize)) / 2,
+                                curX + squareSize + (wallWid + (margin - squareSize)) / 2,
                                 curY,
-                                curX - ((margin - squareSize) - (wallWid + (margin - squareSize)) / 2),
+                                curX + squareSize + ((margin - squareSize) - (wallWid + (margin - squareSize)) / 2),
                                 curY + squareSize + margin,
                                 wallPaint);
                     }

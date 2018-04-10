@@ -46,6 +46,12 @@ public class QuoridorGameState extends GameState {
         this.p2RemainingWalls = g.p2RemainingWalls;
         this.tempHWalls = new boolean[8][8];
         this.tempVWalls = new boolean[8][8];
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                this.tempHWalls[i][j] = g.tempHWalls[i][j];
+                this.tempVWalls[i][j] = g.tempVWalls[i][j];
+            }
+        }
         this.tempPos = new int[]{0,0};
     }
 
@@ -80,6 +86,14 @@ public class QuoridorGameState extends GameState {
 
     public boolean[][] getHorzWalls() {
         return horzWalls;
+    }
+
+    public boolean[][] getTempVWalls() {
+        return tempVWalls;
+    }
+
+    public boolean[][] getTempHWalls() {
+        return tempHWalls;
     }
 
     /**
@@ -586,7 +600,6 @@ public class QuoridorGameState extends GameState {
                 else if (!tempHWalls[x + 1][y] && !tempVWalls[x][y + 1]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
-                    System.out.println("Before return True");
                     return true;
                 } else
                     return false;
@@ -747,7 +760,6 @@ public class QuoridorGameState extends GameState {
             }
         }
         else
-            System.out.println("Hit the Else statement");
             return false;
     }
 

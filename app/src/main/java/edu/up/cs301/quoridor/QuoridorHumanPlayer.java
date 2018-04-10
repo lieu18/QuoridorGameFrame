@@ -168,9 +168,9 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 if(x > curX + squareSize && x < curX + margin && y > curY + squareSize
                         && y < curY + margin) {
                     // draw wall
-                        surfaceView.state.placeWall(this.getPlayerNum(), l, k);
+                        //surfaceView.state.placeWall(this.getPlayerNum(), l, k);
                         game.sendAction(new QuoridorPlaceWall(this, l, k));
-                        surfaceView.state.finalizeTurn();
+                   //     surfaceView.state.finalizeTurn();
                     // reference into temp wall array
                 }
                 curX += surfaceView.margin;
