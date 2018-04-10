@@ -34,6 +34,8 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
     // the ID for the layout to use
     private int layoutId;
 
+    //private QuoridorGameState quoridorGameState;
+
     public QuoridorHumanPlayer(String name, int layoutId) {
         super(name);
         this.layoutId = layoutId;
@@ -130,29 +132,70 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         int margin = surfaceView.margin;
         int squareSize = surfaceView.squareSize;
 
+        QuoridorLocalGame qlg = (QuoridorLocalGame) this.game;
+        QuoridorGameState qgs = qlg.state;
+
+
+        //postition of player 1
+        int[] p1Pos = qgs.getPlayerPos(0);
+        //postition of player 2
+        int[] p2Pos = qgs.getPlayerPos(1);
+
+        int[][] playerPos = new int[][]{p1Pos,p2Pos};
+
+        int turn = qgs.getTurn();
+
+        // LEFT TODO: Handle Jump Cases
+        if (x > curX + playerPos[turn][0] * margin - margin &&
+                x < curX + playerPos[turn][0] * margin + squareSize - margin &&
+                y > curY + playerPos[turn][1] * margin &&
+                y < curY + playerPos[turn][1] * margin + squareSize) {
+            game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+            int x0 = 3 + 6;
+            x0 = x0 + 2;
+        }
+        // RIGHT
+        else if (x > curX + playerPos[turn][0] * margin + margin &&
+                x < curX + playerPos[turn][0] * margin + squareSize + margin &&
+                y > curY + playerPos[turn][1] * margin &&
+                y < curY + playerPos[turn][1] * margin + squareSize) {
+            game.sendAction(new QuoridorMovePawn(this, Direction.RIGHT, false));
+            int x0 = 3 + 6;
+            x0 = x0 + 2;
+        }
+        // UP
+        else if (x > curX + playerPos[turn][0] * margin &&
+                x < curX + playerPos[turn][0] * margin + squareSize &&
+                y > curY + playerPos[turn][1] * margin - margin &&
+                y < curY + playerPos[turn][1] * margin + squareSize - margin) {
+            game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
+            int x0 = 3 + 6;
+            x0 = x0 + 2;
+        }
+        // DOWN
+        else if (x > curX + playerPos[turn][0] * margin &&
+                x < curX + playerPos[turn][0] * margin + squareSize &&
+                y > curY + playerPos[turn][1] * margin + margin &&
+                y < curY + playerPos[turn][1] * margin + squareSize + margin) {
+            game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
+            int x0 = 3 + 6;
+            x0 = x0 + 2;
+        }
+
+        //check if every square is clickable
         for(int i = 0; i < 9; i++) {
 
             for (int j = 0; j < 9; j++) {
-                // LEFT TODO: Handle Jump Cases
-                if (x > curX - margin && x < curX + squareSize - margin &&
+
+                //test to see if clicks happen TODO take out later
+                if (x > curX && x < curX + squareSize &&
                         y > curY && y < curY + squareSize) {
-                    game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+                    surfaceView.movePawn(i,j);
                 }
-                // RIGHT
-                else if (x > curX + margin && x < curX + squareSize + margin &&
-                        y > curY && y < curY + squareSize) {
-                    game.sendAction(new QuoridorMovePawn(this, Direction.RIGHT, false));
-                }
-                // UP
-                else if (x > curX && x < curX + squareSize &&
-                        y > curY - margin && y < curY + squareSize - margin) {
-                    game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
-                }
-                // DOWN
-                else if (x > curX && x < curX + squareSize &&
-                        y > curY + margin && y < curY + squareSize + margin) {
-                    game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
-                }
+
+
+
+
                 curX += surfaceView.margin;
             }
             curX = surfaceView.startingX;

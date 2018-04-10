@@ -27,7 +27,7 @@ public class QuoridorMovePawn extends GameAction {
      *
      * @param player the player who created the action
      */
-    public QuoridorMovePawn(GamePlayer player) {
+    public QuoridorMovePawn(GamePlayer player, Direction dir, boolean jump) {
         super(player);
         if (player instanceof QuoridorHumanPlayer) {
             this.playerNum = ((QuoridorHumanPlayer) player).getPlayerNum();
@@ -35,6 +35,8 @@ public class QuoridorMovePawn extends GameAction {
         else if (player instanceof QuoridorComputerPlayer) {
             this.playerNum = ((QuoridorComputerPlayer) player).getPlayerNum();
         }
+        this.dir = dir;
+        this.jump = jump;
     }
 
     /**
