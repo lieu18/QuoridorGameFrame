@@ -19,14 +19,18 @@ public class QuoridorRotateWall extends GameAction {
      *
      * @param player the player who created the action
      */
-    public QuoridorRotateWall(GamePlayer player) {
+    public QuoridorRotateWall(GamePlayer player, int x, int y) {
         super(player);
 
         if (player instanceof QuoridorHumanPlayer) {
             this.playerNum = ((QuoridorHumanPlayer) player).getPlayerNum();
+            this.x = x;
+            this.y = y;
         }
         else if (player instanceof QuoridorComputerPlayer) {
             this.playerNum = ((QuoridorComputerPlayer) player).getPlayerNum();
+            this.x = x;
+            this.y = y;
         }
     }
 
@@ -42,16 +46,8 @@ public class QuoridorRotateWall extends GameAction {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public int getPlayerNum() {
