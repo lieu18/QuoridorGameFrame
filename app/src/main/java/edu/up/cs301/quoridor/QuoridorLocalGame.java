@@ -67,7 +67,14 @@ public class QuoridorLocalGame extends LocalGame {
      * 		the end-of-game message, or null if the game is not over
      */
     protected String checkIfGameOver() {
-        return null;
+        if (state.getPlayerPos(0)[1] == 8) {
+            return playerNames[0] + " is the winner";
+        }
+        else if (state.getPlayerPos(1)[1] == 0) {
+            return playerNames[1] + " is the winner";
+        }
+        else
+            return null;
     }
 
     /**

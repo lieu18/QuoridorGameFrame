@@ -90,6 +90,8 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         Button undo = (Button) activity.findViewById(R.id.undoButton);
 
         newGame.setOnClickListener(this);
+        finalize.setOnClickListener(this);
+        undo.setOnClickListener(this);
 
     }
 
