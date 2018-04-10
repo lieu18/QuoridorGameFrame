@@ -185,6 +185,7 @@ public class QuoridorGameState extends GameState {
     public boolean movePawn(int player, Direction dir, boolean jump) {
         //moving player is in first slot of bothPlayers[]
         int[][] bothPlayers = new int[][]{p1Pos, p2Pos};
+        boolean result;
         //check bounds
         if (player < 0 || player > 1) {
             return false;
@@ -197,23 +198,24 @@ public class QuoridorGameState extends GameState {
         //ie, check for walls, other players
         switch (dir) {
             case UP:
-                moveUp(bothPlayers[player], bothPlayers[1 - player], jump);
+                result = moveUp(bothPlayers[player], bothPlayers[1 - player], jump);
                 Log.i("movePawn", "moved player up");
                 break;
             case DOWN:
-                moveDown(bothPlayers[player], bothPlayers[1 - player], jump);
+                result = moveDown(bothPlayers[player], bothPlayers[1 - player], jump);
                 Log.i("movePawn", "moved down");
                 break;
             case RIGHT:
-                moveRight(bothPlayers[player], bothPlayers[1 - player], jump);
+                result = moveRight(bothPlayers[player], bothPlayers[1 - player], jump);
                 break;
             case LEFT:
-                moveLeft(bothPlayers[player], bothPlayers[1 - player], jump);
+                result = moveLeft(bothPlayers[player], bothPlayers[1 - player], jump);
                 break;
             default:
+                result = false;
                 Log.i("movePawn", "Something went wrong");
         }
-        return false;
+        return result;
     }
 
     /**
@@ -392,18 +394,25 @@ public class QuoridorGameState extends GameState {
                 }
             }//if for player adjacency
             //check if there are walls on left side
-            else if (vertWalls[curX - 1][curY] || horzWalls[curX - 1][curY - 1]) {
-                return false;
-            } else {
-                tempPos[0] = currentPlayer[0] - 1; //move player left one space
-                tempPos[1] = currentPlayer[1];
-                return true;
+            //check wall bot left
+            else if (curX != 0) {
+                if (vertWalls[curX - 1][curY]){
+                    return false;
+                }
+                if (curY != 0) {
+                    if (vertWalls[curX - 1][curY - 1]) {
+                        return false;
+                    }
+                }
             }
+
+            tempPos[0] = currentPlayer[0] - 1; //move player left one space
+            tempPos[1] = currentPlayer[1];
+            return true;
+
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
-
-        return false;
     }
 
     /**
