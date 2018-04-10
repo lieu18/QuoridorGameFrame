@@ -44,7 +44,9 @@ public class QuoridorGameState extends GameState {
         this.vertWalls = new boolean[8][8];
         this.p1RemainingWalls = g.p1RemainingWalls;
         this.p2RemainingWalls = g.p2RemainingWalls;
-
+        this.tempHWalls = new boolean[8][8];
+        this.tempVWalls = new boolean[8][8];
+        this.tempPos = new int[]{0,0};
     }
 
     private void init(){
@@ -53,10 +55,14 @@ public class QuoridorGameState extends GameState {
         this.p2Pos = new int[]{4, 8};
         this.horzWalls = new boolean[8][8];
         this.vertWalls = new boolean[8][8];
+        this.tempHWalls = new boolean[8][8];
+        this.tempVWalls = new boolean[8][8];
+        this.tempPos = new int[]{0,0};
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 this.horzWalls[i][j] = this.vertWalls[i][j] = false;
+                this.tempHWalls[i][j] = this.tempVWalls[i][j] = false;
             }
         }
 
@@ -580,13 +586,14 @@ public class QuoridorGameState extends GameState {
                 else if (!tempHWalls[x + 1][y] && !tempVWalls[x][y + 1]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
+                    System.out.println("Before return True");
                     return true;
                 } else
                     return false;
             }
             //checks if x,y coordinate clicked is 0,8
             //checks respective wall locations based on placement
-            else if (x == 0 && y == 8) {
+            else if (x == 0 && y == 7) {
                 if ((tempHWalls[x + 1][y]) && (!tempVWalls[x][y - 1])) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
@@ -605,7 +612,7 @@ public class QuoridorGameState extends GameState {
                     return false;
             }
             //checks if x,y coordinate clicked is 8,0
-            else if (x == 8 && y == 0) {
+            else if (x == 7 && y == 0) {
                 if (tempHWalls[x - 1][y] && !tempVWalls[x][y + 1]) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
@@ -624,7 +631,7 @@ public class QuoridorGameState extends GameState {
                     return false;
             }
             //checks if x,y coordinate clicked is 8,8
-            else if (x == 8 && y == 8) {
+            else if (x == 7 && y == 7) {
                 if (tempHWalls[x - 1][y] && !tempVWalls[x][y - 1]) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
@@ -662,7 +669,7 @@ public class QuoridorGameState extends GameState {
                     return false;
             }
             //checks if x coordinate clicked is 8, can't check for x+1 spot or OOB error would be thrown
-            else if (x == 8) {
+            else if (x == 7) {
                 if (tempHWalls[x - 1][y] && (!tempVWalls[x][y - 1] || !tempVWalls[x][y + 1])) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
@@ -700,7 +707,7 @@ public class QuoridorGameState extends GameState {
                     return false;
             }
             //checks if y coordinate clicked is 0, can't check for y+1 spot or OOB error would be thrown
-            else if (y == 8) {
+            else if (y == 7) {
                 if (((tempHWalls[x - 1][y]) || (tempHWalls[x + 1][y])) && (!tempVWalls[x][y - 1])) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
@@ -738,7 +745,9 @@ public class QuoridorGameState extends GameState {
                 } else
                     return false;
             }
-        } else
+        }
+        else
+            System.out.println("Hit the Else statement");
             return false;
     }
 
@@ -952,6 +961,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else
+                System.out.println("Hit the Else statement");
                 return false;
         }
     }

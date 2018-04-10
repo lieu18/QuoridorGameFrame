@@ -136,22 +136,42 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 // LEFT TODO: Handle Jump Cases
                 if (x > curX - margin && x < curX + squareSize - margin &&
                         y > curY && y < curY + squareSize) {
-                    game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+                    //game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
                 }
                 // RIGHT
                 else if (x > curX + margin && x < curX + squareSize + margin &&
                         y > curY && y < curY + squareSize) {
-                    game.sendAction(new QuoridorMovePawn(this, Direction.RIGHT, false));
+                    //game.sendAction(new QuoridorMovePawn(this, Direction.RIGHT, false));
                 }
                 // UP
                 else if (x > curX && x < curX + squareSize &&
                         y > curY - margin && y < curY + squareSize - margin) {
-                    game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
+                    //game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
                 }
                 // DOWN
                 else if (x > curX && x < curX + squareSize &&
                         y > curY + margin && y < curY + squareSize + margin) {
-                    game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
+                    //game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
+                }
+                curX += surfaceView.margin;
+            }
+            curX = surfaceView.startingX;
+            curY += surfaceView.margin;
+        }
+
+        // PLACE WAllS PLAYER INTERACTIONS
+        curX = surfaceView.startingX;
+        curY = surfaceView.startingY;
+        for (int k = 0; k < 8; k ++) {
+            for (int l = 0; l < 8; l++) {
+
+                if(x > curX + squareSize && x < curX + margin && y > curY + squareSize
+                        && y < curY + margin) {
+                    // draw wall
+                        surfaceView.state.placeWall(this.getPlayerNum(), l, k);
+                        game.sendAction(new QuoridorPlaceWall(this, l, k));
+                        surfaceView.state.finalizeTurn();
+                    // reference into temp wall array
                 }
                 curX += surfaceView.margin;
             }

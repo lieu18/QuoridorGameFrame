@@ -125,9 +125,9 @@ public class QuoridorSurfaceView extends SurfaceView {
                     if (state.getHorzWalls()[j][i]) {
                         canvas.drawRect(
                                 curX,
-                                curY - (wallWid + (margin - squareSize)) / 2,
+                                curY + squareSize + (wallWid + (margin - squareSize)) / 2,
                                 curX + squareSize + margin,
-                                curY - ((margin - squareSize) - (wallWid + (margin - squareSize)) / 2),
+                                curY + squareSize + ((margin - squareSize) - (wallWid + (margin - squareSize)) / 2),
                                 wallPaint);
                     }
 
