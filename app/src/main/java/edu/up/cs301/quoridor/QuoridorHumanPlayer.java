@@ -93,12 +93,12 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
     public boolean onTouch(View v, MotionEvent event) {
         // ignore if not an "up" event
-        if (event.getAction() != MotionEvent.ACTION_UP) return true;
+        //if (event.getAction() != MotionEvent.ACTION_UP) return true;
         // get the x and y coordinates of the touch-location;
         // convert them to square coordinates (where both
         // values are in the range 0..2)
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+        //int x = (int) event.getX();
+        //int y = (int) event.getY();
         //Point p = surfaceView.mapPixelToSquare(x, y);
 
         // if the location did not map to a legal square, flash
@@ -116,7 +116,50 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         */
 
         // register that we have handled the event
-        return true;
 
+
+
+        if (!(v instanceof QuoridorSurfaceView))
+            return true;
+
+        int x = (int) event.getX();
+        int y = (int) event.getY();
+
+        int curX = surfaceView.startingX;
+        int curY = surfaceView.startingY;
+        int margin = surfaceView.margin;
+        int squareSize = surfaceView.squareSize;
+
+        for(int i = 0; i < 9; i++) {
+
+            for (int j = 0; j < 9; j++) {
+                // LEFT TODO: Handle Jump Cases
+                if (x > curX - margin && x < curX + squareSize - margin &&
+                        y > curY && y < curY + squareSize) {
+                    game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+                }
+                // RIGHT
+                else if (x > curX + margin && x < curX + squareSize + margin &&
+                        y > curY && y < curY + squareSize) {
+                    game.sendAction(new QuoridorMovePawn(this, Direction.RIGHT, false));
+                }
+                // UP
+                else if (x > curX && x < curX + squareSize &&
+                        y > curY - margin && y < curY + squareSize - margin) {
+                    game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
+                }
+                // DOWN
+                else if (x > curX && x < curX + squareSize &&
+                        y > curY + margin && y < curY + squareSize + margin) {
+                    game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
+                }
+                curX += surfaceView.margin;
+            }
+            curX = surfaceView.startingX;
+            curY += surfaceView.margin;
+        }
+        surfaceView.invalidate();
+
+        return true;
     }
 }

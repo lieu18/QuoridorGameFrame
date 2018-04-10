@@ -15,9 +15,9 @@ public class QuoridorSurfaceView extends SurfaceView {
 
 
     private Paint brownPaint, redPaint, bluePaint, wallPaint; //create paint colors
-    private SurfaceView sv;
+    //private SurfaceView sv;
 
-    private int canvasHeight, canvasWidth, criticalSize, margin, squareSize, boardSize, startingX,
+    protected int canvasHeight, canvasWidth, criticalSize, margin, squareSize, boardSize, startingX,
             startingY, wallWid, wallLen;
 
     protected QuoridorGameState state;
