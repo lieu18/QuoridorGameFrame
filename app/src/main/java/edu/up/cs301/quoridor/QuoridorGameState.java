@@ -44,6 +44,8 @@ public class QuoridorGameState extends GameState {
         this.vertWalls = new boolean[8][8];
         this.p1RemainingWalls = g.p1RemainingWalls;
         this.p2RemainingWalls = g.p2RemainingWalls;
+
+        this.tempPos = new int[]{g.tempPos[0],g.tempPos[1]};
         this.tempHWalls = new boolean[8][8];
         this.tempVWalls = new boolean[8][8];
         for (int i = 0; i < 8; i++) {
@@ -52,7 +54,6 @@ public class QuoridorGameState extends GameState {
                 this.tempVWalls[i][j] = g.tempVWalls[i][j];
             }
         }
-        this.tempPos = new int[]{0,0};
     }
 
     private void init(){
@@ -72,6 +73,7 @@ public class QuoridorGameState extends GameState {
             }
         }
 
+        this.tempPos = new int[]{this.p1Pos[0],this.p1Pos[1]};
         this.p1RemainingWalls = this.p2RemainingWalls = 10;
     }
 
@@ -104,6 +106,10 @@ public class QuoridorGameState extends GameState {
     public int[] getPlayerPos(int player)
     {
         return player == 0 ? p1Pos : p2Pos;
+    }
+    public int[] getTempPlayerPos()
+    {
+        return tempPos;
     }
 
     public void setPlayerPos(int x, int y, int player)
@@ -198,6 +204,7 @@ public class QuoridorGameState extends GameState {
     public boolean movePawn(int player, Direction dir, boolean jump) {
         //moving player is in first slot of bothPlayers[]
         int[][] bothPlayers = new int[][]{p1Pos, p2Pos};
+        boolean result;
         //check bounds
         if (player < 0 || player > 1) {
             return false;
@@ -210,23 +217,24 @@ public class QuoridorGameState extends GameState {
         //ie, check for walls, other players
         switch (dir) {
             case UP:
-                moveUp(bothPlayers[player], bothPlayers[1 - player], jump);
+                result = moveUp(bothPlayers[player], bothPlayers[1 - player], jump);
                 Log.i("movePawn", "moved player up");
                 break;
             case DOWN:
-                moveDown(bothPlayers[player], bothPlayers[1 - player], jump);
+                result = moveDown(bothPlayers[player], bothPlayers[1 - player], jump);
                 Log.i("movePawn", "moved down");
                 break;
             case RIGHT:
-                moveRight(bothPlayers[player], bothPlayers[1 - player], jump);
+                result = moveRight(bothPlayers[player], bothPlayers[1 - player], jump);
                 break;
             case LEFT:
-                moveLeft(bothPlayers[player], bothPlayers[1 - player], jump);
+                result = moveLeft(bothPlayers[player], bothPlayers[1 - player], jump);
                 break;
             default:
+                result = false;
                 Log.i("movePawn", "Something went wrong");
         }
-        return false;
+        return result;
     }
 
     /**
@@ -278,18 +286,22 @@ public class QuoridorGameState extends GameState {
                 }
             }//if for player adjacency
             //check if there are walls in front
-            else if (horzWalls[curX - 1][curY - 1] || horzWalls[curX][curY - 1]) {
-                return false;
-            } else {
-                tempPos[0] = curX;
-                tempPos[1] = currentPlayer[1] - 1; //move player up one space
-                return true;
+            else if (curX != 0) {
+                if (horzWalls[curX - 1][curY - 1]){
+                    return false;
+                }
             }
+            else if (horzWalls[curX][curY - 1]) {
+                return false;
+            }
+            tempPos[0] = curX;
+            tempPos[1] = currentPlayer[1] - 1; //move player up one space
+            return true;
+
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
 
-        return false;
     }
 
     /**
@@ -341,18 +353,23 @@ public class QuoridorGameState extends GameState {
                 }
             }//if for player adjacency
             //check if there are walls in front
-            else if (horzWalls[curX - 1][curY] || horzWalls[curX][curY]) {
-                return false;
-            } else {
-                tempPos[0] = currentPlayer[0];
-                tempPos[1] = currentPlayer[1] + 1; //move player up one space
-                return true;
+            else if (curX != 0) {
+                if (horzWalls[curX - 1][curY]) {
+                    return false;
+                }
             }
+            else if (horzWalls[curX][curY]) {
+                return false;
+            }
+
+            tempPos[0] = currentPlayer[0];
+            tempPos[1] = currentPlayer[1] + 1; //move player up one space
+            return true;
+
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
-
-        return false;
+        
     }
 
     /**
@@ -405,18 +422,25 @@ public class QuoridorGameState extends GameState {
                 }
             }//if for player adjacency
             //check if there are walls on left side
-            else if (vertWalls[curX - 1][curY] || horzWalls[curX - 1][curY - 1]) {
-                return false;
-            } else {
-                tempPos[0] = currentPlayer[0] - 1; //move player left one space
-                tempPos[1] = currentPlayer[1];
-                return true;
+            //check wall bot left
+            else if (curX != 0) {
+                if (vertWalls[curX - 1][curY]){
+                    return false;
+                }
+                if (curY != 0) {
+                    if (vertWalls[curX - 1][curY - 1]) {
+                        return false;
+                    }
+                }
             }
+
+            tempPos[0] = currentPlayer[0] - 1; //move player left one space
+            tempPos[1] = currentPlayer[1];
+            return true;
+
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
-
-        return false;
     }
 
     /**
@@ -469,18 +493,30 @@ public class QuoridorGameState extends GameState {
                 }
             }//if for player adjacency
             //check if there are walls on right side
-            else if (vertWalls[curX][curY - 1] || horzWalls[curX][curY]) {
-                return false;
-            } else {
-                tempPos[0] = currentPlayer[0] + 1; //move player left one space
-                tempPos[1] = currentPlayer[1];
-                return true;
+            else if (curY != 0) {
+                if (vertWalls[curX][curY - 1]){
+                    return false;
+                }
+                if (vertWalls[curX][curY]) {
+                    return false;
+                }
             }
+            else if (curY == 0) {
+                if (vertWalls[curX][curY]) {
+                    return false;
+                }
+            }
+
+
+
+            tempPos[0] = currentPlayer[0] + 1; //move player left one space
+            tempPos[1] = currentPlayer[1];
+            return true;
+
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
 
-        return false;
     }
 
     /**

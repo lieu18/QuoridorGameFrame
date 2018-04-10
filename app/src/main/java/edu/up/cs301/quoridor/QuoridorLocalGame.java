@@ -83,32 +83,32 @@ public class QuoridorLocalGame extends LocalGame {
 
         if (action instanceof QuoridorMovePawn) {
             QuoridorMovePawn qAction = (QuoridorMovePawn) action;
-            state.movePawn(qAction.getPlayerNum(),
+            return state.movePawn(qAction.getPlayerNum(),
                     qAction.getDir(),
                     qAction.isJump());
-            return true;
+            //return true;
         }
         else if (action instanceof QuoridorPlaceWall) {
             QuoridorPlaceWall qAction = (QuoridorPlaceWall) action;
-            state.placeWall(qAction.getPlayerNum(),qAction.getX(),qAction.getY());
-            return true;
+            return state.placeWall(qAction.getPlayerNum(),qAction.getX(),qAction.getY());
+//            return true;
         }
         else if (action instanceof QuoridorRotateWall) {
             QuoridorRotateWall qAction = (QuoridorRotateWall) action;
-            state.rotateWall(qAction.getPlayerNum(),qAction.getX(),qAction.getY());
-            return true;
+            return state.rotateWall(qAction.getPlayerNum(),qAction.getX(),qAction.getY());
+            //return true;
         }
         else if (action instanceof QuoridorUndoTurn) {
-            state.undo();
-            return true;
+            return state.undo();
+            //return true;
         }
         else if (action instanceof QuoridorFinalizeTurn) {
-            state.finalizeTurn();
-            return true;
+            return state.finalizeTurn();
+            //return true;
         }
         else if (action instanceof QuoridorNewGame) {
-            state.newGame();
-            return true;
+            return state.newGame();
+            //return true;
         }
 
 

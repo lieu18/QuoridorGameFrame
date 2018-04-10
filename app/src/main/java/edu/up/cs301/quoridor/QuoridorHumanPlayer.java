@@ -5,10 +5,12 @@ import android.graphics.Color;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 
 import edu.up.cs301.game.GameHumanPlayer;
 import edu.up.cs301.game.GameMainActivity;
 import edu.up.cs301.game.R;
+import edu.up.cs301.game.actionMsg.GameAction;
 import edu.up.cs301.game.infoMsg.GameInfo;
 import edu.up.cs301.game.infoMsg.IllegalMoveInfo;
 import edu.up.cs301.game.infoMsg.NotYourTurnInfo;
@@ -18,7 +20,7 @@ import edu.up.cs301.tictactoe.TTTState;
  * Created by lieu18 on 3/25/2018.
  */
 
-public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouchListener {
+public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouchListener, View.OnClickListener {
     /**
      * constructor
      *
@@ -33,6 +35,8 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
     // the ID for the layout to use
     private int layoutId;
+
+    //private QuoridorGameState quoridorGameState;
 
     public QuoridorHumanPlayer(String name, int layoutId) {
         super(name);
@@ -80,6 +84,13 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         surfaceView = (QuoridorSurfaceView) myActivity.findViewById(R.id.quoridorBoard);
         Log.i("set listener","OnTouch");
         surfaceView.setOnTouchListener(this);
+
+        Button newGame = (Button) activity.findViewById(R.id.newGameButton);
+        Button finalize = (Button) activity.findViewById(R.id.finalizeTurnButton);
+        Button undo = (Button) activity.findViewById(R.id.undoButton);
+
+        newGame.setOnClickListener(this);
+
     }
 
     /**
@@ -90,6 +101,30 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         myActivity.setTitle("Quoridor: "+allPlayerNames[0]+" vs. "+ allPlayerNames[1]);
     }
 
+
+    public void onClick(View v) {
+        // if we are not yet connected to a game, ignore
+        if (game == null) return;
+
+        if (!(v instanceof Button)) return;
+
+        // Construct the action and send it to the game
+        switch(v.getId()){
+            case R.id.undoButton:
+                game.sendAction(new QuoridorUndoTurn(this));
+                break;
+            case R.id.newGameButton:
+                game.sendAction(new QuoridorNewGame(this));
+                break;
+            case R.id.finalizeTurnButton:
+                game.sendAction(new QuoridorFinalizeTurn(this));
+                break;
+            default:
+                return;
+        }
+
+
+    }
 
     public boolean onTouch(View v, MotionEvent event) {
         // ignore if not an "up" event
@@ -130,35 +165,58 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         int margin = surfaceView.margin;
         int squareSize = surfaceView.squareSize;
 
-        for(int i = 0; i < 9; i++) {
+        QuoridorLocalGame qlg = (QuoridorLocalGame) this.game;
+        QuoridorGameState qgs = qlg.state;
 
-            for (int j = 0; j < 9; j++) {
-                // LEFT TODO: Handle Jump Cases
-                if (x > curX - margin && x < curX + squareSize - margin &&
-                        y > curY && y < curY + squareSize) {
-                    //game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
-                }
-                // RIGHT
-                else if (x > curX + margin && x < curX + squareSize + margin &&
-                        y > curY && y < curY + squareSize) {
-                    //game.sendAction(new QuoridorMovePawn(this, Direction.RIGHT, false));
-                }
-                // UP
-                else if (x > curX && x < curX + squareSize &&
-                        y > curY - margin && y < curY + squareSize - margin) {
-                    //game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
-                }
-                // DOWN
-                else if (x > curX && x < curX + squareSize &&
-                        y > curY + margin && y < curY + squareSize + margin) {
-                    //game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
-                }
-                curX += surfaceView.margin;
-            }
-            curX = surfaceView.startingX;
-            curY += surfaceView.margin;
+        //postition of player 1
+        int[] p1Pos = qgs.getPlayerPos(0);
+        //postition of player 2
+        int[] p2Pos = qgs.getPlayerPos(1);
+
+        int[][] playerPos = new int[][]{p1Pos,p2Pos};
+
+        int turn = qgs.getTurn();
+
+        // LEFT TODO: Handle Jump Cases
+        if (x > curX + playerPos[turn][0] * margin - margin &&
+                x < curX + playerPos[turn][0] * margin + squareSize - margin &&
+                y > curY + playerPos[turn][1] * margin &&
+                y < curY + playerPos[turn][1] * margin + squareSize) {
+            game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+        }
+        // RIGHT
+        else if (x > curX + playerPos[turn][0] * margin + margin &&
+                x < curX + playerPos[turn][0] * margin + squareSize + margin &&
+                y > curY + playerPos[turn][1] * margin &&
+                y < curY + playerPos[turn][1] * margin + squareSize) {
+            game.sendAction(new QuoridorMovePawn(this, Direction.RIGHT, false));
+        }
+        // UP
+        else if (x > curX + playerPos[turn][0] * margin &&
+                x < curX + playerPos[turn][0] * margin + squareSize &&
+                y > curY + playerPos[turn][1] * margin - margin &&
+                y < curY + playerPos[turn][1] * margin + squareSize - margin) {
+            game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
+        }
+        // DOWN
+        else if (x > curX + playerPos[turn][0] * margin &&
+                x < curX + playerPos[turn][0] * margin + squareSize &&
+                y > curY + playerPos[turn][1] * margin + margin &&
+                y < curY + playerPos[turn][1] * margin + squareSize + margin) {
+            game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
         }
 
+        //check if every square is clickable
+        for(int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                //test to see if clicks happen TODO take out later
+                if (x > curX && x < curX + squareSize &&
+                        y > curY && y < curY + squareSize) {
+                    //surfaceView.movePawn(i,j);
+                }
+                curX += margin;
+            }
+        }
         // PLACE WAllS PLAYER INTERACTIONS
         curX = surfaceView.startingX;
         curY = surfaceView.startingY;
@@ -177,8 +235,9 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 curX += surfaceView.margin;
             }
             curX = surfaceView.startingX;
-            curY += surfaceView.margin;
+            curY += margin;
         }
+
         surfaceView.invalidate();
 
         return true;

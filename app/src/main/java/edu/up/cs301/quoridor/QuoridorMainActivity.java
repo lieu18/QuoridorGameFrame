@@ -1,5 +1,9 @@
 package edu.up.cs301.quoridor;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 import java.util.ArrayList;
 
 import edu.up.cs301.game.GameMainActivity;
@@ -53,6 +57,8 @@ public class QuoridorMainActivity extends GameMainActivity {
 
         //done!
         return defaultConfig;
+
+
 
     }
 

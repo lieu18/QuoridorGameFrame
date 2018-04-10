@@ -14,13 +14,15 @@ import android.view.SurfaceView;
 public class QuoridorSurfaceView extends SurfaceView {
 
 
-    private Paint brownPaint, redPaint, bluePaint, wallPaint; //create paint colors
+    private Paint brownPaint, redPaint, bluePaint, wallPaint, seafoamGreenPaint; //create paint colors
     //private SurfaceView sv;
 
     protected int canvasHeight, canvasWidth, criticalSize, margin, squareSize, boardSize, startingX,
             startingY, wallWid, wallLen;
 
     protected QuoridorGameState state;
+
+    private boolean[][] validPawnMove, wallSelected;
 
 
     public QuoridorSurfaceView(Context context) {
@@ -55,6 +57,12 @@ public class QuoridorSurfaceView extends SurfaceView {
         bluePaint.setColor(Color.BLUE);
         wallPaint = new Paint();
         wallPaint.setColor(0xFF8B4513);
+
+        seafoamGreenPaint = new Paint();
+        seafoamGreenPaint.setColor(0xFF87DEB8);
+
+        wallSelected = new boolean[8][8];
+        validPawnMove = new boolean[9][9];
 
         //TODO add playable gui
         //sv = (SurfaceView)findViewById(R.id.board);
@@ -99,9 +107,10 @@ public class QuoridorSurfaceView extends SurfaceView {
                         curY,
                         curX+squareSize,
                         curY+squareSize,
-                        isSelected /* TODO [j][i]*/ ? brownPaint : brownPaint);
+                        validPawnMove[j][i] ? seafoamGreenPaint : brownPaint);
 
 
+                /*
                 //draw player1
                 if(j  == state.getPlayerPos(0)[0] &&
                         i == state.getPlayerPos(0)[1])
@@ -115,6 +124,22 @@ public class QuoridorSurfaceView extends SurfaceView {
                 if(j  == state.getPlayerPos(1)[0] &&
                         i == state.getPlayerPos(1)[1])
                 {
+                    x1 = curX+(squareSize*.5f);
+                    y1 = curY+(squareSize*.5f);
+                    r1 = squareSize*.45f;
+                }*/
+
+                //draw current player
+                if(j == state.getTempPlayerPos()[0] &&
+                        i == state.getTempPlayerPos()[1]) {
+                    x0 = curX+(squareSize*.5f);
+                    y0 = curY+(squareSize*.5f);
+                    r0 = squareSize*.45f;
+                }
+
+                //draw other player
+                if(j == state.getPlayerPos(1-state.getTurn())[0] &&
+                        i == state.getPlayerPos(1-state.getTurn())[1]) {
                     x1 = curX+(squareSize*.5f);
                     y1 = curY+(squareSize*.5f);
                     r1 = squareSize*.45f;
@@ -159,6 +184,15 @@ public class QuoridorSurfaceView extends SurfaceView {
         drawP1RemainingWalls(canvas);
         drawP2RemainingWalls(canvas);
 
+    }
+
+    protected void movePawn(int x, int y/*, Direction dir, boolean jump*/) {
+        validPawnMove[y][x] = true;
+        /*
+        if (state.getPlayerPos(state.getTurn())[0] == x  &&
+                state.getPlayerPos(state.getTurn())[1] == y) {
+        }*/
+        invalidate();
     }
 
     /*
