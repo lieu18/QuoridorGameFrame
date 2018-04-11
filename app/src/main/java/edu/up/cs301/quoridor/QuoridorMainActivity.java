@@ -45,7 +45,7 @@ public class QuoridorMainActivity extends GameMainActivity {
 
         //TODO add smart computer
 
-        // Create a game configuration class for Tic-tac-toe
+        // Create a game configuration class for Quoridor
         GameConfig defaultConfig = new GameConfig(playerTypes, 2,2, "Quoridor", PORT_NUMBER);
 
         // Add the default players

@@ -18,6 +18,8 @@ public class QuoridorRotateWall extends GameAction {
      * constructor for GameAction
      *
      * @param player the player who created the action
+     * @param x the x position from where the action was clicked
+     * @param y the y position from where the action was clicked
      */
     public QuoridorRotateWall(GamePlayer player, int x, int y) {
         super(player);

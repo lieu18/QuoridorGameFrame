@@ -18,6 +18,10 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
         super(name);
     }
 
+    /*
+     * dumb computer player - just only tries to move forward
+     * does no other moves at the moment
+     */
     protected void receiveInfo(GameInfo info) {
         if (info instanceof NotYourTurnInfo) return;
 

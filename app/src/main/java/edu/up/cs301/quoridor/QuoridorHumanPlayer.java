@@ -48,6 +48,9 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         return myActivity.findViewById(R.id.top_gui_layout);
     }
 
+    /*
+     * human player receiving info from gamestate to update board
+     */
     public void receiveInfo(GameInfo info) {
         if (surfaceView == null) return;
 
@@ -104,6 +107,9 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
     }
 
 
+    /*
+     * onClick method, checks for buttons being clicks and sends appropriate action
+     */
     public void onClick(View v) {
         // if we are not yet connected to a game, ignore
         if (game == null) return;
@@ -128,33 +134,13 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
     }
 
+    /*
+     * onTouch method - handles all the touches that take place on the surface view
+     */
     public boolean onTouch(View v, MotionEvent event) {
         // ignore if not an "up" event
         if (event.getAction() != MotionEvent.ACTION_UP) return true;
-        // get the x and y coordinates of the touch-location;
-        // convert them to square coordinates (where both
-        // values are in the range 0..2)
-        //int x = (int) event.getX();
-        //int y = (int) event.getY();
-        //Point p = surfaceView.mapPixelToSquare(x, y);
-
-        // if the location did not map to a legal square, flash
-        // the screen; otherwise, create and send an action to
-        // the game
-        /*
-        if (p == null) {
-            surfaceView.flash(Color.RED, 50);
-        } else {
-            TTTMoveAction action = new TTTMoveAction(this, p.y, p.x);
-            Log.i("onTouch", "Human player sending TTTMA ...");
-            game.sendAction(action);
-            surfaceView.invalidate();
-        }
-        */
-
         // register that we have handled the event
-
-
 
         if (!(v instanceof QuoridorSurfaceView))
             return true;
@@ -162,10 +148,11 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         int x = (int) event.getX();
         int y = (int) event.getY();
 
-        int curX = surfaceView.startingX;
-        int curY = surfaceView.startingY;
+        //get values from the surface view to use later on
+        int curX = surfaceView.startingX; //starting x position
+        int curY = surfaceView.startingY; // starting y position
         int margin = surfaceView.margin;
-        int squareSize = surfaceView.squareSize;
+        int squareSize = surfaceView.squareSize; //size of squares on surface view
 
         QuoridorLocalGame qlg = (QuoridorLocalGame) this.game;
         QuoridorGameState qgs = qlg.state;
@@ -177,8 +164,9 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
         int[][] playerPos = new int[][]{p1Pos,p2Pos};
 
-        int turn = qgs.getTurn();
+        int turn = qgs.getTurn(); //get the turn from the local game
 
+        //handles movement of pawn, wether left, right, up, or down
         // LEFT TODO: Handle Jump Cases
         if (x > curX + playerPos[turn][0] * margin - margin &&
                 x < curX + playerPos[turn][0] * margin + squareSize - margin &&
@@ -219,28 +207,29 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 curX += margin;
             }
         }
+
         // PLACE WAllS PLAYER INTERACTIONS
-        curX = surfaceView.startingX;
+        curX = surfaceView.startingX; //set a new starting X, so don't used change value for wall
         curY = surfaceView.startingY;
         for (int k = 0; k < 8; k ++) {
             for (int l = 0; l < 8; l++) {
 
                 if(x > curX + squareSize && x < curX + margin && y > curY + squareSize
                         && y < curY + margin) {
+                    //send wall rotate action if there is an already placed wall where the user clicks
                     if (surfaceView.state.getTempHWalls()[l][k] || surfaceView.state.getTempVWalls()[l][k]) {
                         game.sendAction(new QuoridorRotateWall(this, l, k));
                     }
-                    // draw wall
+                    // draw wall if no wall placed
                         game.sendAction(new QuoridorPlaceWall(this, l, k));
-                    // reference into temp wall array
                 }
-                curX += surfaceView.margin;
+                curX += surfaceView.margin; //increment the current X pos by the margin
             }
             curX = surfaceView.startingX;
             curY += margin;
         }
 
-        surfaceView.invalidate();
+        surfaceView.invalidate(); //redraw the surface view
 
         return true;
     }
