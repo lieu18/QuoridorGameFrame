@@ -26,7 +26,9 @@ public class QuoridorGameState extends GameState {
     private boolean[][] horzWalls, tempHWalls;
     private boolean[][] vertWalls, tempVWalls;
 
-    private int p1RemainingWalls, p2RemainingWalls, tempRemWalls;
+    protected int p1RemainingWalls, p2RemainingWalls, tempRemWalls;
+
+    protected boolean wallDown = false;
 
 
     public QuoridorGameState() {
@@ -52,6 +54,8 @@ public class QuoridorGameState extends GameState {
             for (int j = 0; j < 8; j++) {
                 this.tempHWalls[i][j] = g.tempHWalls[i][j];
                 this.tempVWalls[i][j] = g.tempVWalls[i][j];
+                this.horzWalls[i][j] = g.horzWalls[i][j];
+                this.vertWalls[i][j] = g.vertWalls[i][j];
             }
         }
     }
@@ -540,8 +544,14 @@ public class QuoridorGameState extends GameState {
         //update walls on board
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                horzWalls[i][j] = tempHWalls[i][j];
-                vertWalls[i][j] = tempVWalls[i][j];
+                if (tempHWalls[i][j]) {
+                    horzWalls[i][j] = tempHWalls[i][j];
+                    tempHWalls[i][j] = false;
+                }
+                if (tempVWalls[i][j]) {
+                    vertWalls[i][j] = tempVWalls[i][j];
+                    tempVWalls[i][j] = false;
+                }
             }
         }
 
@@ -556,6 +566,7 @@ public class QuoridorGameState extends GameState {
             tempPos[1] = p2Pos[1];
             tempRemWalls = p2RemainingWalls;
         }
+        wallDown = false;
         return true;
     }
 
@@ -596,15 +607,20 @@ public class QuoridorGameState extends GameState {
         //checks for player turn, returns false if not turn
         if (player != turn)
             return false;
-        //check bounds by calling method
-        if (borderPlaceCheck(player, x, y)) {
-            //set temp wall variable to respective player's remaining walls
-            if (player == 0)
-                p1RemainingWalls = tempRemWalls;
-            else
-                p2RemainingWalls = tempRemWalls;
-            return true;
-        } else
+        if (!wallDown) {
+            //check bounds by calling method
+            if (borderPlaceCheck(player, x, y)) {
+                wallDown = true;
+                //set temp wall variable to respective player's remaining walls
+                if (player == 0)
+                    p1RemainingWalls = tempRemWalls;
+                else
+                    p2RemainingWalls = tempRemWalls;
+                return true;
+            } else
+                return false;
+        }
+        else
             return false;
     }
 
@@ -619,7 +635,7 @@ public class QuoridorGameState extends GameState {
             tempRemWalls = p2RemainingWalls;
         if (tempRemWalls == 0) //if player has no walls, returns
             return false;
-        if (!tempHWalls[x][y] && !tempVWalls[x][y]) // default to horzWall place first
+        if (!horzWalls[x][y] && !vertWalls[x][y]) // default to horzWall place first
         {
             //checks if x,y coordinate clicked is 0,0
             //checks respective wall locations based on placement
