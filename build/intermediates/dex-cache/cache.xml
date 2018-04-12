@@ -3,12 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="P:\Object-Oriented Design\QuoridorGameFrame2.0\QuoridorGameFrame\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jar="C:\Users\shuler18\StudioProjects\QuoridorGameFrame\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="7e9b5119f10bf4943fe941740e8a229dd509fd59">
-        <dex dex="P:\Object-Oriented Design\QuoridorGameFrame2.0\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_d45b019a284bb7701276ba4e52ee56132c706e3b\classes.dex" />
+        sha1="eb36d3a006609cae7f8bf9e9fcf91550a15a6f01">
+        <dex dex="C:\Users\shuler18\StudioProjects\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_96e7613be729f27cd9591977006448f00fe0116f\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\shuler18\StudioProjects\QuoridorGameFrame\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\shuler18\StudioProjects\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_62e88ce8a390bcd26d74bd530a6f71d7ff0967fe\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -17,16 +26,7 @@
         optimize="true"
         revision="25.0.0"
         sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="P:\Object-Oriented Design\QuoridorGameFrame2.0\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-v4-18.0.0_bf6372499ab7d9c7586f81e3c8610d4c63b58b3f\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="P:\Object-Oriented Design\QuoridorGameFrame2.0\QuoridorGameFrame\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
-        <dex dex="P:\Object-Oriented Design\QuoridorGameFrame2.0\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_e558efe9809320a1bab26332788ef12b2f0698df\classes.dex" />
+        <dex dex="C:\Users\shuler18\StudioProjects\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10\support-v4-18.0.0_bf6372499ab7d9c7586f81e3c8610d4c63b58b3f\classes.dex" />
     </item>
 
 </items>
