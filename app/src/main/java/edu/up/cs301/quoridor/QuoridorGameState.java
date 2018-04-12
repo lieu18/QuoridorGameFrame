@@ -841,8 +841,8 @@ public class QuoridorGameState extends GameState {
             } else
                 return false;
         }
-        //checks if x,y coordinate clicked is 0,8
-        else if (x == 0 && y == 8) {
+        //checks if x,y coordinate clicked is 0,7
+        else if (x == 0 && y == 7) {
             if (tempHWalls[x][y]) {
                 if (tempVWalls[x][y - 1]) {
                     return false;
@@ -862,8 +862,8 @@ public class QuoridorGameState extends GameState {
             } else
                 return false;
         }
-        //checks if x,y coordinate clicked is 8,0
-        else if (x == 8 && y == 0) {
+        //checks if x,y coordinate clicked is 7,0
+        else if (x == 7 && y == 0) {
             if (tempHWalls[x][y]) {
                 if (tempVWalls[x][y + 1]) {
                     return false;
@@ -883,8 +883,8 @@ public class QuoridorGameState extends GameState {
             } else
                 return false;
         }
-        //checks if x,y coordinate clicked is 8,8
-        else if (x == 8 && y == 8) {
+        //checks if x,y coordinate clicked is 7,7
+        else if (x == 7 && y == 7) {
             if (tempHWalls[x][y]) {
                 if (tempVWalls[x][y - 1]) {
                     return false;
@@ -925,8 +925,8 @@ public class QuoridorGameState extends GameState {
             } else
                 return false;
         }
-        //checks if x coordinate clicked is 8
-        else if (x == 8) {
+        //checks if x coordinate clicked is 7
+        else if (x == 7) {
             if (tempHWalls[x][y]) {
                 if (tempVWalls[x][y - 1] || tempVWalls[x][y + 1]) {
                     return false;
@@ -967,8 +967,8 @@ public class QuoridorGameState extends GameState {
             } else
                 return false;
         }
-        //checks if y coordinate clicked is 8
-        else if (y == 8) {
+        //checks if y coordinate clicked is 7
+        else if (y == 7) {
             if (tempHWalls[x][y]) {
                 if (tempVWalls[x][y - 1]) {
                     return false;
