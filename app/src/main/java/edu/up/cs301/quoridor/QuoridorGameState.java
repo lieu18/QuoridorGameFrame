@@ -29,6 +29,7 @@ public class QuoridorGameState extends GameState {
     protected int p1RemainingWalls, p2RemainingWalls, tempRemWalls;
 
     protected boolean wallDown = false;
+    private boolean hasMoved = false;
 
 
     public QuoridorGameState() {
@@ -206,6 +207,10 @@ public class QuoridorGameState extends GameState {
      * @return true if success, else false
      */
     public boolean movePawn(int player, Direction dir, boolean jump) {
+        if(hasMoved) {
+            return false;
+        }
+
         //moving player is in first slot of bothPlayers[]
         int[][] bothPlayers = new int[][]{p1Pos, p2Pos};
         boolean result;
@@ -238,6 +243,7 @@ public class QuoridorGameState extends GameState {
                 result = false;
                 Log.i("movePawn", "Something went wrong");
         }
+        hasMoved = true;
         return result;
     }
 
@@ -567,6 +573,7 @@ public class QuoridorGameState extends GameState {
             tempRemWalls = p2RemainingWalls;
         }
         wallDown = false;
+        hasMoved = false;
         return true;
     }
 
@@ -594,6 +601,8 @@ public class QuoridorGameState extends GameState {
                 tempVWalls[i][j] = vertWalls[i][j];
             }
         }
+        hasMoved = false;
+        wallDown = false;
         return true;
     }
 
@@ -604,6 +613,9 @@ public class QuoridorGameState extends GameState {
     */
     //TODO: Figure out how to deal with closed path
     public boolean placeWall(int player, int x, int y) {
+        if(hasMoved){
+            return false;
+        }
         //checks for player turn, returns false if not turn
         if (player != turn)
             return false;
@@ -616,6 +628,7 @@ public class QuoridorGameState extends GameState {
                     p1RemainingWalls = tempRemWalls;
                 else
                     p2RemainingWalls = tempRemWalls;
+                hasMoved = true;
                 return true;
             } else
                 return false;
