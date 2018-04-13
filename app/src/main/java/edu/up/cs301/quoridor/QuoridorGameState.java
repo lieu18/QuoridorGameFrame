@@ -543,6 +543,8 @@ public class QuoridorGameState extends GameState {
      * @return true. Always.
      */
     public boolean finalizeTurn() {
+        //TODO initilize tempRemWalls
+        //TODO return if haven't moved or placed wall
         //check who's turn it is and update their values
         if (turn == 0) {
             p1Pos[0] = tempPos[0];
