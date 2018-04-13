@@ -270,6 +270,15 @@ public class QuoridorGameState extends GameState {
             {
                 return false;
             }
+            //check if there are walls in front
+            if (curY != 0) {
+                if (horzWalls[curX - 1][curY - 1]) {
+                    return false;
+                }
+                if (horzWalls[curX][curY - 1]) {
+                    return false;
+                }
+            }
             //check if players are adjacent
             if (otherX == curX && otherY + 1 == curY) {
                 if (horzWalls[curX - 1][curY - 2] || horzWalls[curX][curY - 2]) {
@@ -300,15 +309,7 @@ public class QuoridorGameState extends GameState {
                     tempPos[1] = currentPlayer[1] - 1; //jump over the adjacent player
                 }
             }//if for player adjacency
-            //check if there are walls in front
-            else if (curY != 0) {
-                if (horzWalls[curX - 1][curY - 1]) {
-                    return false;
-                }
-                if (horzWalls[curX][curY - 1]) {
-                    return false;
-                }
-            }
+
             tempPos[0] = curX;
             tempPos[1] -= 1; //move player up one space
             return true;
@@ -336,6 +337,15 @@ public class QuoridorGameState extends GameState {
             if (curY == 8) //player is trying to move past bot
             {
                 return false;
+            }
+            //check if there are walls in front
+            if (curY != 7) {
+                if (horzWalls[curX - 1][curY]) {
+                    return false;
+                }
+                if (horzWalls[curX][curY]) {
+                    return false;
+                }
             }
             //check if players are adjacent
             if (otherX == curX && otherY - 1 == curY) {
@@ -367,15 +377,7 @@ public class QuoridorGameState extends GameState {
                     currentPlayer[1] += 1; //jump over the adjacent player
                 }
             }//if for player adjacency
-            //check if there are walls in front
-            else if (curY != 7) {
-                if (horzWalls[curX - 1][curY]) {
-                    return false;
-                }
-                if (horzWalls[curX][curY]) {
-                    return false;
-                }
-            }
+
 
 
             tempPos[0] = currentPlayer[0];
@@ -406,6 +408,18 @@ public class QuoridorGameState extends GameState {
             {
                 return false;
             }
+            //check if there are walls on left side
+            //check wall bot left
+            if (curX != 0) {
+                if (vertWalls[curX - 1][curY]){
+                    return false;
+                }
+                if (curY != 0) {
+                    if (vertWalls[curX - 1][curY - 1]) {
+                        return false;
+                    }
+                }
+            }
             //check if players are adjacent
             if (otherX + 1 == curX && otherY == curY) {
                 //check if far walls exist
@@ -433,24 +447,11 @@ public class QuoridorGameState extends GameState {
 
                 } //if for far walls
                 else {
-                    tempPos[0] = currentPlayer[0] - 1; //jump left over the adjacent player
+                    tempPos[0] -= 1; //jump left over the adjacent player
                     tempPos[1] = currentPlayer[1];
                 }
             }//if for player adjacency
-            //check if there are walls on left side
-            //check wall bot left
-            else if (curX != 0) {
-                if (vertWalls[curX - 1][curY]){
-                    return false;
-                }
-                if (curY != 0) {
-                    if (vertWalls[curX - 1][curY - 1]) {
-                        return false;
-                    }
-                }
-            }
-
-            tempPos[0] -= 1; //move player left one space
+            tempPos[0] = currentPlayer[0]-1; //move player left one space
             tempPos[1] = currentPlayer[1];
             return true;
 
@@ -476,6 +477,20 @@ public class QuoridorGameState extends GameState {
             if (curX == 0) //player is trying to move left side off board
             {
                 return false;
+            }
+            //check if there are walls on right side
+            if (curY != 0) {
+                if (vertWalls[curX][curY - 1]){
+                    return false;
+                }
+                if (vertWalls[curX][curY]) {
+                    return false;
+                }
+            }
+            else if (curY == 0) {
+                if (vertWalls[curX][curY]) {
+                    return false;
+                }
             }
             //check if players are adjacent
             if (otherX - 1 == curX && otherY == curY) {
@@ -504,28 +519,15 @@ public class QuoridorGameState extends GameState {
 
                 } //if for far walls
                 else {
-                    tempPos[0] = currentPlayer[0] + 1; //jump left over the adjacent player
+                    tempPos[0] += 1; //jump left over the adjacent player
                     tempPos[1] = currentPlayer[1];
                 }
             }//if for player adjacency
-            //check if there are walls on right side
-            else if (curY != 0) {
-                if (vertWalls[curX][curY - 1]){
-                    return false;
-                }
-                if (vertWalls[curX][curY]) {
-                    return false;
-                }
-            }
-            else if (curY == 0) {
-                if (vertWalls[curX][curY]) {
-                    return false;
-                }
-            }
 
 
 
-            tempPos[0] += 1; //move player left one space
+
+            tempPos[0] = currentPlayer[0] + 1; //move player left one space
             tempPos[1] = currentPlayer[1];
             return true;
 
