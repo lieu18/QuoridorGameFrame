@@ -587,18 +587,22 @@ public class QuoridorGameState extends GameState {
         if (turn == 0) {
             tempPos[0] = p1Pos[0];
             tempPos[1] = p1Pos[1];
+            if (wallDown)
+                p1RemainingWalls++;
             tempRemWalls = p1RemainingWalls;
         } else {
             tempPos[0] = p2Pos[0];
             tempPos[1] = p2Pos[1];
+            if (wallDown)
+                p2RemainingWalls++;
             tempRemWalls = p2RemainingWalls;
         }
 
         //update walls on board
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                tempHWalls[i][j] = horzWalls[i][j];
-                tempVWalls[i][j] = vertWalls[i][j];
+                tempHWalls[i][j] = false;
+                tempVWalls[i][j] = false;
             }
         }
         hasMoved = false;
