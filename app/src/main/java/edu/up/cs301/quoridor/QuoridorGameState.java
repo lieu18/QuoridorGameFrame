@@ -265,6 +265,7 @@ public class QuoridorGameState extends GameState {
         int curY = currentPlayer[1];
         int otherX = otherPlayer[0];
         int otherY = otherPlayer[1];
+        int jumpMod = 0;
         try {
             if (curY == 0) //player is trying to move past top
             {
@@ -306,12 +307,13 @@ public class QuoridorGameState extends GameState {
                 } //if for far walls
                 else {
                     tempPos[0] = currentPlayer[0];
-                    tempPos[1] = currentPlayer[1] - 1; //jump over the adjacent player
+                    //tempPos[1] = currentPlayer[1] - 1; //jump over the adjacent player
+                    jumpMod = -1;
                 }
             }//if for player adjacency
 
             tempPos[0] = curX;
-            tempPos[1] -= 1; //move player up one space
+            tempPos[1] = currentPlayer[1] - 1 + jumpMod; //move player up one space
             return true;
 
         } catch (ArrayIndexOutOfBoundsException ai) {
@@ -333,6 +335,7 @@ public class QuoridorGameState extends GameState {
         int curY = currentPlayer[1];
         int otherX = otherPlayer[0];
         int otherY = otherPlayer[1];
+        int jumpMod = 0;
         try {
             if (curY == 8) //player is trying to move past bot
             {
@@ -374,14 +377,15 @@ public class QuoridorGameState extends GameState {
 
                 } //if for far walls
                 else {
-                    currentPlayer[1] += 1; //jump over the adjacent player
+                    //currentPlayer[1] += 1; //jump over the adjacent player
+                    jumpMod = 1;
                 }
             }//if for player adjacency
 
 
 
             tempPos[0] = currentPlayer[0];
-            tempPos[1] = currentPlayer[1] + 1; //move player up one space
+            tempPos[1] = currentPlayer[1] + 1 + jumpMod; //move player up one space
             return true;
 
         } catch (ArrayIndexOutOfBoundsException ai) {
@@ -403,6 +407,7 @@ public class QuoridorGameState extends GameState {
         int curY = currentPlayer[1];
         int otherX = otherPlayer[0];
         int otherY = otherPlayer[1];
+        int jumpMod = 0;
         try {
             if (curX == 0) //player is trying to move left side off board
             {
@@ -447,11 +452,12 @@ public class QuoridorGameState extends GameState {
 
                 } //if for far walls
                 else {
-                    tempPos[0] -= 1; //jump left over the adjacent player
+                    jumpMod = -1;
+                    //tempPos[0] -= 1; //jump left over the adjacent player
                     tempPos[1] = currentPlayer[1];
                 }
             }//if for player adjacency
-            tempPos[0] = currentPlayer[0]-1; //move player left one space
+            tempPos[0] = currentPlayer[0]-1+jumpMod; //move player left one space
             tempPos[1] = currentPlayer[1];
             return true;
 
@@ -473,6 +479,7 @@ public class QuoridorGameState extends GameState {
         int curY = currentPlayer[1];
         int otherX = otherPlayer[0];
         int otherY = otherPlayer[1];
+        int jumpMod = 0;
         try {
             if (curX == 0) //player is trying to move left side off board
             {
@@ -519,7 +526,8 @@ public class QuoridorGameState extends GameState {
 
                 } //if for far walls
                 else {
-                    tempPos[0] += 1; //jump left over the adjacent player
+                    //tempPos[0] += 1; //jump left over the adjacent player
+                    jumpMod = 1;
                     tempPos[1] = currentPlayer[1];
                 }
             }//if for player adjacency
@@ -527,7 +535,7 @@ public class QuoridorGameState extends GameState {
 
 
 
-            tempPos[0] = currentPlayer[0] + 1; //move player left one space
+            tempPos[0] = currentPlayer[0] + 1 + jumpMod; //move player left one space
             tempPos[1] = currentPlayer[1];
             return true;
 

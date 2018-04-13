@@ -196,6 +196,48 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
             game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
         }
 
+        //check if adjacent in each direction
+        //adjacent in left
+        if(playerPos[0][1] == playerPos[1][1] &&
+                playerPos[turn][0] - 1 == playerPos[1-turn][0]){
+            if (x > curX + playerPos[turn][0] * margin - 2 * margin &&
+                    x < curX + playerPos[turn][0] * margin + squareSize - 2 * margin &&
+                    y > curY + playerPos[turn][1] * margin &&
+                    y < curY + playerPos[turn][1] * margin + squareSize) {
+                game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+            }
+        }
+        //adjacent in right
+        if(playerPos[0][1] == playerPos[1][1] &&
+                playerPos[turn][0] + 1 == playerPos[1-turn][0]){
+            if (x > curX + playerPos[turn][0] * margin + 2 * margin &&
+                    x < curX + playerPos[turn][0] * margin + squareSize + 2 * margin &&
+                    y > curY + playerPos[turn][1] * margin &&
+                    y < curY + playerPos[turn][1] * margin + squareSize) {
+                game.sendAction(new QuoridorMovePawn(this, Direction.RIGHT, false));
+            }
+        }
+        //adjacent in up
+        if(playerPos[0][0] == playerPos[1][0] &&
+                playerPos[turn][1] - 1 == playerPos[1-turn][1]){
+            if (x > curX + playerPos[turn][0] * margin &&
+                    x < curX + playerPos[turn][0] * margin + squareSize &&
+                    y > curY + playerPos[turn][1] * margin - 2*margin&&
+                    y < curY + playerPos[turn][1] * margin + squareSize - 2*margin) {
+                game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
+            }
+        }
+        //adjacent in down
+        if(playerPos[0][0] == playerPos[1][0] &&
+                playerPos[turn][1] + 1 == playerPos[1-turn][1]){
+            if (x > curX + playerPos[turn][0] * margin &&
+                    x < curX + playerPos[turn][0] * margin + squareSize &&
+                    y > curY + playerPos[turn][1] * margin + 2*margin&&
+                    y < curY + playerPos[turn][1] * margin + squareSize + 2*margin) {
+                game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, false));
+            }
+        }
+
         //check if every square is clickable
         for(int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
