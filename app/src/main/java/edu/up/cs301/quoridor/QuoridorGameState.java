@@ -26,7 +26,7 @@ public class QuoridorGameState extends GameState {
     private boolean[][] horzWalls, tempHWalls;
     private boolean[][] vertWalls, tempVWalls;
 
-    protected int p1RemainingWalls, p2RemainingWalls, tempRemWalls;
+    protected int p1RemainingWalls, p2RemainingWalls, tempRemWalls = 10;
 
     protected boolean wallDown = false;
     private boolean hasMoved = false;
@@ -538,12 +538,20 @@ public class QuoridorGameState extends GameState {
     }
 
     /**
+     * Starts new game
+     * @return true
+     */
+    public boolean newGame(){
+        init();
+        return true;
+    }
+
+    /**
      * Finalize temp values to reflect actual board changes.
      *
      * @return true. Always.
      */
     public boolean finalizeTurn() {
-        //TODO initilize tempRemWalls
         //TODO return if haven't moved or placed wall
         //check who's turn it is and update their values
         if (turn == 0) {
@@ -1057,9 +1065,9 @@ public class QuoridorGameState extends GameState {
         }
     }
 
-    public boolean newGame(){
-        init();
+    public boolean pathCheck() {
         return true;
     }
+
 
 }
