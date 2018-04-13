@@ -22,7 +22,7 @@ public class QuoridorSurfaceView extends SurfaceView {
 
     protected QuoridorGameState state;
 
-    private boolean[][] validPawnMove, wallSelected;
+    private boolean[][] validPawnMove;
 
 
     public QuoridorSurfaceView(Context context) {
@@ -60,7 +60,6 @@ public class QuoridorSurfaceView extends SurfaceView {
         seafoamGreenPaint = new Paint();
         seafoamGreenPaint.setColor(0xFF87DEB8);
 
-        wallSelected = new boolean[8][8];
         validPawnMove = new boolean[9][9];
 
         //TODO add playable gui

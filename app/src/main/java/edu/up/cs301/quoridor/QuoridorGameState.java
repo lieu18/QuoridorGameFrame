@@ -639,17 +639,17 @@ public class QuoridorGameState extends GameState {
             //checks if x,y coordinate clicked is 0,0
             //checks respective wall locations based on placement
             if (x == 0 && y == 0) {
-                if (tempHWalls[x + 1][y] && !tempVWalls[x][y + 1]) {
+                if (horzWalls[x + 1][y] && !vertWalls[x][y + 1]) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if (tempVWalls[x][y + 1] && !tempHWalls[x + 1][y]) {
+                } else if (vertWalls[x][y + 1] && !horzWalls[x + 1][y]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case - no walls surrounding so defaults to horizontal wall
-                else if (!tempHWalls[x + 1][y] && !tempVWalls[x][y + 1]) {
+                else if (!horzWalls[x + 1][y] && !vertWalls[x][y + 1]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -659,17 +659,17 @@ public class QuoridorGameState extends GameState {
             //checks if x,y coordinate clicked is 0,8
             //checks respective wall locations based on placement
             else if (x == 0 && y == 7) {
-                if ((tempHWalls[x + 1][y]) && (!tempVWalls[x][y - 1])) {
+                if ((horzWalls[x + 1][y]) && (!vertWalls[x][y - 1])) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if (tempVWalls[x][y - 1] && !tempHWalls[x + 1][y]) {
+                } else if (vertWalls[x][y - 1] && !horzWalls[x + 1][y]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case - no walls surrounding so defaults to horizontal wall
-                else if (!tempHWalls[x + 1][y] && !tempVWalls[x][y - 1]) {
+                else if (!horzWalls[x + 1][y] && !vertWalls[x][y - 1]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -678,17 +678,17 @@ public class QuoridorGameState extends GameState {
             }
             //checks if x,y coordinate clicked is 8,0
             else if (x == 7 && y == 0) {
-                if (tempHWalls[x - 1][y] && !tempVWalls[x][y + 1]) {
+                if (horzWalls[x - 1][y] && !vertWalls[x][y + 1]) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if (tempVWalls[x][y + 1] && !tempHWalls[x - 1][y]) {
+                } else if (vertWalls[x][y + 1] && !horzWalls[x - 1][y]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case
-                else if (!tempHWalls[x - 1][y] && !tempVWalls[x][y + 1]) {
+                else if (!horzWalls[x - 1][y] && !vertWalls[x][y + 1]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -697,17 +697,17 @@ public class QuoridorGameState extends GameState {
             }
             //checks if x,y coordinate clicked is 8,8
             else if (x == 7 && y == 7) {
-                if (tempHWalls[x - 1][y] && !tempVWalls[x][y - 1]) {
+                if (horzWalls[x - 1][y] && !vertWalls[x][y - 1]) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if (tempVWalls[x][y - 1] && !tempHWalls[x - 1][y]) {
+                } else if (vertWalls[x][y - 1] && !horzWalls[x - 1][y]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case
-                else if (!tempHWalls[x - 1][y] && !tempVWalls[x][y - 1]) {
+                else if (!horzWalls[x - 1][y] && !vertWalls[x][y - 1]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -716,17 +716,17 @@ public class QuoridorGameState extends GameState {
             }
             //checks if x coordinate clicked is 0, can't check for x-1 spot or OOB error would be thrown
             else if (x == 0) {
-                if (tempHWalls[x + 1][y] && (!tempVWalls[x][y - 1] || !tempVWalls[x][y + 1])) {
+                if (horzWalls[x + 1][y] && (!vertWalls[x][y - 1] || !vertWalls[x][y + 1])) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if ((tempVWalls[x][y - 1] || tempVWalls[x][y + 1]) && !tempHWalls[x + 1][y]) {
+                } else if ((vertWalls[x][y - 1] || vertWalls[x][y + 1]) && !horzWalls[x + 1][y]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case
-                else if (!tempHWalls[x + 1][y] && (!tempVWalls[x][y - 1] && !tempVWalls[x][y + 1])) {
+                else if (!horzWalls[x + 1][y] && (!vertWalls[x][y - 1] && !vertWalls[x][y + 1])) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -735,17 +735,17 @@ public class QuoridorGameState extends GameState {
             }
             //checks if x coordinate clicked is 8, can't check for x+1 spot or OOB error would be thrown
             else if (x == 7) {
-                if (tempHWalls[x - 1][y] && (!tempVWalls[x][y - 1] || !tempVWalls[x][y + 1])) {
+                if (horzWalls[x - 1][y] && (!vertWalls[x][y - 1] || !vertWalls[x][y + 1])) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if ((tempVWalls[x][y - 1] || tempVWalls[x][y + 1]) && !tempHWalls[x - 1][y]) {
+                } else if ((vertWalls[x][y - 1] || vertWalls[x][y + 1]) && !horzWalls[x - 1][y]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case
-                else if (!tempHWalls[x - 1][y] && (!tempVWalls[x][y - 1] && !tempVWalls[x][y + 1])) {
+                else if (!horzWalls[x - 1][y] && (!vertWalls[x][y - 1] && !vertWalls[x][y + 1])) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -754,17 +754,17 @@ public class QuoridorGameState extends GameState {
             }
             //checks if y coordinate clicked is 0, can't check for y-1 spot or OOB error would be thrown
             else if (y == 0) {
-                if ((tempHWalls[x - 1][y] || tempHWalls[x + 1][y]) && !tempVWalls[x][y + 1]) {
+                if ((horzWalls[x - 1][y] || horzWalls[x + 1][y]) && !vertWalls[x][y + 1]) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if (tempVWalls[x][y + 1] && (!tempHWalls[x - 1][y] || !tempHWalls[x + 1][y])) {
+                } else if (vertWalls[x][y + 1] && (!horzWalls[x - 1][y] || !horzWalls[x + 1][y])) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case
-                else if ((!tempHWalls[x - 1][y] && !tempHWalls[x + 1][y]) && !tempVWalls[x][y + 1]) {
+                else if ((!horzWalls[x - 1][y] && !horzWalls[x + 1][y]) && !vertWalls[x][y + 1]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -773,17 +773,17 @@ public class QuoridorGameState extends GameState {
             }
             //checks if y coordinate clicked is 0, can't check for y+1 spot or OOB error would be thrown
             else if (y == 7) {
-                if (((tempHWalls[x - 1][y]) || (tempHWalls[x + 1][y])) && (!tempVWalls[x][y - 1])) {
+                if (((horzWalls[x - 1][y]) || (horzWalls[x + 1][y])) && (!vertWalls[x][y - 1])) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if (tempVWalls[x][y - 1] && ((!tempHWalls[x - 1][y]) || (!tempHWalls[x + 1][y]))) {
+                } else if (tempVWalls[x][y - 1] && ((!horzWalls[x - 1][y]) || (!horzWalls[x + 1][y]))) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case
-                else if ((!tempHWalls[x - 1][y] && !tempHWalls[x + 1][y]) && !tempVWalls[x][y - 1]) {
+                else if ((!horzWalls[x - 1][y] && !horzWalls[x + 1][y]) && !vertWalls[x][y - 1]) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -793,17 +793,17 @@ public class QuoridorGameState extends GameState {
             //Default Case - x or y are not on the borders so have to check all 4 spots to make sure wall can be placed
             else {
                 //check if spot is available (horz and vert)
-                if ((tempHWalls[x - 1][y] || tempHWalls[x + 1][y]) && (!tempVWalls[x][y - 1] || !tempVWalls[x][y + 1])) {
+                if ((horzWalls[x - 1][y] || horzWalls[x + 1][y]) && (!vertWalls[x][y - 1] || !vertWalls[x][y + 1])) {
                     tempVWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
-                } else if ((tempVWalls[x][y - 1] || tempVWalls[x][y + 1]) && (!tempHWalls[x - 1][y] || !tempHWalls[x + 1][y])) {
+                } else if ((vertWalls[x][y - 1] || vertWalls[x][y + 1]) && (!horzWalls[x - 1][y] || !horzWalls[x + 1][y])) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
                 }
                 // Default Case - Horizontal wall is placed
-                else if ((!tempHWalls[x - 1][y] && !tempHWalls[x + 1][y]) && (!tempVWalls[x][y - 1] && !tempVWalls[x][y + 1])) {
+                else if ((!horzWalls[x - 1][y] && !horzWalls[x + 1][y]) && (!vertWalls[x][y - 1] && !vertWalls[x][y + 1])) {
                     tempHWalls[x][y] = true;
                     tempRemWalls--;
                     return true;
@@ -835,7 +835,7 @@ public class QuoridorGameState extends GameState {
         //checks if x,y coordinate clicked is 0,0
         if (x == 0 && y == 0) {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y + 1]) {
+                if (vertWalls[x][y + 1]) {
                     return false;
                 }
                 //Default Case - move is valid, switch hor wall to vert wall
@@ -845,7 +845,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x + 1][y]) {
+                if (horzWalls[x + 1][y]) {
                     return false;
                 }
                 //Default Case - move is valid, switch vert wall to hor wall
@@ -860,7 +860,7 @@ public class QuoridorGameState extends GameState {
         //checks if x,y coordinate clicked is 0,7
         else if (x == 0 && y == 7) {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y - 1]) {
+                if (vertWalls[x][y - 1]) {
                     return false;
                 } else {
                     tempVWalls[x][y] = true;
@@ -868,7 +868,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x + 1][y]) {
+                if (horzWalls[x + 1][y]) {
                     return false;
                 } else {
                     tempHWalls[x][y] = true;
@@ -881,7 +881,7 @@ public class QuoridorGameState extends GameState {
         //checks if x,y coordinate clicked is 7,0
         else if (x == 7 && y == 0) {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y + 1]) {
+                if (vertWalls[x][y + 1]) {
                     return false;
                 } else {
                     tempVWalls[x][y] = true;
@@ -889,7 +889,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x - 1][y]) {
+                if (horzWalls[x - 1][y]) {
                     return false;
                 } else {
                     tempHWalls[x][y] = true;
@@ -902,7 +902,7 @@ public class QuoridorGameState extends GameState {
         //checks if x,y coordinate clicked is 7,7
         else if (x == 7 && y == 7) {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y - 1]) {
+                if (vertWalls[x][y - 1]) {
                     return false;
                 } else {
                     tempVWalls[x][y] = true;
@@ -910,7 +910,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x - 1][y]) {
+                if (horzWalls[x - 1][y]) {
                     return false;
                 } else {
                     tempHWalls[x][y] = true;
@@ -923,7 +923,7 @@ public class QuoridorGameState extends GameState {
         //checks if x coordinate clicked is 0
         else if (x == 0) {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y - 1] || tempVWalls[x][y + 1]) {
+                if (vertWalls[x][y - 1] || vertWalls[x][y + 1]) {
                     return false;
                 } else {
                     tempVWalls[x][y] = true;
@@ -931,7 +931,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x + 1][y]) {
+                if (horzWalls[x + 1][y]) {
                     return false;
                 } else {
                     tempHWalls[x][y] = true;
@@ -944,7 +944,7 @@ public class QuoridorGameState extends GameState {
         //checks if x coordinate clicked is 7
         else if (x == 7) {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y - 1] || tempVWalls[x][y + 1]) {
+                if (vertWalls[x][y - 1] || vertWalls[x][y + 1]) {
                     return false;
                 } else {
                     tempVWalls[x][y] = true;
@@ -952,7 +952,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x - 1][y]) {
+                if (horzWalls[x - 1][y]) {
                     return false;
                 } else {
                     tempHWalls[x][y] = true;
@@ -965,7 +965,7 @@ public class QuoridorGameState extends GameState {
         //checks if y coordinate clicked is 0
         else if (y == 0) {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y + 1]) {
+                if (vertWalls[x][y + 1]) {
                     return false;
                 } else {
                     tempVWalls[x][y] = true;
@@ -973,7 +973,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x - 1][y] || tempHWalls[x + 1][y]) {
+                if (horzWalls[x - 1][y] || horzWalls[x + 1][y]) {
                     return false;
                 } else {
                     tempHWalls[x][y] = true;
@@ -986,7 +986,7 @@ public class QuoridorGameState extends GameState {
         //checks if y coordinate clicked is 7
         else if (y == 7) {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y - 1]) {
+                if (vertWalls[x][y - 1]) {
                     return false;
                 } else {
                     tempVWalls[x][y] = true;
@@ -994,7 +994,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x - 1][y] || tempHWalls[x + 1][y]) {
+                if (horzWalls[x - 1][y] || horzWalls[x + 1][y]) {
                     return false;
                 } else {
                     tempHWalls[x][y] = true;
@@ -1009,7 +1009,7 @@ public class QuoridorGameState extends GameState {
         //to make sure wall rotation is valid
         else {
             if (tempHWalls[x][y]) {
-                if (tempVWalls[x][y - 1] || tempVWalls[x][y + 1]) {
+                if (vertWalls[x][y - 1] || vertWalls[x][y + 1]) {
                     return false;
                 } else {
                     tempVWalls[x][y] = true;
@@ -1017,7 +1017,7 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else if (tempVWalls[x][y]) {
-                if (tempHWalls[x - 1][y] || tempHWalls[x + 1][y]) {
+                if (horzWalls[x - 1][y] || horzWalls[x + 1][y]) {
                     return false;
                 } else {
                     tempHWalls[x][y] = true;
