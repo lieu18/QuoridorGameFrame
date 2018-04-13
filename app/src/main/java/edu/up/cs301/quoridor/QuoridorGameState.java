@@ -59,6 +59,8 @@ public class QuoridorGameState extends GameState {
                 this.vertWalls[i][j] = g.vertWalls[i][j];
             }
         }
+        hasMoved = false;
+        wallDown = false;
     }
 
     private void init(){
@@ -80,6 +82,9 @@ public class QuoridorGameState extends GameState {
 
         this.tempPos = new int[]{this.p1Pos[0],this.p1Pos[1]};
         this.p1RemainingWalls = this.p2RemainingWalls = 10;
+
+        hasMoved = false;
+        wallDown = false;
     }
 
     public int getTurn()
@@ -207,7 +212,7 @@ public class QuoridorGameState extends GameState {
      * @return true if success, else false
      */
     public boolean movePawn(int player, Direction dir, boolean jump) {
-        if(hasMoved) {
+        if(wallDown) {
             return false;
         }
 
