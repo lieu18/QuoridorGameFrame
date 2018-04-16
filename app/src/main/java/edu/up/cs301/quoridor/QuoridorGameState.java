@@ -14,7 +14,6 @@ import android.util.Log;
  */
 
 
-
 public class QuoridorGameState extends GameState {
 
     //nux told me to
@@ -48,7 +47,7 @@ public class QuoridorGameState extends GameState {
         this.p1RemainingWalls = g.p1RemainingWalls;
         this.p2RemainingWalls = g.p2RemainingWalls;
 
-        this.tempPos = new int[]{g.tempPos[0],g.tempPos[1]};
+        this.tempPos = new int[]{g.tempPos[0], g.tempPos[1]};
         this.tempHWalls = new boolean[8][8];
         this.tempVWalls = new boolean[8][8];
         for (int i = 0; i < 8; i++) {
@@ -63,7 +62,7 @@ public class QuoridorGameState extends GameState {
         wallDown = false;
     }
 
-    private void init(){
+    private void init() {
         this.turn = 0;
         this.p1Pos = new int[]{4, 0};
         this.p2Pos = new int[]{4, 8};
@@ -71,7 +70,7 @@ public class QuoridorGameState extends GameState {
         this.vertWalls = new boolean[8][8];
         this.tempHWalls = new boolean[8][8];
         this.tempVWalls = new boolean[8][8];
-        this.tempPos = new int[]{0,0};
+        this.tempPos = new int[]{0, 0};
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -80,15 +79,14 @@ public class QuoridorGameState extends GameState {
             }
         }
 
-        this.tempPos = new int[]{this.p1Pos[0],this.p1Pos[1]};
+        this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
         this.p1RemainingWalls = this.p2RemainingWalls = 10;
 
         hasMoved = false;
         wallDown = false;
     }
 
-    public int getTurn()
-    {
+    public int getTurn() {
         return turn;
     }
 
@@ -110,42 +108,39 @@ public class QuoridorGameState extends GameState {
 
     /**
      * Get the location of a player on the board
+     *
      * @param player which player's position you want
      * @return x y coordinates of player
      */
-    public int[] getPlayerPos(int player)
-    {
+    public int[] getPlayerPos(int player) {
         return player == 0 ? p1Pos : p2Pos;
     }
-    public int[] getTempPlayerPos()
-    {
+
+    public int[] getTempPlayerPos() {
         return tempPos;
     }
 
-    public void setPlayerPos(int x, int y, int player)
-    {
-        if(player == 0)
-        {
+    public void setPlayerPos(int x, int y, int player) {
+        if (player == 0) {
             p1Pos[0] = x;
             p1Pos[1] = y;
-        }
-        else if(player == 1)
-        {
+        } else if (player == 1) {
             p2Pos[0] = x;
             p2Pos[1] = y;
         }
     }
 
     //TODO can we delete this safely?
+
     /**
      * Check if there is a wall placed at a given x y coordinate
-     * @param x x position to check
-     * @param y y position to check
+     *
+     * @param x   x position to check
+     * @param y   y position to check
      * @param dir 0 for horizontal, 1 for vertical
      * @return true if there is a wall
      */
-    public boolean checkForWall(int x, int y, int dir)
-    {
+    public boolean checkForWall(int x, int y, int dir) {
         return dir == 0 ? horzWalls[x][y] : vertWalls[x][y];
     }
 
@@ -212,7 +207,7 @@ public class QuoridorGameState extends GameState {
      * @return true if success, else false
      */
     public boolean movePawn(int player, Direction dir, boolean jump) {
-        if(wallDown) {
+        if (wallDown) {
             return false;
         }
 
@@ -383,7 +378,6 @@ public class QuoridorGameState extends GameState {
             }//if for player adjacency
 
 
-
             tempPos[0] = currentPlayer[0];
             tempPos[1] = currentPlayer[1] + 1 + jumpMod; //move player up one space
             return true;
@@ -391,7 +385,7 @@ public class QuoridorGameState extends GameState {
         } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
-        
+
     }
 
     /**
@@ -416,7 +410,7 @@ public class QuoridorGameState extends GameState {
             //check if there are walls on left side
             //check wall bot left
             if (curX != 0) {
-                if (vertWalls[curX - 1][curY]){
+                if (vertWalls[curX - 1][curY]) {
                     return false;
                 }
                 if (curY != 0) {
@@ -457,7 +451,7 @@ public class QuoridorGameState extends GameState {
                     tempPos[1] = currentPlayer[1];
                 }
             }//if for player adjacency
-            tempPos[0] = currentPlayer[0]-1+jumpMod; //move player left one space
+            tempPos[0] = currentPlayer[0] - 1 + jumpMod; //move player left one space
             tempPos[1] = currentPlayer[1];
             return true;
 
@@ -487,14 +481,13 @@ public class QuoridorGameState extends GameState {
             }
             //check if there are walls on right side
             if (curY != 0) {
-                if (vertWalls[curX][curY - 1]){
+                if (vertWalls[curX][curY - 1]) {
                     return false;
                 }
                 if (vertWalls[curX][curY]) {
                     return false;
                 }
-            }
-            else if (curY == 0) {
+            } else if (curY == 0) {
                 if (vertWalls[curX][curY]) {
                     return false;
                 }
@@ -533,8 +526,6 @@ public class QuoridorGameState extends GameState {
             }//if for player adjacency
 
 
-
-
             tempPos[0] = currentPlayer[0] + 1 + jumpMod; //move player left one space
             tempPos[1] = currentPlayer[1];
             return true;
@@ -547,9 +538,10 @@ public class QuoridorGameState extends GameState {
 
     /**
      * Starts new game
+     *
      * @return true
      */
-    public boolean newGame(){
+    public boolean newGame() {
         init();
         return true;
     }
@@ -642,7 +634,7 @@ public class QuoridorGameState extends GameState {
     */
     //TODO: Figure out how to deal with closed path
     public boolean placeWall(int player, int x, int y) {
-        if(hasMoved){
+        if (hasMoved) {
             return false;
         }
         //checks for player turn, returns false if not turn
@@ -661,8 +653,7 @@ public class QuoridorGameState extends GameState {
                 return true;
             } else
                 return false;
-        }
-        else
+        } else
             return false;
     }
 
@@ -853,8 +844,7 @@ public class QuoridorGameState extends GameState {
                 } else
                     return false;
             }
-        }
-        else
+        } else
             return false;
     }
 
@@ -1068,13 +1058,91 @@ public class QuoridorGameState extends GameState {
                     return true;
                 }
             } else
-                System.out.println("Hit the Else statement");
                 return false;
         }
     }
 
-    public boolean pathCheck() {
-        return true;
+    private boolean checkWall(int x, int y, Direction dir) {
+        //check for out of bounds
+        if (x < 0 || y < 0 || x > 8 || y > 8) {
+            return false;
+        }
+        //check for direction, if up or down, check for horizontal wall
+        //else check for vertical wall because moving left or right
+        if (dir == Direction.UP || dir == Direction.DOWN) {
+            if (horzWalls[x][y])
+                return true;
+        } else {
+            if (vertWalls[x][y])
+                return true;
+        }
+        return false;
+    }
+
+    //pass in opposite player whose winnable path is being checked
+    //TODO: possible issue with not seeing jumps
+    private boolean checkPawn(int x, int y, int player) {
+        //check for out of bounds
+        if (x < 0 || y < 0 || x > 9 || y > 9) {
+            return false;
+        }
+        //check if pawn exists
+        if (new int[]{x, y} == getPlayerPos(player))
+            return true;
+        //no pawn at square
+        return false;
+    }
+
+    /**
+     External Citation
+     Date: 16 April 2018
+     Problem: Couldn't figure out the best way to toggle player value (0 or 1)
+        when passing it to checkPawn method
+     Resource:
+     http:https://stackoverflow.com/questions/2411023/
+        most-elegant-way-to-change-0-to-1-and-vice-versa
+     Solution: I used the example code from this post (XOR)
+     */
+    //TODO: possible issue with 9 squares to check but only 8 walls
+    //TODO: do I write this code twice with the different player? Or easier way?
+    private boolean pathCheck(int x, int y, int player) {
+        if (player == 0 && y == 8) //is this top player?
+                return true;
+        else if (player == 1 && y == 0) //bottom player?
+                return true;
+
+        // will this even work?? player on top will go down, but then up next call
+        //possible reordering? or do i need to know player?
+        //check UP direction, if square is accessible, recurse.
+        if (y != 0) {
+            if (!checkWall(x, y, Direction.UP)
+                    && !checkPawn(x, y - 1, player ^= 1)) {
+                pathCheck(x, y - 1, 0);
+            }
+        }
+        //check DOWN direction, if square is accessible, recurse.
+        if (y != 8) {
+            if (!checkWall(x, y, Direction.DOWN)
+                    && !checkPawn(x, y + 1, player ^= 1)) {
+                pathCheck(x, y + 1, 0);
+            }
+        }
+        //check LEFT direction, if square is accessible, recurse.
+        if (x != 0) {
+            if (!checkWall(x, y, Direction.LEFT)
+                    && !checkPawn(x - 1, y, player ^= 1)) {
+                pathCheck(x - 1, y, 0);
+            }
+        }
+        //check RIGHT direction, if square is accessible, recurse.
+        if (x != 8) {
+            if (!checkWall(x, y, Direction.RIGHT)
+                    && !checkPawn(x + 1, y, player ^= 1)) {
+                pathCheck(x + 1, y, 0);
+            }
+        }
+        //path wouldn't be winnable if wall was placed
+        return false;
     }
 
 
