@@ -38,7 +38,6 @@ public class QuoridorGameState extends GameState {
 
     public QuoridorGameState() {
         init();
-
     }
 
     //copy ctor
@@ -67,10 +66,11 @@ public class QuoridorGameState extends GameState {
         wallDown = false;
     }
 
+    //TODO change back after testing
     private void init() {
         this.turn = 0;
-        this.p1Pos = new int[]{4, 0};
-        this.p2Pos = new int[]{4, 8};
+        this.p1Pos = new int[]{3, 4};
+        this.p2Pos = new int[]{4, 4};
         this.horzWalls = new boolean[8][8];
         this.vertWalls = new boolean[8][8];
         this.tempHWalls = new boolean[8][8];
@@ -83,6 +83,10 @@ public class QuoridorGameState extends GameState {
                 this.tempHWalls[i][j] = this.tempVWalls[i][j] = false;
             }
         }
+
+        //TODO remove after test
+            this.vertWalls[4][3] = true;
+            //this.vertWalls[4][4] = true;
 
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
         this.p1RemainingWalls = this.p2RemainingWalls = 10;
