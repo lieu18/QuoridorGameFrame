@@ -4,6 +4,8 @@ import edu.up.cs301.game.infoMsg.GameState;
 
 import android.util.Log;
 
+import java.util.Stack;
+
 /**
  * Created by manalili18 on 2/21/2018.
  *
@@ -29,6 +31,9 @@ public class QuoridorGameState extends GameState {
 
     protected boolean wallDown = false;
     private boolean hasMoved = false;
+
+    private boolean visitedSpot[][] = new boolean[9][9];
+    private boolean initCheck = false; //used for initializing pathCheck array
 
 
     public QuoridorGameState() {
@@ -642,7 +647,7 @@ public class QuoridorGameState extends GameState {
             return false;
         if (!wallDown) {
             //check bounds by calling method
-            if (borderPlaceCheck(player, x, y)) {
+            if (borderPlaceCheck(player, x, y)) { //&& pathForAll(x, y)) {
                 wallDown = true;
                 //set temp wall variable to respective player's remaining walls
                 if (player == 0)
@@ -852,11 +857,11 @@ public class QuoridorGameState extends GameState {
      * Checks for player turn
      * Calls borderRotateCheck method to see if rotate is valid
      */
-    //TODO: how are we going to identify newly placed walls? does the framework handle this?
     public boolean rotateWall(int player, int x, int y) {
         //checks for player turn, returns false if not turn
         if (player != turn)
             return false;
+
         return borderRotateCheck(x, y);
     }
 
@@ -1079,6 +1084,8 @@ public class QuoridorGameState extends GameState {
         return false;
     }
 
+
+    /*
     //pass in opposite player whose winnable path is being checked
     //TODO: possible issue with not seeing jumps
     private boolean checkPawn(int x, int y, int player) {
@@ -1092,53 +1099,78 @@ public class QuoridorGameState extends GameState {
         //no pawn at square
         return false;
     }
+    */
 
-    /**
-     External Citation
-     Date: 16 April 2018
-     Problem: Couldn't figure out the best way to toggle player value (0 or 1)
-        when passing it to checkPawn method
-     Resource:
-     http:https://stackoverflow.com/questions/2411023/
-        most-elegant-way-to-change-0-to-1-and-vice-versa
-     Solution: I used the example code from this post (XOR)
-     */
+
+    private boolean[][] initChecker() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                visitedSpot[i][j] = false;
+            }
+        }
+        return visitedSpot;
+    }
+
+    private boolean pathForAll(int x, int y) {
+        if (pathCheck(x, y, 0)) {
+            initCheck = false;
+            if (pathCheck(x, y, 1)) {
+                initCheck = false;
+                return true;
+            }
+        }
+        else
+            return false;
+
+        return false;
+    }
+
     //TODO: possible issue with 9 squares to check but only 8 walls
     //TODO: do I write this code twice with the different player? Or easier way?
     private boolean pathCheck(int x, int y, int player) {
-        if (player == 0 && y == 8) //is this top player?
-                return true;
-        else if (player == 1 && y == 0) //bottom player?
-                return true;
+        if (!initCheck) {
+            initChecker();
+            initCheck = true;
+        }
+        if (player == 0 && y == 8) //top player
+            return true;
+        else if (player == 1 && y == 0) //bottom player
+            return true;
+        //top player, ordering of path directions change
+        //if (player == 0) {
+        //check LEFT direction, if square is accessible, recurse.
 
-        // will this even work?? player on top will go down, but then up next call
-        //possible reordering? or do i need to know player?
-        //check UP direction, if square is accessible, recurse.
-        if (y != 0) {
-            if (!checkWall(x, y, Direction.UP)
-                    && !checkPawn(x, y - 1, player ^= 1)) {
-                pathCheck(x, y - 1, 0);
-            }
-        }
-        //check DOWN direction, if square is accessible, recurse.
-        if (y != 8) {
-            if (!checkWall(x, y, Direction.DOWN)
-                    && !checkPawn(x, y + 1, player ^= 1)) {
-                pathCheck(x, y + 1, 0);
-            }
-        }
+        if (y < 0 || y >=  8)
+            return false;
+        if (x < 0 || x >=  8)
+            return false;
+
+        if (visitedSpot[x][y])
+            return false;
+
+        visitedSpot [x][y] = true;
         //check LEFT direction, if square is accessible, recurse.
         if (x != 0) {
-            if (!checkWall(x, y, Direction.LEFT)
-                    && !checkPawn(x - 1, y, player ^= 1)) {
-                pathCheck(x - 1, y, 0);
+            if (!checkWall(x, y, Direction.LEFT)) {
+                pathCheck(x - 1, y, player);
             }
         }
         //check RIGHT direction, if square is accessible, recurse.
         if (x != 8) {
-            if (!checkWall(x, y, Direction.RIGHT)
-                    && !checkPawn(x + 1, y, player ^= 1)) {
-                pathCheck(x + 1, y, 0);
+            if (!checkWall(x, y, Direction.RIGHT)) {
+                pathCheck(x + 1, y, player);
+            }
+        }
+        //check UP direction, if square is accessible, recurse.
+        if (y != 0) {
+            if (!checkWall(x, y, Direction.UP)) {
+                pathCheck(x, y - 1, player);
+            }
+        }
+        //check DOWN direction, if square is accessible, recurse.
+        if (y != 8) {
+            if (!checkWall(x, y, Direction.DOWN)) {
+                pathCheck(x, y + 1, player);
             }
         }
         //path wouldn't be winnable if wall was placed
