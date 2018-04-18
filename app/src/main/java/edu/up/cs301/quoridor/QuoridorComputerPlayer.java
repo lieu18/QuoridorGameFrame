@@ -52,12 +52,10 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
         //postition of player 2
         int[] otherPos = qgs.getPlayerPos(1-turn);
 
-
-
         canL = qgsAttempt.moveLeft(curPos,otherPos,false);
-        canR = qgsAttempt.moveLeft(curPos,otherPos,false);
-        canU = qgsAttempt.moveLeft(curPos,otherPos,false);
-        canD = qgsAttempt.moveLeft(curPos,otherPos,false);
+        canR = qgsAttempt.moveRight(curPos,otherPos,false);
+        canU = qgsAttempt.moveUp(curPos,otherPos,false);
+        canD = qgsAttempt.moveDown(curPos,otherPos,false);
 
         switch(randy.nextInt(2)){
             case 0:

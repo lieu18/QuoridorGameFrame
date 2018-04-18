@@ -251,6 +251,8 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
 
         //TODO double check all array indices out of bounds.
+        //specifically check x and y for over the top out of bounds
+        //TODO test edge quoridor jumps
         //quoridor jumps (aka advanced jump)
 
         //up TODO not tested lol
