@@ -28,6 +28,7 @@ public final class R {
         public static final int ic_action_search=0x7f020000;
         public static final int ic_launcher=0x7f020001;
         public static final int purple_delete_button=0x7f020002;
+        public static final int quoridor=0x7f020003;
     }
     public static final class id {
         public static final int addPlayerButton=0x7f09000d;
@@ -47,7 +48,8 @@ public final class R {
         public static final int ipCodeLabel=0x7f090009;
         public static final int localGameTab=0x7f090003;
         public static final int localTabLayout=0x7f090004;
-        public static final int menu_settings=0x7f09003b;
+        public static final int menu_how_to_play=0x7f09003b;
+        public static final int menu_settings=0x7f09003c;
         public static final int newGameButton=0x7f090019;
         public static final int opponentName=0x7f09001d;
         public static final int padding10Bot=0x7f090029;
@@ -116,17 +118,18 @@ public final class R {
         public static final int guest=0x7f070006;
         public static final int hello_world=0x7f070007;
         public static final int local_tab=0x7f070008;
-        public static final int menu_settings=0x7f070009;
-        public static final int name_label=0x7f07000a;
-        public static final int player_name=0x7f07000b;
-        public static final int player_type=0x7f07000c;
-        public static final int remote_tab=0x7f07000d;
-        public static final int remove_player=0x7f07000e;
-        public static final int save_config=0x7f07000f;
-        public static final int save_config_as_default=0x7f070010;
-        public static final int server_ip_code=0x7f070011;
-        public static final int start_the_game=0x7f070012;
-        public static final int title_activity_game_main=0x7f070013;
+        public static final int menu_how_to_play=0x7f070009;
+        public static final int menu_settings=0x7f07000a;
+        public static final int name_label=0x7f07000b;
+        public static final int player_name=0x7f07000c;
+        public static final int player_type=0x7f07000d;
+        public static final int remote_tab=0x7f07000e;
+        public static final int remove_player=0x7f07000f;
+        public static final int save_config=0x7f070010;
+        public static final int save_config_as_default=0x7f070011;
+        public static final int server_ip_code=0x7f070012;
+        public static final int start_the_game=0x7f070013;
+        public static final int title_activity_game_main=0x7f070014;
     }
     public static final class style {
         public static final int AppTheme=0x7f040000;
