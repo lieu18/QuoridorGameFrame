@@ -87,11 +87,11 @@ public class QuoridorGameState extends GameState {
         }
 
 
-        //TODO this is their testing
-        this.p1Pos = new int[]{4, 4};
-        this.p2Pos = new int[]{3, 4};
-        this.vertWalls[2][4] = true;
-        this.vertWalls[5][4] = true;
+//        //TODO this is their testing
+//        this.p1Pos = new int[]{4, 4};
+//        this.p2Pos = new int[]{3, 4};
+//        this.vertWalls[2][4] = true;
+//        this.vertWalls[5][4] = true;
 
         //TODO End testing
         //TODO remove after test
@@ -262,7 +262,7 @@ public class QuoridorGameState extends GameState {
                 result = false;
                 Log.i("movePawn", "Something went wrong");
         }
-        hasMoved = true;
+        hasMoved = result ? true : false;
         return result;
     }
 
@@ -281,10 +281,18 @@ public class QuoridorGameState extends GameState {
      * @return list of walls relevant to current position
      */
     private boolean[][] getRelevantWalls(int x, int y){
-        //if invalid inputs return null
-        if(x < 0 || y < 0 || x > 8 || y > 8) return null;
 
         boolean[][] result = new boolean[2][12];
+
+        //init result
+        for(int i=0; i<2; i++){
+            for(int j=0; j<12; j++){
+                result[i][j] = false;
+            }
+        }
+
+        //if invalid inputs return null
+        if(x < 0 || y < 0 || x > 8 || y > 8) return result;
 
         //walls 2 above x,y
         if(y - 2 >= 0) {

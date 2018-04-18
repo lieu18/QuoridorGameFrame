@@ -250,9 +250,10 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
 
 
+        //TODO double check all array indices out of bounds.
         //quoridor jumps (aka advanced jump)
 
-        //up
+        //up TODO not tested lol
         if (playerPos[0][0] == playerPos[1][0] &&
                 playerPos[turn][1] - 1 == playerPos[1 - turn][1]) {
 
@@ -369,7 +370,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
             //wall on BOT right
             //check for outOfBounds
-            if(curPlayer[0] >= 0 && curPlayer[1]+1 >= 0) {
+            if(curPlayer[0] >= 0 && curPlayer[1]+1 >= 0 && curPlayer[1]+1 <= 7) {
                 //check actual wall
                 if (horzWalls[curPlayer[0]][curPlayer[1]+1]) {
                     //check location clicked
@@ -484,7 +485,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
             //wall on TOP left
             //check for outOfBounds
-            if(curPlayer[0]+1 >= 0 && curPlayer[1]-1 <= 7) {
+            if(curPlayer[0]-2 >= 0 && curPlayer[1]-1 <= 7) {
                 //check actual wall
                 if (vertWalls[curPlayer[0]-2][curPlayer[1]-1]) {
                     //check location clicked
