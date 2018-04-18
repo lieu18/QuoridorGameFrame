@@ -335,7 +335,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                         y < curY + playerPos[turn][1] * margin + squareSize + margin) {
                     game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, true));
                 }
-                //up right
+                //down'' right
                 if (x > curX + playerPos[turn][0] * margin + margin &&
                         x < curX + playerPos[turn][0] * margin + squareSize + margin &&
                         y > curY + playerPos[turn][1] * margin + margin &&

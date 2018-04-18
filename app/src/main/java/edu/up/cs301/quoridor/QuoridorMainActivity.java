@@ -45,6 +45,12 @@ public class QuoridorMainActivity extends GameMainActivity {
 
         //TODO add smart computer
 
+        playerTypes.add(new GamePlayerType("Computer Player (Smart)") {
+            public GamePlayer createPlayer(String name) {
+                return new QuoridorSmartComputerPlayer(name);
+            }
+        });
+
         // Create a game configuration class for Quoridor
         GameConfig defaultConfig = new GameConfig(playerTypes, 2,2, "Quoridor", PORT_NUMBER);
 
