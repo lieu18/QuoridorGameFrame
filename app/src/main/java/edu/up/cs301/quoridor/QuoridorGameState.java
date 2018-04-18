@@ -69,8 +69,11 @@ public class QuoridorGameState extends GameState {
     //TODO change back after testing
     private void init() {
         this.turn = 0;
-        this.p1Pos = new int[]{3, 4};
-        this.p2Pos = new int[]{4, 4};
+        this.p1Pos = new int[]{4, 0};
+        this.p2Pos = new int[]{4, 8};
+        //TODO this is their testing
+        //this.p1Pos = new int[]{3, 0};
+        //this.p2Pos = new int[]{4, 4};
         this.horzWalls = new boolean[8][8];
         this.vertWalls = new boolean[8][8];
         this.tempHWalls = new boolean[8][8];
@@ -85,8 +88,8 @@ public class QuoridorGameState extends GameState {
         }
 
         //TODO remove after test
-            this.vertWalls[4][3] = true;
-            //this.vertWalls[4][4] = true;
+        //this.vertWalls[4][3] = true;
+        //this.vertWalls[4][4] = true;
 
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
         this.p1RemainingWalls = this.p2RemainingWalls = 10;
@@ -561,7 +564,13 @@ public class QuoridorGameState extends GameState {
      * @return true. Always.
      */
     public boolean finalizeTurn() {
-        //TODO return if haven't moved or placed wall
+        int p1Pos[] = getPlayerPos(0);
+        //return if haven't moved or placed wall
+        if (!hasMoved)
+            return false;
+        //check for path if wall was placed
+        if (wallDown && !pathForAll(p1Pos[0], p1Pos[1]))
+            return false;
         //check who's turn it is and update their values
         if (turn == 0) {
             p1Pos[0] = tempPos[0];
@@ -1116,66 +1125,60 @@ public class QuoridorGameState extends GameState {
     }
 
     private boolean pathForAll(int x, int y) {
+        int p2Pos[] = getPlayerPos(1);
         if (pathCheck(x, y, 0)) {
             initCheck = false;
-            if (pathCheck(x, y, 1)) {
+            if (pathCheck(p2Pos[0], p2Pos[1], 1)) {
                 initCheck = false;
                 return true;
             }
-        }
-        else
+        } else
             return false;
 
         return false;
     }
 
-    //TODO: possible issue with 9 squares to check but only 8 walls
-    //TODO: do I write this code twice with the different player? Or easier way?
     private boolean pathCheck(int x, int y, int player) {
+        int[] playerPos = new int[]{x,y};
+        int opPlayer = ((player + 1) % 2);
         if (!initCheck) {
             initChecker();
             initCheck = true;
         }
+        //base cases, checking if player made winnable square/s
         if (player == 0 && y == 8) //top player
             return true;
         else if (player == 1 && y == 0) //bottom player
             return true;
-        //top player, ordering of path directions change
-        //if (player == 0) {
-        //check LEFT direction, if square is accessible, recurse.
 
-        if (y < 0 || y >=  8)
-            return false;
-        if (x < 0 || x >=  8)
+        if ((y < 0 || y >= 8) || (x < 0 || x >= 8))
             return false;
 
         if (visitedSpot[x][y])
             return false;
 
-        visitedSpot [x][y] = true;
+        visitedSpot[x][y] = true;
+
         //check LEFT direction, if square is accessible, recurse.
-        if (x != 0) {
-            if (!checkWall(x, y, Direction.LEFT)) {
-                pathCheck(x - 1, y, player);
-            }
+        //TODO: figure out jump boolean, how used, ask PHILLIP & DYLAN!
+        if (moveLeft(playerPos, getPlayerPos(opPlayer), false)) {
+            tempPos = getPlayerPos(player);
+            pathCheck(x - 1, y, player);
         }
         //check RIGHT direction, if square is accessible, recurse.
-        if (x != 8) {
-            if (!checkWall(x, y, Direction.RIGHT)) {
-                pathCheck(x + 1, y, player);
-            }
+        else if (moveRight(playerPos, getPlayerPos(opPlayer), false)) {
+            tempPos = getPlayerPos(player);
+            pathCheck(x + 1, y, player);
         }
         //check UP direction, if square is accessible, recurse.
-        if (y != 0) {
-            if (!checkWall(x, y, Direction.UP)) {
-                pathCheck(x, y - 1, player);
-            }
+        else if (moveUp(playerPos, getPlayerPos(opPlayer), false)) {
+            tempPos = getPlayerPos(player);
+            pathCheck(x, y - 1, player);
         }
         //check DOWN direction, if square is accessible, recurse.
-        if (y != 8) {
-            if (!checkWall(x, y, Direction.DOWN)) {
-                pathCheck(x, y + 1, player);
-            }
+        else if (moveDown(playerPos, getPlayerPos(opPlayer), false)) {
+            tempPos = getPlayerPos(player);
+            pathCheck(x, y + 1, player);
         }
         //path wouldn't be winnable if wall was placed
         return false;
