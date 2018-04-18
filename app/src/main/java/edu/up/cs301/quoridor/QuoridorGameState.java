@@ -569,8 +569,26 @@ public class QuoridorGameState extends GameState {
         if (!hasMoved)
             return false;
         //check for path if wall was placed
-        if (wallDown && !pathForAll(p1Pos[0], p1Pos[1]))
+        /*
+        //TODO: finish pathForAll and redrawing when illegal wall placed
+        if (wallDown && !pathForAll(p1Pos[0], p1Pos[1])) {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    if (tempHWalls[i][j])
+                        tempHWalls[i][j] = false;
+                    else if (tempVWalls[i][j])
+                        tempVWalls[i][j] = false;
+                }
+            }
+            if (turn == 0)
+                p1RemainingWalls++;
+            else
+                p2RemainingWalls++;
+            hasMoved = false;
+            wallDown = false;
             return false;
+        }
+        */
         //check who's turn it is and update their values
         if (turn == 0) {
             p1Pos[0] = tempPos[0];
@@ -1126,9 +1144,9 @@ public class QuoridorGameState extends GameState {
 
     private boolean pathForAll(int x, int y) {
         int p2Pos[] = getPlayerPos(1);
-        if (pathCheck(x, y, 0)) {
+        if (pathCheck(x, y, 0, x, y)) {
             initCheck = false;
-            if (pathCheck(p2Pos[0], p2Pos[1], 1)) {
+            if (pathCheck(p2Pos[0], p2Pos[1], 1, p2Pos[0], p2Pos[1])) {
                 initCheck = false;
                 return true;
             }
@@ -1138,9 +1156,16 @@ public class QuoridorGameState extends GameState {
         return false;
     }
 
-    private boolean pathCheck(int x, int y, int player) {
+    private boolean pathCheck(int x, int y, int player, int permX, int permY) {
         int[] playerPos = new int[]{x,y};
         int opPlayer = ((player + 1) % 2);
+        int permPos[] = new int []{permX, permY};
+        boolean canLeft = moveLeft(playerPos, getPlayerPos(opPlayer), false);
+        boolean canRight = moveRight(playerPos, getPlayerPos(opPlayer), false);;
+        boolean canUp = moveUp(playerPos, getPlayerPos(opPlayer), false);
+        boolean canDown = moveDown(playerPos, getPlayerPos(opPlayer), false);
+
+
         if (!initCheck) {
             initChecker();
             initCheck = true;
@@ -1161,24 +1186,28 @@ public class QuoridorGameState extends GameState {
 
         //check LEFT direction, if square is accessible, recurse.
         //TODO: figure out jump boolean, how used, ask PHILLIP & DYLAN!
-        if (moveLeft(playerPos, getPlayerPos(opPlayer), false)) {
+        if (canLeft && !visitedSpot[x-1][y]) {
+            setPlayerPos(permPos[0], permPos[1], player);
             tempPos = getPlayerPos(player);
-            pathCheck(x - 1, y, player);
+            pathCheck(x - 1, y, player, permX, permY);
         }
         //check RIGHT direction, if square is accessible, recurse.
-        else if (moveRight(playerPos, getPlayerPos(opPlayer), false)) {
+        else if (canRight && !visitedSpot[x+1][y]) {
+            setPlayerPos(permPos[0], permPos[1], player);
             tempPos = getPlayerPos(player);
-            pathCheck(x + 1, y, player);
+            pathCheck(x + 1, y, player, permX, permY);
         }
         //check UP direction, if square is accessible, recurse.
-        else if (moveUp(playerPos, getPlayerPos(opPlayer), false)) {
+        else if (canUp && !visitedSpot[x][y+1]) {
+            setPlayerPos(permPos[0], permPos[1], player);
             tempPos = getPlayerPos(player);
-            pathCheck(x, y - 1, player);
+            pathCheck(x, y - 1, player, permX, permY);
         }
         //check DOWN direction, if square is accessible, recurse.
-        else if (moveDown(playerPos, getPlayerPos(opPlayer), false)) {
+        else if (canDown && !visitedSpot[x][y-1]) {
+            setPlayerPos(permPos[0], permPos[1], player);
             tempPos = getPlayerPos(player);
-            pathCheck(x, y + 1, player);
+            pathCheck(x, y + 1, player, permX, permY);
         }
         //path wouldn't be winnable if wall was placed
         return false;
