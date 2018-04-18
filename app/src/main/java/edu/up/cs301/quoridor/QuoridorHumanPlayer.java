@@ -302,7 +302,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
             //wall on top right
             //check for outOfBounds
-            if(curPlayer[0] >= 0 && curPlayer[1]-2 >= 0) {
+            if(curPlayer[0] >= 0 && curPlayer[1]-2 >= 0 && curPlayer[0] < 8) {
                 //check actual wall
                 if (horzWalls[curPlayer[0]][curPlayer[1]-2]) {
                     //check location clicked
@@ -418,7 +418,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
             //wall on TOP RIGHT
             //check for outOfBounds
-            if(curPlayer[0]+1 >= 0 && curPlayer[1]-1 <= 7) {
+            if(curPlayer[0]+1 <= 7 && curPlayer[1]-1 >= 0) {
                 //check actual wall
                 if (vertWalls[curPlayer[0]+1][curPlayer[1]-1]) {
                     //check location clicked
@@ -441,7 +441,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
             //wall on BOT right
             //check for outOfBounds
-            if(curPlayer[0]+1 >= 0 && curPlayer[1] >= 0) {
+            if(curPlayer[0]+1 <= 7 && curPlayer[1] <= 7) {
                 //check actual wall
                 if (vertWalls[curPlayer[0]+1][curPlayer[1]]) {
                     //check location clicked
@@ -487,7 +487,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
             //wall on TOP left
             //check for outOfBounds
-            if(curPlayer[0]-2 >= 0 && curPlayer[1]-1 <= 7) {
+            if(curPlayer[0]-2 >= 0 && curPlayer[1]-1 >= 0) {
                 //check actual wall
                 if (vertWalls[curPlayer[0]-2][curPlayer[1]-1]) {
                     //check location clicked
@@ -510,7 +510,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
             //wall on BOT left
             //check for outOfBounds
-            if(curPlayer[0]+1 >= 0 && curPlayer[1] >= 0) {
+            if(curPlayer[0]-2 >= 0 && curPlayer[1] <= 7) {
                 //check actual wall
                 if (vertWalls[curPlayer[0]-2][curPlayer[1]]) {
                     //check location clicked

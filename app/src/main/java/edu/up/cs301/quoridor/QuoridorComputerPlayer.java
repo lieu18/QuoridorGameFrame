@@ -14,7 +14,9 @@ import edu.up.cs301.game.infoMsg.NotYourTurnInfo;
 
 public class QuoridorComputerPlayer extends GameComputerPlayer {
 
-    Random randy;
+    private Random randy;
+    private QuoridorGameState tempQgs;
+
 
     /**
      * constructor
@@ -42,32 +44,44 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
         int turn = qgs.getTurn();
         if(turn != this.getPlayerNum()) return;
 
-        QuoridorGameState qgsAttempt = new QuoridorGameState(qgs);
+        qgs.placeWall(turn,0,0);
+        qgs.undo();
+
+        tempQgs = new QuoridorGameState(qgs);
 
         boolean canL, canR, canU, canD;
         canL = canR = canU = canD = false;
 
         //postition of player 1
         int[] curPos = qgs.getPlayerPos(turn);
+        int curWall = this.getPlayerNum() == 0 ? qgs.p1RemainingWalls : qgs.p2RemainingWalls;
         //postition of player 2
         int[] otherPos = qgs.getPlayerPos(1-turn);
 
-        canL = qgsAttempt.moveLeft(curPos,otherPos,false);
-        canR = qgsAttempt.moveRight(curPos,otherPos,false);
-        canU = qgsAttempt.moveUp(curPos,otherPos,false);
-        canD = qgsAttempt.moveDown(curPos,otherPos,false);
 
-        switch(randy.nextInt(2)){
-            case 0:
-                move(canL, canR, canU, canD);
-                break;
-            case 1:
-                move(canL, canR, canU, canD);
-                //placeWall();
-                break;
-            default:
-                Log.i("Oh, this sho","This is a meaningful statement.");
-                break;
+
+        canL = tempQgs.moveLeft(curPos,otherPos,false);
+        canR = tempQgs.moveRight(curPos,otherPos,false);
+        canU = tempQgs.moveUp(curPos,otherPos,false);
+        canD = tempQgs.moveDown(curPos,otherPos,false);
+
+        tempQgs.undo();
+
+        if(curWall > 0) {
+            switch (randy.nextInt(2)) {
+                case 0:
+                    move(canL, canR, canU, canD);
+                    break;
+                case 1:
+                    placeWall();
+                    break;
+                default:
+                    Log.i("computer:move/wall", "This shouldn't execute.");
+                    break;
+            }
+        }
+        else {
+            move(canL, canR, canU, canD);
         }
 
         //game.sendAction(new QuoridorMovePawn(this, Direction.UP, false));
@@ -115,6 +129,28 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
     }
 
     private void placeWall(){
+        boolean validMove = false;
+        boolean isHorz = randy.nextBoolean();
+        int x = randy.nextInt(8);
+        int y = randy.nextInt(8);
+        while(!validMove){
+            Log.i("computer:wall","just (re)started) while loop");
+            boolean wallValid = tempQgs.placeWall(this.getPlayerNum(),x,y);
+            if(!isHorz) wallValid = tempQgs.rotateWall(this.getPlayerNum(),x,y) && wallValid;
+
+            if(wallValid){
+                validMove = true;
+                game.sendAction(new QuoridorPlaceWall(this,x,y));
+                if(!isHorz) game.sendAction(new QuoridorRotateWall(this,x,y));
+            }
+            else {
+                tempQgs.undo();
+                isHorz = randy.nextBoolean();
+                x = randy.nextInt(8);
+                y = randy.nextInt(8);
+            }
+
+        }
 
     }
 
