@@ -552,6 +552,9 @@ public class QuoridorGameState extends GameState {
         int otherX = otherPlayer[0];
         int otherY = otherPlayer[1];
         int jumpMod = 0;
+
+        boolean[][] relevantWalls = getRelevantWalls(curX,curY);
+
         try {
             if (curX == 0) //player is trying to move left side off board
             {
@@ -560,11 +563,11 @@ public class QuoridorGameState extends GameState {
             //check if there are walls on left side
             //check wall bot left
             if (curX != 0) {
-                if (vertWalls[curX - 1][curY]) {
+                if (relevantWalls[1][7]) {
                     return false;
                 }
                 if (curY != 0) {
-                    if (vertWalls[curX - 1][curY - 1]) {
+                    if (relevantWalls[1][3]) {
                         return false;
                     }
                 }
@@ -572,11 +575,11 @@ public class QuoridorGameState extends GameState {
             //check if players are adjacent
             if (otherX + 1 == curX && otherY == curY) {
                 //check if far walls exist
-                if (vertWalls[curX - 2][curY - 1] || vertWalls[curX - 2][curY]) {
+                if (relevantWalls[1][2] || relevantWalls[1][6]) {
                     if (jump) //jump diagonally to the left
                     {
                         //check if there are no blocking walls above
-                        if (horzWalls[curX - 2][curY - 1] || horzWalls[curX - 1][curY - 1]) {
+                        if (relevantWalls[0][2] || relevantWalls[0][3]) {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] - 1;
@@ -585,7 +588,7 @@ public class QuoridorGameState extends GameState {
                         }
                     } else {
                         //check if there are no blocking walls below
-                        if (horzWalls[curX - 2][curY] || horzWalls[curX - 1][curY]) {
+                        if (relevantWalls[0][6] || relevantWalls[0][7]) {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] - 1;
@@ -624,32 +627,35 @@ public class QuoridorGameState extends GameState {
         int otherX = otherPlayer[0];
         int otherY = otherPlayer[1];
         int jumpMod = 0;
+
+        boolean[][] relevantWalls = getRelevantWalls(curX,curY);
+
         try {
-            if (curX == 0) //player is trying to move left side off board
+            if (curX == 8) //player is trying to move right side off board
             {
                 return false;
             }
             //check if there are walls on right side
             if (curY != 0) {
-                if (vertWalls[curX][curY - 1]) {
+                if (relevantWalls[1][4]) {
                     return false;
                 }
-                if (vertWalls[curX][curY]) {
+                if (relevantWalls[1][8]) {
                     return false;
                 }
             } else if (curY == 0) {
-                if (vertWalls[curX][curY]) {
+                if (relevantWalls[1][8]) {
                     return false;
                 }
             }
             //check if players are adjacent
             if (otherX - 1 == curX && otherY == curY) {
                 //check if far walls exist
-                if (vertWalls[curX + 1][curY - 1] || vertWalls[curX + 1][curY]) {
+                if (relevantWalls[1][5] || relevantWalls[1][9]) {
                     if (jump) //jump diagonally to the left
                     {
                         //check if there are no blocking walls above
-                        if (horzWalls[curX][curY - 1] || horzWalls[curX + 1][curY - 1]) {
+                        if (relevantWalls[0][4] || relevantWalls[0][5]) {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] + 1;
@@ -658,7 +664,7 @@ public class QuoridorGameState extends GameState {
                         }
                     } else {
                         //check if there are no blocking walls below
-                        if (horzWalls[curX][curY] || horzWalls[curX + 1][curY]) {
+                        if (relevantWalls[0][8] || relevantWalls[0][9]) {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] + 1;
