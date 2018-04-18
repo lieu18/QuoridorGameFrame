@@ -461,19 +461,86 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         } // move RIGHT
 
         //TODO left
+        if (playerPos[0][1] == playerPos[1][1] &&
+                playerPos[turn][0] - 1 == playerPos[1 - turn][0]) {
 
-
-        //check if every square is clickable
-        for(int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                //test to see if clicks happen TODO take out later
-                if (x > curX && x < curX + squareSize &&
-                        y > curY && y < curY + squareSize) {
-                    //surfaceView.movePawn(i,j);
+            //check for edge case
+            if(playerPos[1-turn][1] == 0) {
+                //LEFT UP
+                if (x > curX + playerPos[turn][0] * margin - margin &&
+                        x < curX + playerPos[turn][0] * margin + squareSize - margin &&
+                        y > curY + playerPos[turn][1] * margin - margin &&
+                        y < curY + playerPos[turn][1] * margin + squareSize - margin) {
+                    game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, true));
                 }
-                curX += margin;
+                //LEFT DOWN
+                if (x > curX + playerPos[turn][0] * margin - margin &&
+                        x < curX + playerPos[turn][0] * margin + squareSize - margin &&
+                        y > curY + playerPos[turn][1] * margin + margin &&
+                        y < curY + playerPos[turn][1] * margin + squareSize + margin) {
+                    game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+                }
             }
-        }
+
+            //wall on TOP left
+            //check for outOfBounds
+            if(curPlayer[0]+1 >= 0 && curPlayer[1]-1 <= 7) {
+                //check actual wall
+                if (vertWalls[curPlayer[0]-2][curPlayer[1]-1]) {
+                    //check location clicked
+                    //LEFT UP
+                    if (x > curX + playerPos[turn][0] * margin - margin &&
+                            x < curX + playerPos[turn][0] * margin + squareSize - margin &&
+                            y > curY + playerPos[turn][1] * margin - margin &&
+                            y < curY + playerPos[turn][1] * margin + squareSize - margin) {
+                        game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, true));
+                    }
+                    //LEFT DOWN
+                    if (x > curX + playerPos[turn][0] * margin - margin &&
+                            x < curX + playerPos[turn][0] * margin + squareSize - margin &&
+                            y > curY + playerPos[turn][1] * margin + margin &&
+                            y < curY + playerPos[turn][1] * margin + squareSize + margin) {
+                        game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+                    }
+                }
+            }
+
+            //wall on BOT left
+            //check for outOfBounds
+            if(curPlayer[0]+1 >= 0 && curPlayer[1] >= 0) {
+                //check actual wall
+                if (vertWalls[curPlayer[0]-2][curPlayer[1]]) {
+                    //check location clicked
+                    //left UP
+                    if (x > curX + playerPos[turn][0] * margin - margin &&
+                            x < curX + playerPos[turn][0] * margin + squareSize - margin &&
+                            y > curY + playerPos[turn][1] * margin - margin &&
+                            y < curY + playerPos[turn][1] * margin + squareSize - margin) {
+                        game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, true));
+                    }
+                    //left DOWN
+                    if (x > curX + playerPos[turn][0] * margin - margin &&
+                            x < curX + playerPos[turn][0] * margin + squareSize - margin &&
+                            y > curY + playerPos[turn][1] * margin + margin &&
+                            y < curY + playerPos[turn][1] * margin + squareSize + margin) {
+                        game.sendAction(new QuoridorMovePawn(this, Direction.LEFT, false));
+                    }
+                }
+            }
+        } // move LEFT
+
+
+//        //check if every square is clickable
+//        for(int i = 0; i < 9; i++) {
+//            for (int j = 0; j < 9; j++) {
+//                //test to see if clicks happen TODO take out later
+//                if (x > curX && x < curX + squareSize &&
+//                        y > curY && y < curY + squareSize) {
+//                    //surfaceView.movePawn(i,j);
+//                }
+//                curX += margin;
+//            }
+//        }
 
         // PLACE WAllS PLAYER INTERACTIONS
         curX = surfaceView.startingX; //set a new starting X, so don't used change value for wall

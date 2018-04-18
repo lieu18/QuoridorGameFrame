@@ -71,9 +71,8 @@ public class QuoridorGameState extends GameState {
         this.turn = 0;
         this.p1Pos = new int[]{4, 0};
         this.p2Pos = new int[]{4, 8};
-        //TODO this is their testing
-        this.p1Pos = new int[]{0, 1};
-        //this.p2Pos = new int[]{4, 4};
+
+
         this.horzWalls = new boolean[8][8];
         this.vertWalls = new boolean[8][8];
         this.tempHWalls = new boolean[8][8];
@@ -87,6 +86,14 @@ public class QuoridorGameState extends GameState {
             }
         }
 
+
+        //TODO this is their testing
+        this.p1Pos = new int[]{4, 4};
+        this.p2Pos = new int[]{3, 4};
+        this.vertWalls[2][4] = true;
+        this.vertWalls[5][4] = true;
+
+        //TODO End testing
         //TODO remove after test
         //this.vertWalls[4][3] = true;
         //this.vertWalls[4][4] = true;
@@ -285,7 +292,7 @@ public class QuoridorGameState extends GameState {
                 result[0][0] = horzWalls[x-1][y-2];
                 result[1][0] = vertWalls[x-1][y-2];
             }
-            
+
             if(x < 8) {
                 result[0][1] = horzWalls[x][y - 2];
                 result[1][1] = vertWalls[x][y - 2];
@@ -557,7 +564,7 @@ public class QuoridorGameState extends GameState {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] - 1;
-                            tempPos[0] = currentPlayer[1] + 1;
+                            tempPos[1] = currentPlayer[1] + 1;
                             return true;
                         }
                     } //elif for jump case
