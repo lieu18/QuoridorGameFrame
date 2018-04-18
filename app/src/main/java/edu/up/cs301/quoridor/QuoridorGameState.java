@@ -285,19 +285,11 @@ public class QuoridorGameState extends GameState {
                 result[0][0] = horzWalls[x-1][y-2];
                 result[1][0] = vertWalls[x-1][y-2];
             }
-
-//            else {
-//                result[0][0] = true;
-//                result[1][0] = true;
-//            }
+            
             if(x < 8) {
                 result[0][1] = horzWalls[x][y - 2];
                 result[1][1] = vertWalls[x][y - 2];
             }
-//            else {
-//                result[0][1] = false;
-//                result[1][1] = true;
-//            }
         }
 
         //walls directly above x,y
@@ -306,19 +298,11 @@ public class QuoridorGameState extends GameState {
                 result[0][2] = horzWalls[x-2][y-1];
                 result[1][2] = vertWalls[x-2][y-1];
             }
-//            else {
-//                result[0][2] = true;
-//                result[1][2] = true;
-//            }
 
             if(x - 1 >= 0 && x - 1 < 8) {
                 result[0][3] = horzWalls[x-1][y-1];
                 result[1][3] = vertWalls[x-1][y-1];
             }
-//            else {
-//                result[0][3] = true;
-//                result[1][3] = true;
-//            }
 
             if(x < 8) {
                 result[0][4] = horzWalls[x][y - 1];
@@ -329,10 +313,6 @@ public class QuoridorGameState extends GameState {
                 result[0][5] = horzWalls[x+1][y-1];
                 result[1][5] = vertWalls[x+1][y-1];
             }
-//            else {
-//                result[0][5] = true;
-//                result[1][5] = true;
-//            }
         }
 
         //walls on same line as x,y
@@ -341,19 +321,11 @@ public class QuoridorGameState extends GameState {
                 result[0][6] = horzWalls[x-2][y];
                 result[1][6] = vertWalls[x-2][y];
             }
-//            else {
-//                result[0][6] = true;
-//                result[1][6] = true;
-//            }
 
             if(x - 1 >= 0 && x - 1 < 8) {
                 result[0][7] = horzWalls[x-1][y];
                 result[1][7] = vertWalls[x-1][y];
             }
-//            else {
-//                result[0][7] = true;
-//                result[1][7] = true;
-//            }
 
             if(x < 8) {
                 result[0][8] = horzWalls[x][y];
@@ -364,10 +336,6 @@ public class QuoridorGameState extends GameState {
                 result[0][9] = horzWalls[x+1][y];
                 result[1][9] = vertWalls[x+1][y];
             }
-//            else {
-//                result[0][9] = true;
-//                result[1][9] = true;
-//            }
         }
 
         //walls 1 below
@@ -376,10 +344,7 @@ public class QuoridorGameState extends GameState {
                 result[0][10] = horzWalls[x-1][y+1];
                 result[1][10] = vertWalls[x-1][y+1];
             }
-//            else {
-//                result[0][10] = true;
-//                result[1][10] = true;
-//            }
+
             if(x < 8) {
                 result[0][11] = horzWalls[x][y + 1];
                 result[1][11] = vertWalls[x][y + 1];
