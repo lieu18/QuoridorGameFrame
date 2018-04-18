@@ -426,6 +426,9 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
+                else if(false){
+                    //TODO check top, bot, left, right most rows for quoridor jump
+                }
                 else {
                     tempPos[0] = currentPlayer[0];
                     //tempPos[1] = currentPlayer[1] - 1; //jump over the adjacent player
