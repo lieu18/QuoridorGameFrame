@@ -72,7 +72,7 @@ public class QuoridorGameState extends GameState {
         this.p1Pos = new int[]{4, 0};
         this.p2Pos = new int[]{4, 8};
         //TODO this is their testing
-        //this.p1Pos = new int[]{3, 0};
+        this.p1Pos = new int[]{0, 1};
         //this.p2Pos = new int[]{4, 4};
         this.horzWalls = new boolean[8][8];
         this.vertWalls = new boolean[8][8];
@@ -260,6 +260,137 @@ public class QuoridorGameState extends GameState {
     }
 
     /**
+     * This returns a 12 length array of relevant walls.
+     * The first accessor determines horz (0) or vert (1)
+     *
+     * The second accesor is the location of the wall with respect to the x,y coordinates in the
+     * following order:
+     *      (-1,-2),(0,-2),(-2,-1),(-1,-1),(0,-1),(1,-1),(-2,0),(-1,0),(0,0),(1,0),(-1,1),(0,1)
+     *
+     * Computations at the edges of board will return true, as edges are treated the same as walls.
+     *
+     * @param x
+     * @param y
+     * @return list of walls relevant to current position
+     */
+    private boolean[][] getRelevantWalls(int x, int y){
+        //if invalid inputs return null
+        if(x < 0 || y < 0 || x > 8 || y > 8) return null;
+
+        boolean[][] result = new boolean[2][12];
+
+        //walls 2 above x,y
+        if(y - 2 >= 0) {
+            if(x - 1 >= 0 && x - 1 < 8) {
+                result[0][0] = horzWalls[x-1][y-2];
+                result[1][0] = vertWalls[x-1][y-2];
+            }
+
+//            else {
+//                result[0][0] = true;
+//                result[1][0] = true;
+//            }
+            if(x < 8) {
+                result[0][1] = horzWalls[x][y - 2];
+                result[1][1] = vertWalls[x][y - 2];
+            }
+//            else {
+//                result[0][1] = false;
+//                result[1][1] = true;
+//            }
+        }
+
+        //walls directly above x,y
+        if(y - 1 >= 0) {
+            if(x - 2 >= 0) {
+                result[0][2] = horzWalls[x-2][y-1];
+                result[1][2] = vertWalls[x-2][y-1];
+            }
+//            else {
+//                result[0][2] = true;
+//                result[1][2] = true;
+//            }
+
+            if(x - 1 >= 0 && x - 1 < 8) {
+                result[0][3] = horzWalls[x-1][y-1];
+                result[1][3] = vertWalls[x-1][y-1];
+            }
+//            else {
+//                result[0][3] = true;
+//                result[1][3] = true;
+//            }
+
+            if(x < 8) {
+                result[0][4] = horzWalls[x][y - 1];
+                result[1][4] = vertWalls[x][y - 1];
+            }
+
+            if(x + 1 < 8) {
+                result[0][5] = horzWalls[x+1][y-1];
+                result[1][5] = vertWalls[x+1][y-1];
+            }
+//            else {
+//                result[0][5] = true;
+//                result[1][5] = true;
+//            }
+        }
+
+        //walls on same line as x,y
+        if(y < 8) {
+            if(x - 2 >= 0) {
+                result[0][6] = horzWalls[x-2][y];
+                result[1][6] = vertWalls[x-2][y];
+            }
+//            else {
+//                result[0][6] = true;
+//                result[1][6] = true;
+//            }
+
+            if(x - 1 >= 0 && x - 1 < 8) {
+                result[0][7] = horzWalls[x-1][y];
+                result[1][7] = vertWalls[x-1][y];
+            }
+//            else {
+//                result[0][7] = true;
+//                result[1][7] = true;
+//            }
+
+            if(x < 8) {
+                result[0][8] = horzWalls[x][y];
+                result[1][8] = vertWalls[x][y];
+            }
+
+            if(x + 1 < 8) {
+                result[0][9] = horzWalls[x+1][y];
+                result[1][9] = vertWalls[x+1][y];
+            }
+//            else {
+//                result[0][9] = true;
+//                result[1][9] = true;
+//            }
+        }
+
+        //walls 1 below
+        if(y + 1 < 7) {
+            if(x - 1 >= 0 && x + 1 < 8 ) {
+                result[0][10] = horzWalls[x-1][y+1];
+                result[1][10] = vertWalls[x-1][y+1];
+            }
+//            else {
+//                result[0][10] = true;
+//                result[1][10] = true;
+//            }
+            if(x < 8) {
+                result[0][11] = horzWalls[x][y + 1];
+                result[1][11] = vertWalls[x][y + 1];
+            }
+        }
+
+        return result;
+    }
+
+
+    /**
      * Method to move pawn up
      *
      * @param currentPlayer
@@ -273,6 +404,9 @@ public class QuoridorGameState extends GameState {
         int otherX = otherPlayer[0];
         int otherY = otherPlayer[1];
         int jumpMod = 0;
+
+        boolean[][] relevantWalls = getRelevantWalls(curX,curY);
+
         try {
             if (curY == 0) //player is trying to move past top
             {
@@ -280,20 +414,20 @@ public class QuoridorGameState extends GameState {
             }
             //check if there are walls in front
             if (curY != 0) {
-                if (horzWalls[curX - 1][curY - 1]) {
+                if (relevantWalls[0][3]) {
                     return false;
                 }
-                if (horzWalls[curX][curY - 1]) {
+                if (relevantWalls[0][4]) {
                     return false;
                 }
             }
             //check if players are adjacent
             if (otherX == curX && otherY + 1 == curY) {
-                if (horzWalls[curX - 1][curY - 2] || horzWalls[curX][curY - 2]) {
+                if (relevantWalls[0][0] || relevantWalls[0][1]) {
                     if (jump) //jump diagonally to the left
                     {
                         //check if there are no blocking walls on left side
-                        if (vertWalls[curX - 1][curY - 1] || vertWalls[curX - 1][curY - 2]) {
+                        if (relevantWalls[1][3] || relevantWalls[1][0]) {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] - 1;
@@ -302,7 +436,7 @@ public class QuoridorGameState extends GameState {
                         }
                     } else {
                         //check if there are no blocking walls on right side
-                        if (vertWalls[curX][curY - 1] || vertWalls[curX][curY - 2]) {
+                        if (relevantWalls[1][4] || relevantWalls[1][1]) {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] + 1;
@@ -323,7 +457,8 @@ public class QuoridorGameState extends GameState {
             tempPos[1] = currentPlayer[1] - 1 + jumpMod; //move player up one space
             return true;
 
-        } catch (ArrayIndexOutOfBoundsException ai) {
+        }
+        catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
 
@@ -343,6 +478,9 @@ public class QuoridorGameState extends GameState {
         int otherX = otherPlayer[0];
         int otherY = otherPlayer[1];
         int jumpMod = 0;
+
+        boolean[][] relevantWalls = getRelevantWalls(curX,curY);
+
         try {
             if (curY == 8) //player is trying to move past bot
             {
@@ -350,21 +488,21 @@ public class QuoridorGameState extends GameState {
             }
             //check if there are walls in front
             if (curY != 7) {
-                if (horzWalls[curX - 1][curY]) {
+                if (relevantWalls[0][7]) {
                     return false;
                 }
-                if (horzWalls[curX][curY]) {
+                if (relevantWalls[0][8]) {
                     return false;
                 }
             }
             //check if players are adjacent
             if (otherX == curX && otherY - 1 == curY) {
                 //check if far walls exist
-                if (horzWalls[curX - 1][curY + 1] || horzWalls[curX][curY + 1]) {
+                if (relevantWalls[0][10] || relevantWalls[0][11]) {
                     if (jump) //jump diagonally to the left
                     {
                         //check if there are no blocking walls on left side
-                        if (vertWalls[curX - 1][curY] || vertWalls[curX - 1][curY + 1]) {
+                        if (relevantWalls[1][7] || relevantWalls[1][10]) {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] - 1;
@@ -373,7 +511,7 @@ public class QuoridorGameState extends GameState {
                         }
                     } else {
                         //check if there are no blocking walls on right side
-                        if (vertWalls[curX][curY] || vertWalls[curX][curY + 1]) {
+                        if (relevantWalls[1][8] || relevantWalls[1][11]) {
                             return false;
                         } else {
                             tempPos[0] = currentPlayer[0] + 1;
