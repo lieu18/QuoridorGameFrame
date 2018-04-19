@@ -88,8 +88,8 @@ public class QuoridorGameState extends GameState {
 
 
 //        //TODO this is their testing
-//        this.p1Pos = new int[]{4, 4};
-//        this.p2Pos = new int[]{3, 4};
+//        this.p1Pos = new int[]{4, 1};
+//        this.p2Pos = new int[]{4, 0};
 //        this.vertWalls[2][4] = true;
 //        this.vertWalls[5][4] = true;
 
@@ -426,8 +426,19 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
-                else if(false){
-                    //TODO check top, bot, left, right most rows for quoridor jump
+                else if(otherY == 0){
+                    if(jump)
+                    {
+                        tempPos[0] = currentPlayer[0] - 1;
+                        tempPos[1] = currentPlayer[1] - 1;
+                        return true;
+                    }
+                    else
+                    {
+                        tempPos[0] = currentPlayer[0] + 1;
+                        tempPos[1] = currentPlayer[1] - 1;
+                        return true;
+                    }
                 }
                 else {
                     tempPos[0] = currentPlayer[0];
@@ -504,6 +515,21 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
+                else if(otherY == 8)
+                {
+                    if(jump)
+                    {
+                        tempPos[0] = currentPlayer[0] - 1;
+                        tempPos[1] = currentPlayer[1] + 1;
+                        return true;
+                    }
+                    else
+                    {
+                        tempPos[0] = currentPlayer[0] + 1;
+                        tempPos[1] = currentPlayer[1] + 1;
+                        return true;
+                    }
+                }
                 else {
                     //currentPlayer[1] += 1; //jump over the adjacent player
                     jumpMod = 1;
@@ -581,6 +607,21 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
+                else if(otherX == 0)
+                {
+                    if(jump)
+                    {
+                        tempPos[0] = currentPlayer[0] - 1;
+                        tempPos[1] = currentPlayer[1] - 1;
+                        return true;
+                    }
+                    else
+                    {
+                        tempPos[0] = currentPlayer[0] - 1;
+                        tempPos[1] = currentPlayer[1] + 1;
+                        return true;
+                    }
+                } //if for right side edge jump
                 else {
                     jumpMod = -1;
                     //tempPos[0] -= 1; //jump left over the adjacent player
@@ -657,6 +698,21 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
+                else if(otherX == 8)
+                {
+                    if(jump)
+                    {
+                        tempPos[0] = currentPlayer[0] + 1;
+                        tempPos[1] = currentPlayer[1] - 1;
+                        return true;
+                    }
+                    else
+                    {
+                        tempPos[0] = currentPlayer[0] + 1;
+                        tempPos[1] = currentPlayer[1] + 1;
+                        return true;
+                    }
+                }
                 else {
                     //tempPos[0] += 1; //jump left over the adjacent player
                     jumpMod = 1;

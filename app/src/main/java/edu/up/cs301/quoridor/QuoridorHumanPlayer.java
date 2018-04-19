@@ -169,7 +169,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
 
         int turn = qgs.getTurn(); //get the turn from the local game
 
-        //handles movement of pawn, wether left, right, up, or down
+        //handles movement of pawn, whether left, right, up, or down
         // LEFT TODO: Handle Jump Cases
         if (x > curX + playerPos[turn][0] * margin - margin &&
                 x < curX + playerPos[turn][0] * margin + squareSize - margin &&
@@ -399,7 +399,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 playerPos[turn][0] + 1 == playerPos[1 - turn][0]) {
 
             //check for edge case
-            if(playerPos[1-turn][1] == 8) {
+            if(playerPos[1-turn][0] == 8) { //todo figure out if this needs to be changed to 0
                 //RIGHT UP
                 if (x > curX + playerPos[turn][0] * margin + margin &&
                         x < curX + playerPos[turn][0] * margin + squareSize + margin &&
@@ -468,7 +468,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 playerPos[turn][0] - 1 == playerPos[1 - turn][0]) {
 
             //check for edge case
-            if(playerPos[1-turn][1] == 0) {
+            if(playerPos[1-turn][0] == 0) {
                 //LEFT UP
                 if (x > curX + playerPos[turn][0] * margin - margin &&
                         x < curX + playerPos[turn][0] * margin + squareSize - margin &&
