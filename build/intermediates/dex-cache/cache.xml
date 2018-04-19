@@ -20,13 +20,22 @@
         <dex dex="P:\Spring2018\Quoridor\QuoridorGameFrame\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_316bc577616100e3a69bf0277067394a2c19a2d0\classes.dex" />
     </item>
     <item
-        is-multidex="false"
-        jar="C:\AndroidSDK\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
-        jumboMode="false"
+        is-multidex="true"
+        jar="/Users/AnthonyLieu/Desktop/Spring_2018/Object_Oriented/QuoridorBeta/QuoridorGameFrame/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="P:\Spring2018\Quoridor\QuoridorGameFrame\app\build\intermediates\pre-dexed\debug\support-v4-18.0.0_bf6372499ab7d9c7586f81e3c8610d4c63b58b3f.jar" />
+        sha1="c244707d541bf3c85651e9153e9fdec97f61281a">
+        <dex dex="/Users/AnthonyLieu/Desktop/Spring_2018/Object_Oriented/QuoridorBeta/QuoridorGameFrame/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_741fa43d894a73a73cfa12bf2f5a6c3b2009a4af/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/AnthonyLieu/Desktop/Spring_2018/Object_Oriented/QuoridorBeta/QuoridorGameFrame/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/AnthonyLieu/Desktop/Spring_2018/Object_Oriented/QuoridorBeta/QuoridorGameFrame/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_ddff21537b47c16c7199920f83a8bb69c67c0e3c/classes.dex" />
     </item>
     <item
         is-multidex="true"
