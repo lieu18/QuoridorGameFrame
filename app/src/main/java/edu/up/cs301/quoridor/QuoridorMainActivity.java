@@ -17,6 +17,30 @@ import edu.up.cs301.quoridor.QuoridorHumanPlayer;
 
 /**
  * Created by lieu18 on 3/25/2018.
+ *
+ * @author Anthony Lieu
+ * @author Phillip Manalili
+ * @author Noah Davis
+ * @author Dylan Shuler
+ *
+ *
+ * Current state of the game does not include the complex path finder algorithm
+ *      Algorithm not behaving the way we expected. More complex than noted.
+ *      Ran into strange bugs with pawn movement that was not caught before.
+ *
+ * Network play is mysteriously not working. Prompts a Could not find game server on network
+ *      Should have gone in early and addressed this issue after alpha bugs were fixed.
+ *
+ * Game contains all the graphics in its final form
+ * Smart and Dumb Computer AI components are implemented and runs
+ *
+ * Game actions are implemented and completed.
+ *
+ * Enhancements:
+ * Buttons behave properly and add to the functionality of the game. 
+ *      New Game
+ *      Finalize
+ *      Undo
  */
 
 public class QuoridorMainActivity extends GameMainActivity {
