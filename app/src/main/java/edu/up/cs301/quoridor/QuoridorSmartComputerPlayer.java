@@ -29,7 +29,13 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
      */
     public QuoridorSmartComputerPlayer(String name) {
         super(name);
-        wallChance = 0.3f;
+
+    }
+
+    @Override
+    protected void init(){
+        randy = new Random();
+        wallChance = 0.35f;
     }
 
     /**
@@ -66,7 +72,7 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
     @Override
     protected void move(boolean l, boolean r, boolean u, boolean d){
         boolean validMove = false;
-        int dir = randy.nextInt(23);
+        int dir = randy.nextInt(50);
         //make up/down movement a lot more likely
         if(this.getPlayerNum() == 0){ //go down more often
             dir = (dir > 9) ? 8 : dir;
@@ -74,6 +80,17 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
         else if (this.getPlayerNum() == 1) { // go up more often
             dir = (dir > 9) ? 6 : dir;
         }
+
+        //TODO override receive info and put this in there if you have  a chance
+//        if(this.getPlayerNum() == 0 && d && tempQgs.getPlayerPos(0)[1] == 1){
+//            game.sendAction(new QuoridorMovePawn(this,Direction.DOWN,false));
+//            return;
+//        }
+//        else if(this.getPlayerNum() == 1 && u && tempQgs.getPlayerPos(1)[1] == 7)  {
+//            game.sendAction(new QuoridorMovePawn(this,Direction.UP,false));
+//            return;
+//        }
+
 
         while(!validMove) {
             switch(dir){
@@ -122,9 +139,71 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
 
     /**
      * TODO
-     *
+     */
     @Override
     protected void placeWall(){
+        //find location of opponent player
+        int turn = tempQgs.getTurn();
+        int[] otherPos = new int[]{tempQgs.getPlayerPos(turn-1)[0],tempQgs.getPlayerPos(turn-1)[1]};
+
+        //attempt to place horzWall below him 0,0
+        if(this.getPlayerNum() == 1) {
+            if (tempQgs.placeWall(turn, otherPos[0], otherPos[1])) {
+                game.sendAction(new QuoridorPlaceWall(this, otherPos[0], otherPos[1]));
+                return;
+            }
+            tempQgs.undo();
+            //attempt to place horzWall below left -1,0
+            if (tempQgs.placeWall(turn, otherPos[0] - 1, otherPos[1])) {
+                game.sendAction(new QuoridorPlaceWall(this, otherPos[0] - 1, otherPos[1]));
+                return;
+            }
+            tempQgs.undo();
+            //attempt to place vert wall 0,-1
+            if (tempQgs.placeWall(turn, otherPos[0], otherPos[1] - 1)) {
+                game.sendAction(new QuoridorPlaceWall(this, otherPos[0], otherPos[1] - 1));
+                game.sendAction(new QuoridorRotateWall(this, otherPos[0], otherPos[1] - 1));
+                return;
+            }
+            tempQgs.undo();
+            //attempt to place vert wall -1,-1
+            if (tempQgs.placeWall(turn, otherPos[0] - 1, otherPos[1] - 1)) {
+                game.sendAction(new QuoridorPlaceWall(this, otherPos[0] - 1, otherPos[1] - 1));
+                game.sendAction(new QuoridorRotateWall(this, otherPos[0] - 1, otherPos[1] - 1));
+                return;
+            }
+            tempQgs.undo();
+        }
+        else if (this.getPlayerNum() == 0) {
+            if (tempQgs.placeWall(turn, otherPos[0], otherPos[1]-1)) {
+                game.sendAction(new QuoridorPlaceWall(this, otherPos[0], otherPos[1]-1));
+                return;
+            }
+            tempQgs.undo();
+            //attempt to place horzWall below left -1,0
+            if (tempQgs.placeWall(turn, otherPos[0] - 1, otherPos[1]-1)) {
+                game.sendAction(new QuoridorPlaceWall(this, otherPos[0] - 1, otherPos[1]-1));
+                return;
+            }
+            tempQgs.undo();
+            //attempt to place vert wall 0,-1
+            if (tempQgs.placeWall(turn, otherPos[0], otherPos[1])) {
+                game.sendAction(new QuoridorPlaceWall(this, otherPos[0], otherPos[1]));
+                game.sendAction(new QuoridorRotateWall(this, otherPos[0], otherPos[1]));
+                return;
+            }
+            tempQgs.undo();
+            //attempt to place vert wall -1,-1
+            if (tempQgs.placeWall(turn, otherPos[0] - 1, otherPos[1])) {
+                game.sendAction(new QuoridorPlaceWall(this, otherPos[0] - 1, otherPos[1]));
+                game.sendAction(new QuoridorRotateWall(this, otherPos[0] - 1, otherPos[1]));
+                return;
+            }
+            tempQgs.undo();
+        }
+
+        //otherwise place random wall
+        super.placeWall();
 
     }//*/
 

@@ -28,7 +28,7 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
         init();
     }
 
-    private void init(){
+    protected void init(){
         randy = new Random();
         wallChance = 0.5f;
     }
