@@ -14,9 +14,9 @@ import edu.up.cs301.game.infoMsg.NotYourTurnInfo;
 
 public class QuoridorComputerPlayer extends GameComputerPlayer {
 
-    private Random randy;
-    private QuoridorGameState tempQgs;
-
+    protected Random randy;
+    protected QuoridorGameState tempQgs;
+    protected float wallChance;
 
     /**
      * constructor
@@ -30,6 +30,7 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
 
     private void init(){
         randy = new Random();
+        wallChance = 0.5f;
     }
 
     /*
@@ -67,8 +68,10 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
 
         tempQgs.undo();
 
+        int willPlaceWall = randy.nextFloat() > wallChance ? 0 : 1;
+
         if(curWall > 0) {
-            switch (randy.nextInt(2)) {
+            switch (willPlaceWall) {
                 case 0:
                     move(canL, canR, canU, canD);
                     break;
@@ -88,7 +91,7 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
         game.sendAction(new QuoridorFinalizeTurn(this));
     }
 
-    private void move(boolean l, boolean r, boolean u, boolean d){
+    protected void move(boolean l, boolean r, boolean u, boolean d){
         boolean validMove = false;
         while(!validMove) {
             switch(randy.nextInt(4)){
@@ -128,7 +131,7 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
         }
     }
 
-    private void placeWall(){
+    protected void placeWall(){
         boolean validMove = false;
         boolean isHorz = randy.nextBoolean();
         int x = randy.nextInt(8);

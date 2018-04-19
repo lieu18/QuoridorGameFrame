@@ -1349,6 +1349,11 @@ public class QuoridorGameState extends GameState {
      * @return true if path is still winnable
      */
     private boolean pathCheck(int x, int y, int player, int permX, int permY) {
+        //TODO Phillip is testing the smart AI and there is a bug with the wall placement.
+        //TODO please remove the following line after smart ai is done testing
+        return true;
+
+        /*
         int[] playerPos = new int[]{x, y};
         int opPlayer = ((player + 1) % 2);
         int permPos[] = new int[]{permX, permY};
@@ -1438,6 +1443,7 @@ public class QuoridorGameState extends GameState {
         }
         //path wouldn't be winnable if wall was placed
         return true;
+        */
     }
 
 
