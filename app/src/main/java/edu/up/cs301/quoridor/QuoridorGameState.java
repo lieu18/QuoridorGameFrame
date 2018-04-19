@@ -269,98 +269,98 @@ public class QuoridorGameState extends GameState {
     /**
      * This returns a 12 length array of relevant walls.
      * The first accessor determines horz (0) or vert (1)
-     *
+     * <p>
      * The second accesor is the location of the wall with respect to the x,y coordinates in the
      * following order:
-     *      (-1,-2),(0,-2),(-2,-1),(-1,-1),(0,-1),(1,-1),(-2,0),(-1,0),(0,0),(1,0),(-1,1),(0,1)
-     *
+     * (-1,-2),(0,-2),(-2,-1),(-1,-1),(0,-1),(1,-1),(-2,0),(-1,0),(0,0),(1,0),(-1,1),(0,1)
+     * <p>
      * Computations at the edges of board will return true, as edges are treated the same as walls.
      *
      * @param x
      * @param y
      * @return list of walls relevant to current position
      */
-    private boolean[][] getRelevantWalls(int x, int y){
+    private boolean[][] getRelevantWalls(int x, int y) {
 
         boolean[][] result = new boolean[2][12];
 
         //init result
-        for(int i=0; i<2; i++){
-            for(int j=0; j<12; j++){
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 12; j++) {
                 result[i][j] = false;
             }
         }
 
         //if invalid inputs return null
-        if(x < 0 || y < 0 || x > 8 || y > 8) return result;
+        if (x < 0 || y < 0 || x > 8 || y > 8) return result;
 
         //walls 2 above x,y
-        if(y - 2 >= 0) {
-            if(x - 1 >= 0 && x - 1 < 8) {
-                result[0][0] = horzWalls[x-1][y-2];
-                result[1][0] = vertWalls[x-1][y-2];
+        if (y - 2 >= 0) {
+            if (x - 1 >= 0 && x - 1 < 8) {
+                result[0][0] = horzWalls[x - 1][y - 2];
+                result[1][0] = vertWalls[x - 1][y - 2];
             }
 
-            if(x < 8) {
+            if (x < 8) {
                 result[0][1] = horzWalls[x][y - 2];
                 result[1][1] = vertWalls[x][y - 2];
             }
         }
 
         //walls directly above x,y
-        if(y - 1 >= 0) {
-            if(x - 2 >= 0) {
-                result[0][2] = horzWalls[x-2][y-1];
-                result[1][2] = vertWalls[x-2][y-1];
+        if (y - 1 >= 0) {
+            if (x - 2 >= 0) {
+                result[0][2] = horzWalls[x - 2][y - 1];
+                result[1][2] = vertWalls[x - 2][y - 1];
             }
 
-            if(x - 1 >= 0 && x - 1 < 8) {
-                result[0][3] = horzWalls[x-1][y-1];
-                result[1][3] = vertWalls[x-1][y-1];
+            if (x - 1 >= 0 && x - 1 < 8) {
+                result[0][3] = horzWalls[x - 1][y - 1];
+                result[1][3] = vertWalls[x - 1][y - 1];
             }
 
-            if(x < 8) {
+            if (x < 8) {
                 result[0][4] = horzWalls[x][y - 1];
                 result[1][4] = vertWalls[x][y - 1];
             }
 
-            if(x + 1 < 8) {
-                result[0][5] = horzWalls[x+1][y-1];
-                result[1][5] = vertWalls[x+1][y-1];
+            if (x + 1 < 8) {
+                result[0][5] = horzWalls[x + 1][y - 1];
+                result[1][5] = vertWalls[x + 1][y - 1];
             }
         }
 
         //walls on same line as x,y
-        if(y < 8) {
-            if(x - 2 >= 0) {
-                result[0][6] = horzWalls[x-2][y];
-                result[1][6] = vertWalls[x-2][y];
+        if (y < 8) {
+            if (x - 2 >= 0) {
+                result[0][6] = horzWalls[x - 2][y];
+                result[1][6] = vertWalls[x - 2][y];
             }
 
-            if(x - 1 >= 0 && x - 1 < 8) {
-                result[0][7] = horzWalls[x-1][y];
-                result[1][7] = vertWalls[x-1][y];
+            if (x - 1 >= 0 && x - 1 < 8) {
+                result[0][7] = horzWalls[x - 1][y];
+                result[1][7] = vertWalls[x - 1][y];
             }
 
-            if(x < 8) {
+            if (x < 8) {
                 result[0][8] = horzWalls[x][y];
                 result[1][8] = vertWalls[x][y];
             }
 
-            if(x + 1 < 8) {
-                result[0][9] = horzWalls[x+1][y];
-                result[1][9] = vertWalls[x+1][y];
+            if (x + 1 < 8) {
+                result[0][9] = horzWalls[x + 1][y];
+                result[1][9] = vertWalls[x + 1][y];
             }
         }
 
         //walls 1 below
-        if(y + 1 < 7) {
-            if(x - 1 >= 0 && x + 1 < 8 ) {
-                result[0][10] = horzWalls[x-1][y+1];
-                result[1][10] = vertWalls[x-1][y+1];
+        if (y + 1 < 7) {
+            if (x - 1 >= 0 && x + 1 < 8) {
+                result[0][10] = horzWalls[x - 1][y + 1];
+                result[1][10] = vertWalls[x - 1][y + 1];
             }
 
-            if(x < 8) {
+            if (x < 8) {
                 result[0][11] = horzWalls[x][y + 1];
                 result[1][11] = vertWalls[x][y + 1];
             }
@@ -385,7 +385,7 @@ public class QuoridorGameState extends GameState {
         int otherY = otherPlayer[1];
         int jumpMod = 0;
 
-        boolean[][] relevantWalls = getRelevantWalls(curX,curY);
+        boolean[][] relevantWalls = getRelevantWalls(curX, curY);
 
         try {
             if (curY == 0) //player is trying to move past top
@@ -426,21 +426,17 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
-                else if(otherY == 0){
-                    if(jump)
-                    {
+                else if (otherY == 0) {
+                    if (jump) {
                         tempPos[0] = currentPlayer[0] - 1;
                         tempPos[1] = currentPlayer[1] - 1;
                         return true;
-                    }
-                    else
-                    {
+                    } else {
                         tempPos[0] = currentPlayer[0] + 1;
                         tempPos[1] = currentPlayer[1] - 1;
                         return true;
                     }
-                }
-                else {
+                } else {
                     tempPos[0] = currentPlayer[0];
                     //tempPos[1] = currentPlayer[1] - 1; //jump over the adjacent player
                     jumpMod = -1;
@@ -451,8 +447,7 @@ public class QuoridorGameState extends GameState {
             tempPos[1] = currentPlayer[1] - 1 + jumpMod; //move player up one space
             return true;
 
-        }
-        catch (ArrayIndexOutOfBoundsException ai) {
+        } catch (ArrayIndexOutOfBoundsException ai) {
             return false;
         }
 
@@ -473,7 +468,7 @@ public class QuoridorGameState extends GameState {
         int otherY = otherPlayer[1];
         int jumpMod = 0;
 
-        boolean[][] relevantWalls = getRelevantWalls(curX,curY);
+        boolean[][] relevantWalls = getRelevantWalls(curX, curY);
 
         try {
             if (curY == 8) //player is trying to move past bot
@@ -515,22 +510,17 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
-                else if(otherY == 8)
-                {
-                    if(jump)
-                    {
+                else if (otherY == 8) {
+                    if (jump) {
                         tempPos[0] = currentPlayer[0] - 1;
                         tempPos[1] = currentPlayer[1] + 1;
                         return true;
-                    }
-                    else
-                    {
+                    } else {
                         tempPos[0] = currentPlayer[0] + 1;
                         tempPos[1] = currentPlayer[1] + 1;
                         return true;
                     }
-                }
-                else {
+                } else {
                     //currentPlayer[1] += 1; //jump over the adjacent player
                     jumpMod = 1;
                 }
@@ -562,7 +552,7 @@ public class QuoridorGameState extends GameState {
         int otherY = otherPlayer[1];
         int jumpMod = 0;
 
-        boolean[][] relevantWalls = getRelevantWalls(curX,curY);
+        boolean[][] relevantWalls = getRelevantWalls(curX, curY);
 
         try {
             if (curX == 0) //player is trying to move left side off board
@@ -607,16 +597,12 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
-                else if(otherX == 0)
-                {
-                    if(jump)
-                    {
+                else if (otherX == 0) {
+                    if (jump) {
                         tempPos[0] = currentPlayer[0] - 1;
                         tempPos[1] = currentPlayer[1] - 1;
                         return true;
-                    }
-                    else
-                    {
+                    } else {
                         tempPos[0] = currentPlayer[0] - 1;
                         tempPos[1] = currentPlayer[1] + 1;
                         return true;
@@ -652,7 +638,7 @@ public class QuoridorGameState extends GameState {
         int otherY = otherPlayer[1];
         int jumpMod = 0;
 
-        boolean[][] relevantWalls = getRelevantWalls(curX,curY);
+        boolean[][] relevantWalls = getRelevantWalls(curX, curY);
 
         try {
             if (curX == 8) //player is trying to move right side off board
@@ -698,22 +684,17 @@ public class QuoridorGameState extends GameState {
                     } //elif for jump case
 
                 } //if for far walls
-                else if(otherX == 8)
-                {
-                    if(jump)
-                    {
+                else if (otherX == 8) {
+                    if (jump) {
                         tempPos[0] = currentPlayer[0] + 1;
                         tempPos[1] = currentPlayer[1] - 1;
                         return true;
-                    }
-                    else
-                    {
+                    } else {
                         tempPos[0] = currentPlayer[0] + 1;
                         tempPos[1] = currentPlayer[1] + 1;
                         return true;
                     }
-                }
-                else {
+                } else {
                     //tempPos[0] += 1; //jump left over the adjacent player
                     jumpMod = 1;
                     tempPos[1] = currentPlayer[1];
@@ -753,6 +734,7 @@ public class QuoridorGameState extends GameState {
         //check for path if wall was placed
 
         //TODO: finish pathForAll and redrawing when illegal wall placed
+        /*
         if (wallDown && !pathForAll()) {
             for (int i = 0; i < 8; i++) {
                 for (int j = 0; j < 8; j++) {
@@ -770,6 +752,7 @@ public class QuoridorGameState extends GameState {
             wallDown = false;
             return false;
         }
+        */
 
         //check who's turn it is and update their values
         if (turn == 0) {
@@ -1318,6 +1301,7 @@ public class QuoridorGameState extends GameState {
      * initChecker
      * Initializes visitedSpot array which is used when
      * pawn visits square when checking for winnable path
+     *
      * @return 9x9 array of all false values
      */
     private boolean[][] initChecker() {
@@ -1332,6 +1316,7 @@ public class QuoridorGameState extends GameState {
     /**
      * pathForAll
      * Calls pathCheck method for both players.
+     *
      * @return true if all players can win
      */
     private boolean pathForAll() {
@@ -1352,21 +1337,21 @@ public class QuoridorGameState extends GameState {
 
     /**
      * pathCheck
-     *
+     * <p>
      * Checks to make sure the game is still winnable if
      * wall placement happenss
      *
-     * @param x coordinate of square
-     * @param y coordinate of square
+     * @param x      coordinate of square
+     * @param y      coordinate of square
      * @param player whose path is being checked
-     * @param permX holds player's initial X position
-     * @param permY holds player's initial Y position
+     * @param permX  holds player's initial X position
+     * @param permY  holds player's initial Y position
      * @return true if path is still winnable
      */
     private boolean pathCheck(int x, int y, int player, int permX, int permY) {
-        int[] playerPos = new int[]{x,y};
+        int[] playerPos = new int[]{x, y};
         int opPlayer = ((player + 1) % 2);
-        int permPos[] = new int []{permX, permY};
+        int permPos[] = new int[]{permX, permY};
         boolean canLeft = moveLeft(playerPos, getPlayerPos(opPlayer), false);
         boolean canRight = moveRight(playerPos, getPlayerPos(opPlayer), false);
         boolean canUp = moveUp(playerPos, getPlayerPos(opPlayer), false);
@@ -1382,10 +1367,9 @@ public class QuoridorGameState extends GameState {
             setPlayerPos(permPos[0], permPos[1], 0);
             p1Pos = getPlayerPos(0);
             return true;
-        }
-        else if (player == 1 && y == 0) {//bottom player
+        } else if (player == 1 && y == 0) {//bottom player
             setPlayerPos(permPos[0], permPos[1], 1);
-            p1Pos = getPlayerPos(1);
+            p2Pos = getPlayerPos(1);
             return true;
         }
 
@@ -1399,46 +1383,61 @@ public class QuoridorGameState extends GameState {
 
         //new spot, set true so reachable square
         visitedSpot[x][y] = true;
-
-        //check LEFT direction, if square is accessible, recurse.
         //TODO: figure out jump boolean, how used, ask PHILLIP & DYLAN!
-        if (canLeft && x != 0 && !visitedSpot[x-1][y]) {
-            setPlayerPos(permPos[0], permPos[1], player);
-            if (player == 0)
+        if (player == 0) {
+            //check DOWN direction, if square is accessible, recurse.
+            if (canDown && y != 8 && !visitedSpot[x][y + 1]) {
+                setPlayerPos(permPos[0], permPos[1], player);
                 p1Pos = getPlayerPos(player);
-            else
-                p2Pos = getPlayerPos(player);
-            pathCheck(x - 1, y, player, permX, permY);
+                pathCheck(x, y + 1, player, permX, permY);
+            }
+            //check LEFT direction, if square is accessible, recurse.
+            else if (canLeft && x != 0 && !visitedSpot[x - 1][y]) {
+                setPlayerPos(permPos[0], permPos[1], player);
+                p1Pos = getPlayerPos(player);
+                pathCheck(x - 1, y, player, permX, permY);
+            }
+            //check RIGHT direction, if square is accessible, recurse.
+            else if (canRight && x != 8 && !visitedSpot[x + 1][y]) {
+                setPlayerPos(permPos[0], permPos[1], player);
+                p1Pos = getPlayerPos(player);
+                pathCheck(x + 1, y, player, permX, permY);
+            }
+            //check UP direction, if square is accessible, recurse.
+            else if (canUp && y != 0 && !visitedSpot[x][y - 1]) {
+                setPlayerPos(permPos[0], permPos[1], player);
+                p1Pos = getPlayerPos(player);
+                pathCheck(x, y - 1, player, permX, permY);
+            }
         }
-        //check RIGHT direction, if square is accessible, recurse.
-        else if (canRight && x != 8 && !visitedSpot[x+1][y]) {
-            setPlayerPos(permPos[0], permPos[1], player);
-            if (player == 0)
-                p1Pos = getPlayerPos(player);
-            else
+        else {
+            //check UP direction, if square is accessible, recurse.
+            if (canUp && y != 0 && !visitedSpot[x][y - 1]) {
+                setPlayerPos(permPos[0], permPos[1], player);
                 p2Pos = getPlayerPos(player);
-            pathCheck(x + 1, y, player, permX, permY);
-        }
-        //check UP direction, if square is accessible, recurse.
-        else if (canUp && y != 0 && !visitedSpot[x][y-1]) {
-            setPlayerPos(permPos[0], permPos[1], player);
-            if (player == 0)
-                p1Pos = getPlayerPos(player);
-            else
+                pathCheck(x, y - 1, player, permX, permY);
+            }
+            //check LEFT direction, if square is accessible, recurse.
+            else if (canLeft && x != 0 && !visitedSpot[x - 1][y]) {
+                setPlayerPos(permPos[0], permPos[1], player);
                 p2Pos = getPlayerPos(player);
-            pathCheck(x, y - 1, player, permX, permY);
-        }
-        //check DOWN direction, if square is accessible, recurse.
-        else if (canDown && y != 8 && !visitedSpot[x][y+1]) {
-            setPlayerPos(permPos[0], permPos[1], player);
-            if (player == 0)
-                p1Pos = getPlayerPos(player);
-            else
+                pathCheck(x - 1, y, player, permX, permY);
+            }
+            //check RIGHT direction, if square is accessible, recurse.
+            else if (canRight && x != 8 && !visitedSpot[x + 1][y]) {
+                setPlayerPos(permPos[0], permPos[1], player);
                 p2Pos = getPlayerPos(player);
-            pathCheck(x, y + 1, player, permX, permY);
+                pathCheck(x + 1, y, player, permX, permY);
+            }
+            //check DOWN direction, if square is accessible, recurse.
+            else if (canDown && y != 8 && !visitedSpot[x][y + 1]) {
+                setPlayerPos(permPos[0], permPos[1], player);
+                p2Pos = getPlayerPos(player);
+                pathCheck(x, y + 1, player, permX, permY);
+            }
         }
         //path wouldn't be winnable if wall was placed
-        return false;
+        return true;
     }
 
 
