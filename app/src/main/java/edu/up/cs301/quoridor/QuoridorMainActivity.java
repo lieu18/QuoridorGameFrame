@@ -51,11 +51,6 @@ public class QuoridorMainActivity extends GameMainActivity {
             }
         });
 
-        playerTypes.add(new GamePlayerType("Human Player 2") {
-            public GamePlayer createPlayer(String name) {
-                return new QuoridorHumanPlayer(name, R.layout.quoridor_main);
-            }
-        });
 
         // Create a game configuration class for Quoridor
         GameConfig defaultConfig = new GameConfig(playerTypes, 2,2, "Quoridor", PORT_NUMBER);
@@ -65,7 +60,7 @@ public class QuoridorMainActivity extends GameMainActivity {
         defaultConfig.addPlayer("Computer", 1); // dumb computer player
 
         // Set the initial information for the remote player
-        defaultConfig.setRemoteData("Remote Player", "", 3);
+        defaultConfig.setRemoteData("Remote Player", "", 0);
 
         //done!
         return defaultConfig;
