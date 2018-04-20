@@ -72,7 +72,7 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
     @Override
     protected void move(boolean l, boolean r, boolean u, boolean d){
         boolean validMove = false;
-        int dir = randy.nextInt(50);
+        int dir = randy.nextInt(40);
         //make up/down movement a lot more likely
         if(this.getPlayerNum() == 0){ //go down more often
             dir = (dir > 9) ? 8 : dir;
@@ -133,7 +133,7 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
                     validMove = false;
                     break;
             }//switch
-            dir = randy.nextInt(4); // if selected weighted move isn't available just choose rand
+            dir = randy.nextInt(10); // if selected weighted move isn't available just choose rand
         }
     }
 

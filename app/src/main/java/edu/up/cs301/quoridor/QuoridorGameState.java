@@ -99,7 +99,7 @@ public class QuoridorGameState extends GameState {
         //this.vertWalls[4][4] = true;
 
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
-        this.p1RemainingWalls = this.p2RemainingWalls = 10;
+        this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 10;
 
         hasMoved = false;
         wallDown = false;
@@ -393,14 +393,13 @@ public class QuoridorGameState extends GameState {
                 return false;
             }
             //check if there are walls in front
-            if (curY != 0) {
-                if (relevantWalls[0][3]) {
-                    return false;
-                }
-                if (relevantWalls[0][4]) {
-                    return false;
-                }
+            if (relevantWalls[0][3]) {
+                return false;
             }
+            if (relevantWalls[0][4]) {
+                return false;
+            }
+
             //check if players are adjacent
             if (otherX == curX && otherY + 1 == curY) {
                 if (relevantWalls[0][0] || relevantWalls[0][1]) {
@@ -491,14 +490,13 @@ public class QuoridorGameState extends GameState {
                 return false;
             }
             //check if there are walls in front
-            if (curY != 7) {
-                if (relevantWalls[0][7]) {
-                    return false;
-                }
-                if (relevantWalls[0][8]) {
-                    return false;
-                }
+            if (relevantWalls[0][7]) {
+                return false;
             }
+            if (relevantWalls[0][8]) {
+                return false;
+            }
+
             //check if players are adjacent
             if (otherX == curX && otherY - 1 == curY) {
                 //check if far walls exist
