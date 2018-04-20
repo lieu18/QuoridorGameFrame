@@ -887,6 +887,9 @@ public class QuoridorGameState extends GameState {
         //checks for player turn, returns false if not turn
         if (player != turn)
             return false;
+        //check for out of bounds, happens only with AI
+        if (x < 0 || y < 0 || x >= 8 || y >= 8)
+            return false;
         if (!wallDown) {
             //check bounds by calling method
             if (borderPlaceCheck(player, x, y)) { //&& pathForAll(x, y)) {
