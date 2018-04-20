@@ -37,7 +37,7 @@ import edu.up.cs301.quoridor.QuoridorHumanPlayer;
  * Game actions are implemented and completed.
  *
  * Enhancements:
- * Buttons behave properly and add to the functionality of the game. 
+ * Buttons behave properly and add to the functionality of the game.
  *      New Game
  *      Finalize
  *      Undo

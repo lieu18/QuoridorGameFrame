@@ -35,6 +35,7 @@ public class QuoridorGameState extends GameState {
     private boolean visitedSpot[][] = new boolean[9][9];
     private boolean initCheck = false; //used for initializing pathCheck array
 
+    private QuoridorGameState tempQuo;
 
     public QuoridorGameState() {
         init();
@@ -87,23 +88,29 @@ public class QuoridorGameState extends GameState {
         }
 
 
-//        //TODO this is their testing
-        this.p1Pos = new int[]{4, 4};
-        this.p2Pos = new int[]{4, 5};
-        this.vertWalls[4][4] = true;
-        this.vertWalls[3][5] = true;
-        this.vertWalls[4][2] = true;
-        this.horzWalls[3][3] = true;
-        this.horzWalls[4][5] = true;
+////        //TODO this is their testing
+//        this.p1Pos = new int[]{4, 4};
+//        this.p2Pos = new int[]{4, 5};
+//        this.vertWalls[4][4] = true;
+//        this.vertWalls[3][5] = true;
+//        this.vertWalls[4][2] = true;
+//        this.horzWalls[3][3] = true;
+//        this.horzWalls[4][5] = true;
 
         //TODO End testing
         //TODO remove after test
         //this.vertWalls[4][3] = true;
         //this.vertWalls[4][4] = true;
 
+        //TODO: Testing
+        this.p1Pos = new int[]{4, 4}; // take this out later.. using to debug path checked
+        this.vertWalls[3][3] = true;
+        this.vertWalls[5][3] = true;
+        this.horzWalls[4][4] = true;
+
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
-        this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 0;
-        this.tempRemWalls = this.p1RemainingWalls = 1;
+        this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 10;
+//        this.tempRemWalls = this.p1RemainingWalls = 1;
 
         hasMoved = false;
         wallDown = false;
@@ -800,6 +807,11 @@ public class QuoridorGameState extends GameState {
         }
         */
 
+        if (wallDown && !pathForAll()) {
+            undo();
+            return false;
+        }
+
         //check who's turn it is and update their values
         if (turn == 0) {
             p1Pos[0] = tempPos[0];
@@ -1354,9 +1366,20 @@ public class QuoridorGameState extends GameState {
      * @return 9x9 array of all false values
      */
     private boolean[][] initChecker() {
+        tempQuo = new QuoridorGameState(this);
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 visitedSpot[i][j] = false;
+            }
+        }
+        for (int k = 0; k < 7; k++) {
+            for (int l = 0; l < 7; l++) {
+                if (this.tempHWalls[k][l]) {
+                    tempQuo.horzWalls[k][l] = true;
+                }
+                if (this.tempVWalls[k][l]) {
+                    tempQuo.vertWalls[k][l] = true;
+                }
             }
         }
         return visitedSpot;
@@ -1371,18 +1394,120 @@ public class QuoridorGameState extends GameState {
     private boolean pathForAll() {
         int p1Pos[] = getPlayerPos(0);
         int p2Pos[] = getPlayerPos(1);
-        if (pathCheck(p1Pos[0], p1Pos[1], 0, p1Pos[0], p1Pos[1])) {
-            initCheck = false;
-            if (pathCheck(p2Pos[0], p2Pos[1], 1, p2Pos[0], p2Pos[1])) {
-                initCheck = false;
-                return true;
-            }
-        } else
-            return false;
 
+        pathCheck(0, p1Pos[0], p1Pos[1]);
+        for (boolean w: visitedSpot[8]) {
+            if (w) {
+                initCheck = false;
+                pathCheck(1, p2Pos[0], p2Pos[1]);
+                for (boolean q : visitedSpot[0]) {
+                    if (q) {
+                        return true;
+                    }
+
+                }
+            }
+        }
         return false;
+
+//        if (pathCheck(0, p1Pos[0], p1Pos[1])) {
+//            initCheck = false;
+//            if (pathCheck(1, p2Pos[0], p2Pos[1])) {
+//                initCheck = false;
+//                return true;
+//            }
+//            else
+//                return false;
+//        }
+//        else {
+//            return false;
+//        }
+
+//        if (pathCheck(p1Pos[0], p1Pos[1], 0, p1Pos[0], p1Pos[1])) {
+//            initCheck = false;
+//            if (pathCheck(p2Pos[0], p2Pos[1], 1, p2Pos[0], p2Pos[1])) {
+//                initCheck = false;
+//                return true;
+//            }
+//        } else
+//            return false;
+
     }
 
+    private void pathCheck(int player, int x, int y) {
+        // Need to perform the place wall in side of the copied game state to do the check
+        // Pawn still moves even with the copy game state
+
+        //tempQuo = new QuoridorGameState(this);
+
+        if (!initCheck) {
+            initChecker();
+            initCheck = true;
+        }
+
+        int[] currentPlayer = tempQuo.getPlayerPos(player);
+        int[] oppPlayer = tempQuo.getPlayerPos((player + 1) % 2);
+        boolean canLeft = tempQuo.moveLeft(currentPlayer, oppPlayer, false);
+        boolean canRight = tempQuo.moveRight(currentPlayer, oppPlayer, false);
+        boolean canUp = tempQuo.moveUp(currentPlayer, oppPlayer, false);
+        boolean canDown = tempQuo.moveDown(currentPlayer, oppPlayer, false);
+
+
+        if ((x < 0 || x >= 9) || (y < 0 || y >= 9)) {
+            return;
+        }
+
+        if (visitedSpot[x][y]) {
+            return;
+        }
+
+        visitedSpot[x][y] = true;
+
+        if (player == 0) {
+            if (y == 8) {
+                return;
+            }
+            if (canLeft && x != 0 && !visitedSpot[x - 1][y]) {
+                tempQuo.setPlayerPos(x - 1, y, player);
+                pathCheck(player, x - 1, y);
+            }
+            if (canRight && x != 8 && !visitedSpot[x + 1][y]) {
+                tempQuo.setPlayerPos(x + 1, y, player);
+                pathCheck(player, x + 1, y);
+            }
+            if (canDown && y != 8 && !visitedSpot[x][y + 1]) {
+                tempQuo.setPlayerPos(x, y + 1, player);
+                pathCheck(player, x, y + 1);
+            }
+            if (canUp && y != 0 && !visitedSpot[x][y - 1]) {
+                tempQuo.setPlayerPos(x, y - 1, player);
+                pathCheck(player, x, y - 1);
+            }
+        }
+
+        if (player == 1) {
+            if (y == 0) {
+                return;
+            }
+            if (canLeft && x != 0 && !visitedSpot[x - 1][y]) {
+                tempQuo.setPlayerPos(x - 1, y, player);
+                pathCheck(player, x - 1, y);
+            }
+            if (canRight && x != 8 && !visitedSpot[x + 1][y]) {
+                tempQuo.setPlayerPos(x + 1, y, player);
+                pathCheck(player, x + 1, y);
+            }
+            if (canUp && y != 0 && !visitedSpot[x][y - 1]) {
+                tempQuo.setPlayerPos(x, y - 1, player);
+                pathCheck(player, x, y - 1);
+            }
+            if (canDown && y != 8 && !visitedSpot[x][y + 1]) {
+                tempQuo.setPlayerPos(x, y + 1, player);
+                pathCheck(player, x, y + 1);
+            }
+        }
+        return;
+    }
 
     /**
      * pathCheck
@@ -1397,10 +1522,10 @@ public class QuoridorGameState extends GameState {
      * @param permY  holds player's initial Y position
      * @return true if path is still winnable
      */
-    private boolean pathCheck(int x, int y, int player, int permX, int permY) {
-        //TODO Phillip is testing the smart AI and there is a bug with the wall placement.
-        //TODO please remove the following line after smart ai is done testing
-        return true;
+//    private boolean pathCheck(int x, int y, int player, int permX, int permY) {
+//        //TODO Phillip is testing the smart AI and there is a bug with the wall placement.
+//        //TODO please remove the following line after smart ai is done testing
+//        return true;
 
         /*
         int[] playerPos = new int[]{x, y};
@@ -1493,7 +1618,7 @@ public class QuoridorGameState extends GameState {
         //path wouldn't be winnable if wall was placed
         return true;
         */
-    }
+   // }
 
 
 }
