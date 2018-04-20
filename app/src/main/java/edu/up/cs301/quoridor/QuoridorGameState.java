@@ -88,10 +88,13 @@ public class QuoridorGameState extends GameState {
 
 
 //        //TODO this is their testing
-        //this.p1Pos = new int[]{1, 4};
-        //this.p2Pos = new int[]{0, 4};
-        //this.vertWalls[0][5] = true;
-        //this.vertWalls[5][4] = true;
+        this.p1Pos = new int[]{4, 4};
+        this.p2Pos = new int[]{4, 5};
+        this.vertWalls[4][4] = true;
+        this.vertWalls[3][5] = true;
+        this.vertWalls[4][2] = true;
+        this.horzWalls[3][3] = true;
+        this.horzWalls[4][5] = true;
 
         //TODO End testing
         //TODO remove after test
@@ -99,7 +102,8 @@ public class QuoridorGameState extends GameState {
         //this.vertWalls[4][4] = true;
 
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
-        this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 10;
+        this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 0;
+        this.tempRemWalls = this.p1RemainingWalls = 1;
 
         hasMoved = false;
         wallDown = false;

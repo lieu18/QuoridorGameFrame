@@ -61,10 +61,10 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
 
 
 
-        canL = tempQgs.moveLeft(curPos,otherPos,false);
-        canR = tempQgs.moveRight(curPos,otherPos,false);
-        canU = tempQgs.moveUp(curPos,otherPos,false);
-        canD = tempQgs.moveDown(curPos,otherPos,false);
+        canL = tempQgs.moveLeft(curPos,otherPos,false) || tempQgs.moveLeft(curPos,otherPos,true) ;
+        canR = tempQgs.moveRight(curPos,otherPos,false) || tempQgs.moveRight(curPos,otherPos,true);
+        canU = tempQgs.moveUp(curPos,otherPos,false) || tempQgs.moveUp(curPos,otherPos,true);
+        canD = tempQgs.moveDown(curPos,otherPos,false) || tempQgs.moveDown(curPos,otherPos,true);
 
         tempQgs.undo();
 

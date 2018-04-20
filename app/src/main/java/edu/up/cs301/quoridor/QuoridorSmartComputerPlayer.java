@@ -93,12 +93,13 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
 
 
         while(!validMove) {
+            //todo weird quoridor jump case
             switch(dir){
                 case 0:
                 case 1:
                 case 2:
                     if(l){
-                        game.sendAction(new QuoridorMovePawn(this,Direction.LEFT,false));
+                        game.sendAction(new QuoridorMovePawn(this,Direction.LEFT,randy.nextBoolean()));
                         validMove = true;
                         Log.i("left",""+l);
                     }
@@ -107,7 +108,7 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
                 case 4:
                 case 5:
                     if(r){
-                        game.sendAction(new QuoridorMovePawn(this,Direction.RIGHT,false));
+                        game.sendAction(new QuoridorMovePawn(this,Direction.RIGHT,randy.nextBoolean()));
                         validMove = true;
                         Log.i("right",""+r);
                     }
@@ -115,7 +116,7 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
                 case 6:
                 case 7:
                     if(u){
-                        game.sendAction(new QuoridorMovePawn(this,Direction.UP,false));
+                        game.sendAction(new QuoridorMovePawn(this,Direction.UP,randy.nextBoolean()));
                         validMove = true;
                         Log.i("up",""+u);
                     }
@@ -123,7 +124,7 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
                 case 8:
                 case 9:
                     if(d){
-                        game.sendAction(new QuoridorMovePawn(this,Direction.DOWN,false));
+                        game.sendAction(new QuoridorMovePawn(this,Direction.DOWN,randy.nextBoolean()));
                         validMove = true;
                         Log.i("down",""+d);
                     }
