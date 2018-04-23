@@ -103,10 +103,10 @@ public class QuoridorGameState extends GameState {
         //this.vertWalls[4][4] = true;
 
         //TODO: Testing
-        this.p1Pos = new int[]{5, 0}; // take this out later.. using to debug path checked
-        this.vertWalls[4][0] = true;
-        this.horzWalls[5][0] = true;
-        this.p1RemainingWalls = 8;
+//        this.p1Pos = new int[]{5, 0}; // take this out later.. using to debug path checked
+//        this.vertWalls[4][0] = true;
+//        this.horzWalls[5][0] = true;
+//        this.p1RemainingWalls = 8;
 
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
         this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 10;
@@ -1401,13 +1401,28 @@ public class QuoridorGameState extends GameState {
         int p1Pos[] = getPlayerPos(0);
         int p2Pos[] = getPlayerPos(1);
 
+//        pathCheck(0, p1Pos[0], p1Pos[1]);
+//        for (boolean w: visitedSpot[8]) {
+//            if (w) {
+//                initCheck = false;
+//                pathCheck(1, p2Pos[0], p2Pos[1]);
+//                for (boolean q : visitedSpot[0]) {
+//                    if (q) {
+//                        initCheck = false;
+//                        return true;
+//                    }
+//
+//                }
+//            }
+//        }
+
         pathCheck(0, p1Pos[0], p1Pos[1]);
-        for (boolean w: visitedSpot[8]) {
-            if (w) {
+        for (int i = 0; i < 9; i++)  {
+            if (visitedSpot[i][8] == true) {
                 initCheck = false;
                 pathCheck(1, p2Pos[0], p2Pos[1]);
-                for (boolean q : visitedSpot[0]) {
-                    if (q) {
+                for (int j = 0; j < 9; j++) {
+                    if (visitedSpot[j][0]) {
                         initCheck = false;
                         return true;
                     }
@@ -1415,6 +1430,9 @@ public class QuoridorGameState extends GameState {
                 }
             }
         }
+
+
+
         initCheck = false;
         return false;
 
