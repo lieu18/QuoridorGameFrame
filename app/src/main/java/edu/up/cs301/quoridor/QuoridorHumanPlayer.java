@@ -138,6 +138,14 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
      * onTouch method - handles all the touches that take place on the surface view
      */
     public boolean onTouch(View v, MotionEvent event) {
+        /**
+         External Citation
+         Date: 21 March 2018
+         Problem: Touching screen would rotate wall 30+ times (on one touch)
+         Resource: https://stackoverflow.com/questions/5765904/
+                    touch-release-method-in-android
+         Solution: Used example code from this post (on release of touch event happens).
+         */
         // ignore if not an "up" event
         if (event.getAction() != MotionEvent.ACTION_UP) return true;
         // register that we have handled the event

@@ -785,28 +785,6 @@ public class QuoridorGameState extends GameState {
         if (!hasMoved)
             return false;
         //check for path if wall was placed
-
-        //TODO: finish pathForAll and redrawing when illegal wall placed
-        /*
-        if (wallDown && !pathForAll()) {
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    if (tempHWalls[i][j])
-                        tempHWalls[i][j] = false;
-                    else if (tempVWalls[i][j])
-                        tempVWalls[i][j] = false;
-                }
-            }
-            if (turn == 0)
-                p1RemainingWalls++;
-            else
-                p2RemainingWalls++;
-            hasMoved = false;
-            wallDown = false;
-            return false;
-        }
-        */
-
         if (wallDown && !pathForAll()) {
             undo();
             for (int a = 0; a < 8; a++) {
@@ -897,7 +875,6 @@ public class QuoridorGameState extends GameState {
      *Calls borderPlaceCheck method to check border and placeable spots
      *Returns false if method call returns false
     */
-    //TODO: Figure out how to deal with closed path
     public boolean placeWall(int player, int x, int y) {
         if (hasMoved) {
             return false;
@@ -1330,40 +1307,6 @@ public class QuoridorGameState extends GameState {
         }
     }
 
-    private boolean checkWall(int x, int y, Direction dir) {
-        //check for out of bounds
-        if (x < 0 || y < 0 || x > 8 || y > 8) {
-            return false;
-        }
-        //check for direction, if up or down, check for horizontal wall
-        //else check for vertical wall because moving left or right
-        if (dir == Direction.UP || dir == Direction.DOWN) {
-            if (horzWalls[x][y])
-                return true;
-        } else {
-            if (vertWalls[x][y])
-                return true;
-        }
-        return false;
-    }
-
-
-    /*
-    //pass in opposite player whose winnable path is being checked
-    //TODO: possible issue with not seeing jumps
-    private boolean checkPawn(int x, int y, int player) {
-        //check for out of bounds
-        if (x < 0 || y < 0 || x > 9 || y > 9) {
-            return false;
-        }
-        //check if pawn exists
-        if (new int[]{x, y} == getPlayerPos(player))
-            return true;
-        //no pawn at square
-        return false;
-    }
-    */
-
     /**
      * initChecker
      * Initializes visitedSpot array which is used when
@@ -1401,132 +1344,107 @@ public class QuoridorGameState extends GameState {
         int p1Pos[] = getPlayerPos(0);
         int p2Pos[] = getPlayerPos(1);
 
-//        pathCheck(0, p1Pos[0], p1Pos[1]);
-//        for (boolean w: visitedSpot[8]) {
-//            if (w) {
-//                initCheck = false;
-//                pathCheck(1, p2Pos[0], p2Pos[1]);
-//                for (boolean q : visitedSpot[0]) {
-//                    if (q) {
-//                        initCheck = false;
-//                        return true;
-//                    }
-//
-//                }
-//            }
-//        }
-
-        pathCheck(0, p1Pos[0], p1Pos[1]);
+        pathCheck(0, p1Pos[0], p1Pos[1]); //call pathCheck on Player 1
         for (int i = 0; i < 9; i++)  {
+            // if any end spot was reached, any column in row 8 for P1
             if (visitedSpot[i][8] == true) {
-                initCheck = false;
-                pathCheck(1, p2Pos[0], p2Pos[1]);
+                initCheck = false; //boolean to reset visited spots array
+                pathCheck(1, p2Pos[0], p2Pos[1]); // call pathCheck on Player 2
                 for (int j = 0; j < 9; j++) {
+                    // if any end spot was reached, any column in row 0 for P2
                     if (visitedSpot[j][0]) {
                         initCheck = false;
-                        return true;
+                        return true; //game is still winnable, wall is able to be placed
                     }
-
                 }
             }
         }
-
-
-
         initCheck = false;
         return false;
-
-//        if (pathCheck(0, p1Pos[0], p1Pos[1])) {
-//            initCheck = false;
-//            if (pathCheck(1, p2Pos[0], p2Pos[1])) {
-//                initCheck = false;
-//                return true;
-//            }
-//            else
-//                return false;
-//        }
-//        else {
-//            return false;
-//        }
-
-//        if (pathCheck(p1Pos[0], p1Pos[1], 0, p1Pos[0], p1Pos[1])) {
-//            initCheck = false;
-//            if (pathCheck(p2Pos[0], p2Pos[1], 1, p2Pos[0], p2Pos[1])) {
-//                initCheck = false;
-//                return true;
-//            }
-//        } else
-//            return false;
-
     }
 
+    /**
+     * pathCheck
+     *
+     * Checks to make sure the game is still winnable if
+     * wall placement happens
+     *
+     * @param player whose path is being checked
+     * @param x      coordinate of square
+     * @param y      coordinate of square
+     * @return true if path is still winnable
+     */
     private void pathCheck(int player, int x, int y) {
-        // Need to perform the place wall in side of the copied game state to do the check
-        // Pawn still moves even with the copy game state
-
-        //tempQuo = new QuoridorGameState(this);
-
         if (!initCheck) {
-            initChecker();
+            initChecker(); //initializes visitedSpot array to false values
             initCheck = true;
         }
-
+        //uses copy of gamestate values so original state isn't changed
         int[] currentPlayer = tempQuo.getPlayerPos(player);
         int[] oppPlayer = tempQuo.getPlayerPos((player + 1) % 2);
-        boolean canLeft = tempQuo.moveLeft(currentPlayer, oppPlayer, false);
-        boolean canRight = tempQuo.moveRight(currentPlayer, oppPlayer, false);
-        boolean canUp = tempQuo.moveUp(currentPlayer, oppPlayer, false);
-        boolean canDown = tempQuo.moveDown(currentPlayer, oppPlayer, false);
+        boolean canLeft = tempQuo.moveLeft(currentPlayer, oppPlayer, false); //is player able to move LEFT?
+        boolean canRight = tempQuo.moveRight(currentPlayer, oppPlayer, false); //is player able to move RIGHT?
+        boolean canUp = tempQuo.moveUp(currentPlayer, oppPlayer, false); //is player able to move UP?
+        boolean canDown = tempQuo.moveDown(currentPlayer, oppPlayer, false); //is player able to move DOWN?
 
-
+        //check for out of bounds values, edge cases
         if ((x < 0 || x >= 9) || (y < 0 || y >= 9)) {
             return;
         }
-
+        //was square visited
         if (visitedSpot[x][y]) {
             return;
         }
-
+        //sqaure got visited so set to true
         visitedSpot[x][y] = true;
 
+        //check which player, DOWN is checked before UP case if Player 1
         if (player == 0) {
-            if (y == 8) {
+            if (y == 8) { //goal reached
                 return;
             }
+            //check LEFT and if spot is visited, recurse if accessible
             if (canLeft && x != 0 && !visitedSpot[x - 1][y]) {
                 tempQuo.setPlayerPos(x - 1, y, player);
                 pathCheck(player, x - 1, y);
             }
+            //check RIGHT and if spot is visited, recurse if accessible
             if (canRight && x != 8 && !visitedSpot[x + 1][y]) {
                 tempQuo.setPlayerPos(x + 1, y, player);
                 pathCheck(player, x + 1, y);
             }
+            //check DOWN and if spot is visited, recurse if accessible
             if (canDown && y != 8 && !visitedSpot[x][y + 1]) {
                 tempQuo.setPlayerPos(x, y + 1, player);
                 pathCheck(player, x, y + 1);
             }
+            //check UP and if spot is visited, recurse if accessible
             if (canUp && y != 0 && !visitedSpot[x][y - 1]) {
                 tempQuo.setPlayerPos(x, y - 1, player);
                 pathCheck(player, x, y - 1);
             }
         }
-
+        //check which player, UP is checked before DOWN case if Player 2
         if (player == 1) {
-            if (y == 0) {
+            if (y == 0) { //goal reached
                 return;
             }
+            //check LEFT and if spot is visited, recurse if accessible
             if (canLeft && x != 0 && !visitedSpot[x - 1][y]) {
                 tempQuo.setPlayerPos(x - 1, y, player);
                 pathCheck(player, x - 1, y);
             }
+            //check RIGHT and if spot is visited, recurse if accessible
             if (canRight && x != 8 && !visitedSpot[x + 1][y]) {
                 tempQuo.setPlayerPos(x + 1, y, player);
                 pathCheck(player, x + 1, y);
             }
+            //check UP and if spot is visited, recurse if accessible
             if (canUp && y != 0 && !visitedSpot[x][y - 1]) {
                 tempQuo.setPlayerPos(x, y - 1, player);
                 pathCheck(player, x, y - 1);
             }
+            //check DOWN and if spot is visited, recurse if accessible
             if (canDown && y != 8 && !visitedSpot[x][y + 1]) {
                 tempQuo.setPlayerPos(x, y + 1, player);
                 pathCheck(player, x, y + 1);
@@ -1534,117 +1452,5 @@ public class QuoridorGameState extends GameState {
         }
         return;
     }
-
-    /**
-     * pathCheck
-     * <p>
-     * Checks to make sure the game is still winnable if
-     * wall placement happenss
-     *
-     * @param x      coordinate of square
-     * @param y      coordinate of square
-     * @param player whose path is being checked
-     * @param permX  holds player's initial X position
-     * @param permY  holds player's initial Y position
-     * @return true if path is still winnable
-     */
-//    private boolean pathCheck(int x, int y, int player, int permX, int permY) {
-//        //TODO Phillip is testing the smart AI and there is a bug with the wall placement.
-//        //TODO please remove the following line after smart ai is done testing
-//        return true;
-
-        /*
-        int[] playerPos = new int[]{x, y};
-        int opPlayer = ((player + 1) % 2);
-        int permPos[] = new int[]{permX, permY};
-        boolean canLeft = moveLeft(playerPos, getPlayerPos(opPlayer), false);
-        boolean canRight = moveRight(playerPos, getPlayerPos(opPlayer), false);
-        boolean canUp = moveUp(playerPos, getPlayerPos(opPlayer), false);
-        boolean canDown = moveDown(playerPos, getPlayerPos(opPlayer), false);
-
-
-        if (!initCheck) {
-            initChecker();
-            initCheck = true;
-        }
-        //base cases, checking if player made winnable square/s
-        if (player == 0 && y == 8) { //top player
-            setPlayerPos(permPos[0], permPos[1], 0);
-            p1Pos = getPlayerPos(0);
-            return true;
-        } else if (player == 1 && y == 0) {//bottom player
-            setPlayerPos(permPos[0], permPos[1], 1);
-            p2Pos = getPlayerPos(1);
-            return true;
-        }
-
-        //check for edge cases
-        if ((x < 0 || x >= 9) || (y < 0 || y >= 9))
-            return false;
-
-        //if spot has visited, return
-        if (visitedSpot[x][y])
-            return false;
-
-        //new spot, set true so reachable square
-        visitedSpot[x][y] = true;
-        //TODO: figure out jump boolean, how used, ask PHILLIP & DYLAN!
-        if (player == 0) {
-            //check DOWN direction, if square is accessible, recurse.
-            if (canDown && y != 8 && !visitedSpot[x][y + 1]) {
-                setPlayerPos(permPos[0], permPos[1], player);
-                p1Pos = getPlayerPos(player);
-                pathCheck(x, y + 1, player, permX, permY);
-            }
-            //check LEFT direction, if square is accessible, recurse.
-            else if (canLeft && x != 0 && !visitedSpot[x - 1][y]) {
-                setPlayerPos(permPos[0], permPos[1], player);
-                p1Pos = getPlayerPos(player);
-                pathCheck(x - 1, y, player, permX, permY);
-            }
-            //check RIGHT direction, if square is accessible, recurse.
-            else if (canRight && x != 8 && !visitedSpot[x + 1][y]) {
-                setPlayerPos(permPos[0], permPos[1], player);
-                p1Pos = getPlayerPos(player);
-                pathCheck(x + 1, y, player, permX, permY);
-            }
-            //check UP direction, if square is accessible, recurse.
-            else if (canUp && y != 0 && !visitedSpot[x][y - 1]) {
-                setPlayerPos(permPos[0], permPos[1], player);
-                p1Pos = getPlayerPos(player);
-                pathCheck(x, y - 1, player, permX, permY);
-            }
-        }
-        else {
-            //check UP direction, if square is accessible, recurse.
-            if (canUp && y != 0 && !visitedSpot[x][y - 1]) {
-                setPlayerPos(permPos[0], permPos[1], player);
-                p2Pos = getPlayerPos(player);
-                pathCheck(x, y - 1, player, permX, permY);
-            }
-            //check LEFT direction, if square is accessible, recurse.
-            else if (canLeft && x != 0 && !visitedSpot[x - 1][y]) {
-                setPlayerPos(permPos[0], permPos[1], player);
-                p2Pos = getPlayerPos(player);
-                pathCheck(x - 1, y, player, permX, permY);
-            }
-            //check RIGHT direction, if square is accessible, recurse.
-            else if (canRight && x != 8 && !visitedSpot[x + 1][y]) {
-                setPlayerPos(permPos[0], permPos[1], player);
-                p2Pos = getPlayerPos(player);
-                pathCheck(x + 1, y, player, permX, permY);
-            }
-            //check DOWN direction, if square is accessible, recurse.
-            else if (canDown && y != 8 && !visitedSpot[x][y + 1]) {
-                setPlayerPos(permPos[0], permPos[1], player);
-                p2Pos = getPlayerPos(player);
-                pathCheck(x, y + 1, player, permX, permY);
-            }
-        }
-        //path wouldn't be winnable if wall was placed
-        return true;
-        */
-   // }
-
 
 }
