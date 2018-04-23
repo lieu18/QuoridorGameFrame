@@ -88,7 +88,7 @@ public class QuoridorGameState extends GameState {
         }
 
 
-////        //TODO this is their testing
+//        //TODO this is their testing
 //        this.p1Pos = new int[]{4, 4};
 //        this.p2Pos = new int[]{4, 5};
 //        this.vertWalls[4][4] = true;
@@ -103,10 +103,10 @@ public class QuoridorGameState extends GameState {
         //this.vertWalls[4][4] = true;
 
         //TODO: Testing
-        this.p1Pos = new int[]{4, 4}; // take this out later.. using to debug path checked
-        this.vertWalls[3][3] = true;
-        this.vertWalls[5][3] = true;
-        this.horzWalls[4][4] = true;
+        this.p1Pos = new int[]{5, 0}; // take this out later.. using to debug path checked
+        this.vertWalls[4][0] = true;
+        this.horzWalls[5][0] = true;
+        this.p1RemainingWalls = 8;
 
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
         this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 10;
@@ -809,6 +809,12 @@ public class QuoridorGameState extends GameState {
 
         if (wallDown && !pathForAll()) {
             undo();
+            for (int a = 0; a < 8; a++) {
+                for (int b = 0; b < 8; b++) {
+                    tempQuo.horzWalls[a][b] = false;
+                    tempQuo.vertWalls[a][b] = false;
+                }
+            }
             return false;
         }
 
@@ -1367,13 +1373,13 @@ public class QuoridorGameState extends GameState {
      */
     private boolean[][] initChecker() {
         tempQuo = new QuoridorGameState(this);
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 visitedSpot[i][j] = false;
             }
         }
-        for (int k = 0; k < 7; k++) {
-            for (int l = 0; l < 7; l++) {
+        for (int k = 0; k < 8; k++) {
+            for (int l = 0; l < 8; l++) {
                 if (this.tempHWalls[k][l]) {
                     tempQuo.horzWalls[k][l] = true;
                 }
@@ -1402,12 +1408,14 @@ public class QuoridorGameState extends GameState {
                 pathCheck(1, p2Pos[0], p2Pos[1]);
                 for (boolean q : visitedSpot[0]) {
                     if (q) {
+                        initCheck = false;
                         return true;
                     }
 
                 }
             }
         }
+        initCheck = false;
         return false;
 
 //        if (pathCheck(0, p1Pos[0], p1Pos[1])) {
