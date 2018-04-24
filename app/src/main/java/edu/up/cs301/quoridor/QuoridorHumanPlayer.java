@@ -36,6 +36,8 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
     // the ID for the layout to use
     private int layoutId;
 
+    private QuoridorGameState qgs;
+
     //private QuoridorGameState quoridorGameState;
 
     public QuoridorHumanPlayer(String name, int layoutId) {
@@ -63,7 +65,9 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
             // if we do not have a TTTState, ignore
             return;
         else {
+
             surfaceView.setState((QuoridorGameState)info);
+            qgs = (QuoridorGameState)info;
             surfaceView.invalidate();
             Log.i("human player", "receiving");
         }
@@ -164,8 +168,8 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         int margin = surfaceView.margin;
         int squareSize = surfaceView.squareSize; //size of squares on surface view
 
-        QuoridorLocalGame qlg = (QuoridorLocalGame) this.game;
-        QuoridorGameState qgs = qlg.state;
+        //QuoridorLocalGame qlg = (QuoridorLocalGame) this.game;
+
 
         //postition of player 1
         int[] p1Pos = qgs.getPlayerPos(0);
