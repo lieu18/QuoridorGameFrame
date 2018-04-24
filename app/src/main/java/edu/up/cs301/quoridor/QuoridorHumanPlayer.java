@@ -131,6 +131,8 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 return;
         }
 
+        surfaceView.invalidate(); //redraw the surface view
+
 
     }
 
