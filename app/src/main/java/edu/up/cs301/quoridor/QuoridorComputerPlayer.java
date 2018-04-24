@@ -97,28 +97,28 @@ public class QuoridorComputerPlayer extends GameComputerPlayer {
             switch(randy.nextInt(4)){
                 case 0:
                     if(l){
-                        game.sendAction(new QuoridorMovePawn(this,Direction.LEFT,false));
+                        game.sendAction(new QuoridorMovePawn(this,Direction.LEFT,randy.nextBoolean()));
                         validMove = true;
                         Log.i("left",""+l);
                     }
                     break;
                 case 1:
                     if(r){
-                        game.sendAction(new QuoridorMovePawn(this,Direction.RIGHT,false));
+                        game.sendAction(new QuoridorMovePawn(this,Direction.RIGHT,randy.nextBoolean()));
                         validMove = true;
                         Log.i("right",""+r);
                     }
                     break;
                 case 2:
                     if(u){
-                        game.sendAction(new QuoridorMovePawn(this,Direction.UP,false));
+                        game.sendAction(new QuoridorMovePawn(this,Direction.UP,randy.nextBoolean()));
                         validMove = true;
                         Log.i("up",""+u);
                     }
                     break;
                 case 3:
                     if(d){
-                        game.sendAction(new QuoridorMovePawn(this,Direction.DOWN,false));
+                        game.sendAction(new QuoridorMovePawn(this,Direction.DOWN,randy.nextBoolean()));
                         validMove = true;
                         Log.i("down",""+d);
                     }

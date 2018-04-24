@@ -96,9 +96,13 @@ public class QuoridorGameState extends GameState {
 //        this.vertWalls[4][2] = true;
 //        this.horzWalls[3][3] = true;
 //        this.horzWalls[4][5] = true;
+        //this.p1RemainingWalls = 1;
+        //this.p2RemainingWalls = 0;
 
         //TODO End testing
         //TODO remove after test
+
+
         //this.vertWalls[4][3] = true;
         //this.vertWalls[4][4] = true;
 
@@ -110,7 +114,6 @@ public class QuoridorGameState extends GameState {
 
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
         this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 10;
-//        this.tempRemWalls = this.p1RemainingWalls = 1;
 
         hasMoved = false;
         wallDown = false;
@@ -1382,10 +1385,14 @@ public class QuoridorGameState extends GameState {
         //uses copy of gamestate values so original state isn't changed
         int[] currentPlayer = tempQuo.getPlayerPos(player);
         int[] oppPlayer = tempQuo.getPlayerPos((player + 1) % 2);
-        boolean canLeft = tempQuo.moveLeft(currentPlayer, oppPlayer, false); //is player able to move LEFT?
-        boolean canRight = tempQuo.moveRight(currentPlayer, oppPlayer, false); //is player able to move RIGHT?
-        boolean canUp = tempQuo.moveUp(currentPlayer, oppPlayer, false); //is player able to move UP?
-        boolean canDown = tempQuo.moveDown(currentPlayer, oppPlayer, false); //is player able to move DOWN?
+        boolean canLeft = tempQuo.moveLeft(currentPlayer, oppPlayer, false) ||
+                tempQuo.moveLeft(currentPlayer, oppPlayer, true); //is player able to move LEFT?
+        boolean canRight = tempQuo.moveRight(currentPlayer, oppPlayer, false) ||
+                tempQuo.moveRight(currentPlayer, oppPlayer, true); //is player able to move RIGHT?
+        boolean canUp = tempQuo.moveUp(currentPlayer, oppPlayer, false) ||
+                tempQuo.moveUp(currentPlayer, oppPlayer, true); //is player able to move UP?
+        boolean canDown = tempQuo.moveDown(currentPlayer, oppPlayer, false) ||
+                tempQuo.moveDown(currentPlayer, oppPlayer, true); //is player able to move DOWN?
 
         //check for out of bounds values, edge cases
         if ((x < 0 || x >= 9) || (y < 0 || y >= 9)) {
