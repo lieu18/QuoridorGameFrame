@@ -56,7 +56,6 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
     public void receiveInfo(GameInfo info) {
         if (surfaceView == null) return;
 
-        //TODO this method
         if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
             // if the move was out of turn or otherwise illegal, flash the screen
             //surfaceView.flash(Color.RED, 50);
@@ -171,9 +170,9 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         //QuoridorLocalGame qlg = (QuoridorLocalGame) this.game;
 
 
-        //postition of player 1
+        //position of player 1
         int[] p1Pos = qgs.getPlayerPos(0);
-        //postition of player 2
+        //position of player 2
         int[] p2Pos = qgs.getPlayerPos(1);
         //walls
         boolean[][] horzWalls = qgs.getHorzWalls();
@@ -184,7 +183,6 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
         int turn = qgs.getTurn(); //get the turn from the local game
 
         //handles movement of pawn, whether left, right, up, or down
-        // LEFT TODO: Handle Jump Cases
         if (x > curX + playerPos[turn][0] * margin - margin &&
                 x < curX + playerPos[turn][0] * margin + squareSize - margin &&
                 y > curY + playerPos[turn][1] * margin &&
@@ -256,20 +254,8 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
             }
         }
 
-
-
-
-
         final int[] curPlayer = playerPos[turn];
 
-
-
-        //TODO double check all array indices out of bounds.
-        //specifically check x and y for over the top out of bounds
-        //TODO test edge quoridor jumps
-        //quoridor jumps (aka advanced jump)
-
-        //up TODO not tested lol
         if (playerPos[0][0] == playerPos[1][0] &&
                 playerPos[turn][1] - 1 == playerPos[1 - turn][1]) {
 
@@ -352,7 +338,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                         y < curY + playerPos[turn][1] * margin + squareSize + margin) {
                     game.sendAction(new QuoridorMovePawn(this, Direction.DOWN, true));
                 }
-                //down'' right
+                //down right
                 if (x > curX + playerPos[turn][0] * margin + margin &&
                         x < curX + playerPos[turn][0] * margin + squareSize + margin &&
                         y > curY + playerPos[turn][1] * margin + margin &&
@@ -413,7 +399,7 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 playerPos[turn][0] + 1 == playerPos[1 - turn][0]) {
 
             //check for edge case
-            if(playerPos[1-turn][0] == 8) { //todo figure out if this needs to be changed to 0
+            if(playerPos[1-turn][0] == 8) {
                 //RIGHT UP
                 if (x > curX + playerPos[turn][0] * margin + margin &&
                         x < curX + playerPos[turn][0] * margin + squareSize + margin &&
@@ -477,7 +463,6 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
             }
         } // move RIGHT
 
-        //TODO left
         if (playerPos[0][1] == playerPos[1][1] &&
                 playerPos[turn][0] - 1 == playerPos[1 - turn][0]) {
 
@@ -545,19 +530,6 @@ public class QuoridorHumanPlayer extends GameHumanPlayer implements View.OnTouch
                 }
             }
         } // move LEFT
-
-
-//        //check if every square is clickable
-//        for(int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                //test to see if clicks happen TODO take out later
-//                if (x > curX && x < curX + squareSize &&
-//                        y > curY && y < curY + squareSize) {
-//                    //surfaceView.movePawn(i,j);
-//                }
-//                curX += margin;
-//            }
-//        }
 
         // PLACE WAllS PLAYER INTERACTIONS
         curX = surfaceView.startingX; //set a new starting X, so don't used change value for wall

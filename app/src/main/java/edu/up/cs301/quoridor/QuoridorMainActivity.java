@@ -24,23 +24,43 @@ import edu.up.cs301.quoridor.QuoridorHumanPlayer;
  * @author Dylan Shuler
  *
  *
- * Current state of the game does not include the complex path finder algorithm
- *      Algorithm not behaving the way we expected. More complex than noted.
- *      Ran into strange bugs with pawn movement that was not caught before.
+ * Final Game Completion:
+ *      Game is fully functional with pawn jumps and path checker.
+ *      All game requirments were met.
+ *      All bugs reported on Bugzilla were address and resolved.
+ *      Currently no known bugs with the game as of this submission.
+ *      All Actions were completed and met.
+ *      Complex Algorithms are implemented into the game.
+ *      Network play works between tablets.
  *
- * Network play is mysteriously not working. Prompts a Could not find game server on network
- *      Should have gone in early and addressed this issue after alpha bugs were fixed.
+ * Quick How to Play:
+ *      In general: two pawns start at opposite ends of a 9x9 board.
+ *      The objective is to reach the other side of the board before your opponent.
+ *      Each pawn is allocated 10 walls that they may place on the board.
+ *      Pawn can either place a wall or move one space during thier turn.
+ *      To move pawn press on available square to move pawn.
+ *      Pawns move to only valid spots.
+ *      To place wall, players must press at the intersections of the board.
+ *      Walls can be rotated by pressing the same intersection.
+ *      Only newly placed walls can be rotated.
+ *      Walls cannot overlap.
+ *      Human player is the red dot (top)
  *
- * Game contains all the graphics in its final form
- * Smart and Dumb Computer AI components are implemented and runs
- *
- * Game actions are implemented and completed.
+ *      For network play:
+ *      Same rules apply
+ *      Active player is the red dot.
  *
  * Enhancements:
  * Buttons behave properly and add to the functionality of the game.
- *      New Game
- *      Finalize
- *      Undo
+ *      New Game: Starts a new game when pressed
+ *      Finalize: Ends turn. Turn can only be ended when a valid move occurs. Players cannot skip turns.
+ *                Finalized moves cannot be undone.
+ *      Undo: Resets the current action by player before finalize turn.
+ *
+ * Issues beyond our control:
+ *      Noah's tablet could not support network play. (Prompted "Could not find game on server")
+ *      Issue was not seen by other tablets of this team.
+ *      Noah's Tablet ID: 20273.
  */
 
 public class QuoridorMainActivity extends GameMainActivity {
@@ -67,8 +87,6 @@ public class QuoridorMainActivity extends GameMainActivity {
             }
         });
 
-        //TODO add smart computer
-
         playerTypes.add(new GamePlayerType("Computer Player (Smart)") {
             public GamePlayer createPlayer(String name) {
                 return new QuoridorSmartComputerPlayer(name);
@@ -88,8 +106,6 @@ public class QuoridorMainActivity extends GameMainActivity {
 
         //done!
         return defaultConfig;
-
-
 
     }
 

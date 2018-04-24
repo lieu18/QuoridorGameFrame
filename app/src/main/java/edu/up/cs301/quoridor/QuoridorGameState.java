@@ -67,7 +67,6 @@ public class QuoridorGameState extends GameState {
         wallDown = false;
     }
 
-    //TODO change back after testing
     private void init() {
         this.turn = 0;
         this.p1Pos = new int[]{4, 0};
@@ -86,31 +85,6 @@ public class QuoridorGameState extends GameState {
                 this.tempHWalls[i][j] = this.tempVWalls[i][j] = false;
             }
         }
-
-
-//        //TODO this is their testing
-//        this.p1Pos = new int[]{4, 4};
-//        this.p2Pos = new int[]{4, 5};
-//        this.vertWalls[4][4] = true;
-//        this.vertWalls[3][5] = true;
-//        this.vertWalls[4][2] = true;
-//        this.horzWalls[3][3] = true;
-//        this.horzWalls[4][5] = true;
-        //this.p1RemainingWalls = 1;
-        //this.p2RemainingWalls = 0;
-
-        //TODO End testing
-        //TODO remove after test
-
-
-        //this.vertWalls[4][3] = true;
-        //this.vertWalls[4][4] = true;
-
-        //TODO: Testing
-//        this.p1Pos = new int[]{5, 0}; // take this out later.. using to debug path checked
-//        this.vertWalls[4][0] = true;
-//        this.horzWalls[5][0] = true;
-//        this.p1RemainingWalls = 8;
 
         this.tempPos = new int[]{this.p1Pos[0], this.p1Pos[1]};
         this.tempRemWalls = this.p1RemainingWalls = this.p2RemainingWalls = 10;
@@ -163,8 +137,6 @@ public class QuoridorGameState extends GameState {
         }
     }
 
-    //TODO can we delete this safely?
-
     /**
      * Check if there is a wall placed at a given x y coordinate
      *
@@ -212,6 +184,15 @@ public class QuoridorGameState extends GameState {
      * @param wallMatrix
      * @return String representation of input matrix
      */
+
+    /**
+     External Citation
+     Date: 21 March 2018
+     Problem: Needed to access last iteration of foreach loop
+     Resource: https://stackoverflow.com/questions/41591107/detect-last-foreach-loop-iteration
+     Solution: Used example code from this post.
+     */
+
     private String wallMatrixToString(boolean[][] wallMatrix) {
 
         String result = "";
@@ -220,8 +201,6 @@ public class QuoridorGameState extends GameState {
             int i = 0;
             for (boolean b : row) {
                 result += b;
-
-                //TODO: formal citation - https://stackoverflow.com/questions/41591107/detect-last-foreach-loop-iteration
                 if (i++ != row.length - 1) result += "%%";
             }
             result += "\n";
@@ -873,11 +852,12 @@ public class QuoridorGameState extends GameState {
         return true;
     }
 
-    /*placeWall
-     *Checks for player turn
-     *Calls borderPlaceCheck method to check border and placeable spots
-     *Returns false if method call returns false
-    */
+    /**
+     * placeWall
+     * Checks for player turn
+     * Calls borderPlaceCheck method to check border and placeable spots
+     * Returns false if method call returns false
+     */
     public boolean placeWall(int player, int x, int y) {
         if (hasMoved) {
             return false;
@@ -890,7 +870,7 @@ public class QuoridorGameState extends GameState {
             return false;
         if (!wallDown) {
             //check bounds by calling method
-            if (borderPlaceCheck(player, x, y)) { //&& pathForAll(x, y)) {
+            if (borderPlaceCheck(x, y)) {
                 wallDown = true;
                 //set temp wall variable to respective player's remaining walls
                 if (player == 0)
@@ -905,11 +885,15 @@ public class QuoridorGameState extends GameState {
             return false;
     }
 
-    /* borderPlaceCheck
+    /**
+     * borderPlaceCheck
      * Method does border error checking
      * Checks to make sure given wall can be placed in x, y spot clicked by player
+     *
+     * @param x coordinate of wall
+     * @param y coordinate of wall
      */
-    private boolean borderPlaceCheck(int player, int x, int y) {
+    private boolean borderPlaceCheck(int x, int y) {
         if (turn == 0) // player 1
             tempRemWalls = p1RemainingWalls;
         else
@@ -1096,9 +1080,15 @@ public class QuoridorGameState extends GameState {
             return false;
     }
 
-    /* rotateWall
+    /**
+     * rotateWall
      * Checks for player turn
      * Calls borderRotateCheck method to see if rotate is valid
+     *
+     * @param player current player
+     * @param x coordinate of wall
+     * @param y coordinate of wall
+     *
      */
     public boolean rotateWall(int player, int x, int y) {
         //checks for player turn, returns false if not turn
@@ -1108,9 +1098,13 @@ public class QuoridorGameState extends GameState {
         return borderRotateCheck(x, y);
     }
 
-    /* borderRotateCheck
+    /**
+     * borderRotateCheck
      * Method does border error checking
      * Makes sure wall trying to be rotated is a valid move
+     *
+     * @param x coordinate of wall
+     * @param y coordinate of wall
      */
     private boolean borderRotateCheck(int x, int y) {
         //checks if x,y coordinate clicked is 0,0

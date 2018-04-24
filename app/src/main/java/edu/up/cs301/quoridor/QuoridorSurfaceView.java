@@ -15,7 +15,6 @@ public class QuoridorSurfaceView extends SurfaceView {
 
 
     private Paint brownPaint, redPaint, bluePaint, wallPaint, seafoamGreenPaint; //create paint colors
-    //private SurfaceView sv;
 
     protected int canvasHeight, canvasWidth, criticalSize, margin, squareSize, boardSize, startingX,
             startingY, wallWid, wallLen;
@@ -62,17 +61,9 @@ public class QuoridorSurfaceView extends SurfaceView {
 
         validPawnMove = new boolean[9][9];
 
-        //TODO add playable gui
-        //sv = (SurfaceView)findViewById(R.id.board);
-        //try {
-        //    Thread.sleep(3000);
-        //} catch (InterruptedException e) {
-        //    e.printStackTrace();
-        //}
-        //updateGlobalMeas(); //call method
     }
 
-    /*
+    /**
      * draws gameboard
      * at the moment, board is drawn like it is mid-game
      * will be changed to draw board during anytime
@@ -95,7 +86,6 @@ public class QuoridorSurfaceView extends SurfaceView {
         for (int i = 0; i < 9; i++) {
 
             for (int j = 0; j < 9; j++) {
-                //TODO isSelected shows where a click event happens
                 boolean isSelected = false;
                 canvas.drawRect(
                         curX,
@@ -103,26 +93,6 @@ public class QuoridorSurfaceView extends SurfaceView {
                         curX + squareSize,
                         curY + squareSize,
                         validPawnMove[j][i] ? seafoamGreenPaint : brownPaint);
-
-
-                /*
-                //draw player1
-                if(j  == state.getPlayerPos(0)[0] &&
-                        i == state.getPlayerPos(0)[1])
-                {
-                    x0 = curX+(squareSize*.5f);
-                    y0 = curY+(squareSize*.5f);
-                    r0 = squareSize*.45f;
-                }
-
-                //draw player2
-                if(j  == state.getPlayerPos(1)[0] &&
-                        i == state.getPlayerPos(1)[1])
-                {
-                    x1 = curX+(squareSize*.5f);
-                    y1 = curY+(squareSize*.5f);
-                    r1 = squareSize*.45f;
-                }*/
 
                 //draw current player
                 if (j == state.getTempPlayerPos()[0] &&
@@ -189,8 +159,6 @@ public class QuoridorSurfaceView extends SurfaceView {
             curX = startingX;
             curY += margin;
         }
-        //canvas.drawCircle(x,y,radius, redPaint);
-        //canvas.drawRect(10,10,110,110, brownPaint);
 
         //draws circle using values set in for loop
         canvas.drawCircle(x0, y0, r0, redPaint);
@@ -204,14 +172,10 @@ public class QuoridorSurfaceView extends SurfaceView {
 
     protected void movePawn(int x, int y/*, Direction dir, boolean jump*/) {
         validPawnMove[y][x] = true;
-        /*
-        if (state.getPlayerPos(state.getTurn())[0] == x  &&
-                state.getPlayerPos(state.getTurn())[1] == y) {
-        }*/
         invalidate();
     }
 
-    /*
+    /**
      * method goes through global variables and sets them
      * called during initialization of board and when vars need updating
      */
@@ -229,7 +193,7 @@ public class QuoridorSurfaceView extends SurfaceView {
         wallWid = (margin - squareSize) / 2;
     }
 
-    /*
+    /**
      * draws player 1's remaining walls on the side of the board
      * called when player uses wall and needs to update their walls
      */
@@ -247,7 +211,7 @@ public class QuoridorSurfaceView extends SurfaceView {
         }
     }
 
-    /*
+    /**
      * draws player 2's remaining walls on the side of the board
      * called when player uses wall and needs to update their walls
      */
@@ -265,6 +229,4 @@ public class QuoridorSurfaceView extends SurfaceView {
             curY -= 2 * wallWid;
         }
     }
-
-
 }

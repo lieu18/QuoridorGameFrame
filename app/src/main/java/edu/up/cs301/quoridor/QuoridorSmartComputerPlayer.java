@@ -13,16 +13,8 @@ import edu.up.cs301.game.infoMsg.NotYourTurnInfo;
  */
 
 public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
-    /*
-    protected Direction dir;
-    protected boolean move;
-    protected boolean rotate;
-    protected int randomDir;
-    protected int[] hPlayer;
-    protected QuoridorGameState qG;
-    */
 
-    /*
+    /**
      * constructor
      *
      * @param name the player's name (e.g., "John")
@@ -39,30 +31,12 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
     }
 
     /**
-     * TODO
-     * left     0
-     * left     1
-     * left     2
-     * right    3
-     * right    4
-     * right    5
-     * up       6
-     * up       7
-     * down     8
-     * down     9
-     * up/down  10
-     * up/down  11
-     * up/down  12
-     * up/down  13
-     * up/down  14
-     * up/down  15
-     * up/down  16
-     * up/down  17
-     * up/down  18
-     * up/down  19
-     * up/down  20
-     * up/down  21
-     * up/down  22
+     * move:
+     * left: 0 - 2
+     * right: 3-5
+     * up: 6 & 7
+     * down: 8 & 9
+     * up/down: 10 - 22
      *
      * @param l left
      * @param r right
@@ -81,19 +55,8 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
             dir = (dir > 9) ? 6 : dir;
         }
 
-        //TODO override receive info and put this in there if you have  a chance
-//        if(this.getPlayerNum() == 0 && d && tempQgs.getPlayerPos(0)[1] == 1){
-//            game.sendAction(new QuoridorMovePawn(this,Direction.DOWN,false));
-//            return;
-//        }
-//        else if(this.getPlayerNum() == 1 && u && tempQgs.getPlayerPos(1)[1] == 7)  {
-//            game.sendAction(new QuoridorMovePawn(this,Direction.UP,false));
-//            return;
-//        }
-
 
         while(!validMove) {
-            //todo weird quoridor jump case
             switch(dir){
                 case 0:
                 case 1:
@@ -139,7 +102,8 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
     }
 
     /**
-     * TODO
+     * placeWall
+     * Decides how the computer places the wall
      */
     @Override
     protected void placeWall(){
@@ -206,69 +170,6 @@ public class QuoridorSmartComputerPlayer extends QuoridorComputerPlayer {
         //otherwise place random wall
         super.placeWall();
 
-    }//*/
-
-    /*
-     * dumb computer player - just only tries to move forward
-     * does no other moves at the moment
-     *
-    protected void receiveInfo(GameInfo info) {
-        if (info instanceof NotYourTurnInfo) return;
-
-        //TODO: Give instructions to smart AI
-        Random gen = new Random();
-        randomDir = gen.nextInt(3);
-        hPlayer = qG.getPlayerPos((this.playerNum + 1)%2);
-        switch (randomDir) {
-            case (0):
-                dir = Direction.UP;
-                break;
-            case (1):
-                dir = Direction.DOWN;
-                break;
-            case (2):
-                dir = Direction.LEFT;
-                break;
-            case(3):
-                dir = Direction.RIGHT;
-                break;
-        }
-
-        move = gen.nextBoolean();
-        rotate = gen.nextBoolean();
-        if (move) {
-            game.sendAction(new QuoridorMovePawn(this, dir, false));
-        }
-        else {
-            if ((hPlayer[0] == 8) && (hPlayer[1] == 8)) {
-                game.sendAction(new QuoridorPlaceWall(this, hPlayer[0]-1, hPlayer[1]-1));
-                if (rotate)
-                    game.sendAction(new QuoridorRotateWall(this, hPlayer[0]-1, hPlayer[1]-1));
-            }
-            if (hPlayer[0] == 8) {
-                game.sendAction(new QuoridorPlaceWall(this, hPlayer[0]-1, hPlayer[1]));
-                if (rotate)
-                    game.sendAction(new QuoridorRotateWall(this, hPlayer[0]-1, hPlayer[1]));
-            }
-            if (hPlayer[1] == 8) {
-                game.sendAction(new QuoridorPlaceWall(this, hPlayer[0], hPlayer[1]-1));
-                if (rotate)
-                    game.sendAction(new QuoridorRotateWall(this, hPlayer[0], hPlayer[1]-1));
-            }
-        }
-        game.sendAction(new QuoridorFinalizeTurn(this));
-
-
-
-//        game.sendAction(new QuoridorMovePawn(this, Direction.UP, false)); // Move
-//        game.sendAction(new QuoridorFinalizeTurn(this)); // Finalize
-//        game.sendAction(new QuoridorPlaceWall(this, x, y); // Places wall at x and y location
     }
-
-    public int getPlayerNum() {return this.playerNum;}
-
-*/
-
-
 }
 
